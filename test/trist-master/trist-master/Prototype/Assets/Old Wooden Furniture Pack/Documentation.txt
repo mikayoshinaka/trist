@@ -1,0 +1,24 @@
+Universal Rendering Pipeline. 
+
+--------
+
+Wooden furniture pack includes: bookcase, books, cabinet, wardrobe, grandfather clock, chest of drawers, writing desk with shelf, dining table, chair, gramophone table, gramophone, floor hanger and picture frames.
+
+All doors and drawers are separate objects that can be moved. 
+
+--------
+
+Number of Unique Meshes: 27
+Number of Prefabs: 32
+Polycount: from 68 to 25 764 tris 
+
+Textures resolution: 2048x2048 (Albedo, MetallicSmoothness, Normal, AO). 
+Textures format: TGA.
+
+Unwrapped UVs:  channel 0: overlapping (for Albedo, Normal, Metallic, AO); channel 1: non-overlapping (for baking lightmaps).
+
+
+--------
+
+If you have any questions, please write me on e-mail.
+My e-mail: tatiana.gladkaya11@gmail.com
