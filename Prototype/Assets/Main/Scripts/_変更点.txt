@@ -1,0 +1,60 @@
+﻿// 変更点 //	
+		
+============	2020.7.29	================
+
+MonkeyDollのスクリプトをまだいじってないので、コントローラーの操作、変更の作業をお願いします
+
+	// GhostChangeScript //
+
+	変更内容
+-	MainCamera オブジェクトの変更
+-	PlayerScript　を　CharacterMovementScript　に変更
+-	GameObject Player を　PlayerController　に変更 
+-	GameObject PlayerParent の追加　（transform.parent用）
+-	GameObject PlayerBody　の追加 (プレイヤーのメッシュ、GetComponent<Renderer>()用)
+-	Input.GetKeyDown(KeyCode.F) のインプットを　(Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))に変更　（コントローラーの　B ボタン）
+
+
+行		スクリプト
+
+37		defColor = Player.GetComponent<Renderer>().material.color;
+		=> defColor = PlayerBody.GetComponent<Renderer>().material.color;
+
+46		Player.layer = LayerMask.NameToLayer("Disappear");
+		=> PlayerController.layer = LayerMask.NameToLayer("Disappear");
+
+48		Player.GetComponent<PlayerScript>().enabled = false;
+		=>	PlayerController.GetComponent<CharacterMovementScript>().enabled = false;
+
+93		float dis = Vector3.Distance(Player.transform.position, toPos);
+		=> float dis = Vector3.Distance(PlayerController.transform.position, toPos);
+
+97		Player.transform.position = Vector3.MoveTowards(Player.transform.position, toPos, Time.deltaTime * speed*a);
+		=> PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, toPos, Time.deltaTime * speed*a);
+
+102		Player.transform.parent = possessObject.gameObject.transform;
+		=> PlayerController.transform.parent = possessObject.gameObject.transform;
+
+118		Player.GetComponent<PlayerScript>().enabled = true;
+		=> PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
+
+127		Player.transform.parent = null;
+		=> PlayerController.transform.parent = PlayerParent.transform;
+
+140		Player.GetComponent<PlayerScript>().enabled = true;
+		=> PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
+
+149		Player.transform.parent = null;
+		=> PlayerController.transform.parent = PlayerParent.transform;
+
+165-166 if (Vector3.Distance(Player.transform.position, searchObject[j-1].transform.position)
+                    > Vector3.Distance(Player.transform.position, searchObject[j].transform.position)) {
+		=> if (Vector3.Distance(PlayerController.transform.position, searchObject[j-1].transform.position)
+                    > Vector3.Distance(PlayerController.transform.position, searchObject[j].transform.position)) {
+
+189 ~ 229
+		Player を　PlayerBodyに変更
+
+	ボタン変更
+43-60	(Input.GetKeyDown(KeyCode.F)
+		=> (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))
