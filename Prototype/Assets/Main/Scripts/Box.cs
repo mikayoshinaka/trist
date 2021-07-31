@@ -19,16 +19,25 @@ public class Box : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(Input.GetKey("right"))
-       {
-            angle += Time.deltaTime*speed;
-       }
-       else if(Input.GetKey("left"))
-       {
-            angle -= Time.deltaTime*speed;
-            
-       }
-       if(angle>360.0f)
+
+        if (Input.GetAxisRaw("RHorizontal") < 0)
+        {
+            angle -= Time.deltaTime * speed;
+        }
+        else if (0 < Input.GetAxisRaw("RHorizontal"))
+        {
+            angle += Time.deltaTime * speed;
+        }
+        if (Input.GetKey("right"))
+        {
+            angle -= Time.deltaTime * speed;
+        }
+        else if (Input.GetKey("left"))
+        {
+            angle -= Time.deltaTime * speed;
+
+        }
+        if (angle>360.0f)
        {
             angle -= 360.0f;
        }

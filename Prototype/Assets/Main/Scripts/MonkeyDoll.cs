@@ -5,6 +5,7 @@ using UnityEngine.AI;
 public class MonkeyDoll : MonoBehaviour
 {
     public GameObject[] enemy;
+    public GameObject doorEnemy;
     [SerializeField] private float speed=10.0f;
     [SerializeField] private float rotateSpeed = 100.0f;
     public Camera Camera;
@@ -21,16 +22,25 @@ public class MonkeyDoll : MonoBehaviour
     {
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
-        if(Input.GetKey(KeyCode.E))
+        if(Input.GetAxisRaw("RHorizontal")<0)
         {
-            transform.Rotate(0.0f,-rotateSpeed*Time.deltaTime,0.0f);
+            transform.Rotate(0.0f, -rotateSpeed * Time.deltaTime, 0.0f);
         }
-        else if(Input.GetKey(KeyCode.R))
+        else if(0<Input.GetAxisRaw("RHorizontal") )
         {
             transform.Rotate(0.0f, rotateSpeed * Time.deltaTime, 0.0f);
         }
+        if(Input.GetKey(KeyCode.E))
+        {
+            transform.Rotate(0.0f,-rotateSpeed * Time.deltaTime, 0.0f);
+        }
+        else if (Input.GetKey(KeyCode.R))
+        {
+            transform.Rotate(0.0f,rotateSpeed * Time.deltaTime, 0.0f);
+        }
+
         //else if (Input.GetKey(KeyCode.B))
-        //{
+        //{   doorEnemy.SetActive(true);
         //    Sort();
         //    enemy[0].GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
         //}
