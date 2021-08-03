@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemySearchScript : MonoBehaviour
 {
+    public GameObject enemy;
     public NavMeshAgent agent;
     public static Transform player;
     public LayerMask playerMask;
@@ -33,11 +34,13 @@ public class EnemySearchScript : MonoBehaviour
     // States
     public static float sightRange = 7.5f, attackRange = 2f;
     public bool playerInSightRange, playerInAttackRange;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("PlayerController").transform;
+        enemy = this.gameObject;
+        Debug.Log(enemy.name);
         agent = GetComponent<NavMeshAgent>();
         playerMask = LayerMask.GetMask("Player");
         stageMask = LayerMask.GetMask("Stages");
@@ -45,7 +48,7 @@ public class EnemySearchScript : MonoBehaviour
         distraction = false;
         searching = false;
 
-        patrol = PatrolType.Post;
+        patrol = PatrolType.Random;     // patrol type at start
         patrolSet = false;
         postNum = 0;
         timer = 0f;
@@ -103,7 +106,7 @@ public class EnemySearchScript : MonoBehaviour
 
     void SetPatrol()
     {
-        if ((!playerInSightRange && !playerInAttackRange) || !AISightScript.detected)
+        if ((!playerInSightRange && !playerInAttackRange) || !enemy.GetComponent<AISightScript>().detected)
         {
             if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton2))
             {
@@ -171,9 +174,9 @@ public class EnemySearchScript : MonoBehaviour
             timer = 0f;
         }
 
-        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
+        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != Color.blue)
         {
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
         }
     }
 
@@ -181,31 +184,32 @@ public class EnemySearchScript : MonoBehaviour
     {
         if (playerInSightRange && !playerInAttackRange)
         {
-            AISightScript.inView = true;
-            if (AISightScript.detected)
+            enemy.GetComponent<AISightScript>().inView = true;
+            //AISightScript.inView = true;
+            if (enemy.GetComponent<AISightScript>().detected)
             {
                 Chasing();
             }
         }
-        else if (AISightScript.inView)
+        else if (enemy.GetComponent<AISightScript>().inView)
         {
-            AISightScript.inView = false;
+            enemy.GetComponent<AISightScript>().inView = false;
         }
     }
 
     void Chasing()
     {
         agent.SetDestination(player.position);
-        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
+        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != Color.yellow)
         {
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
         }
     }
 
     void Attacking()
     {
         agent.SetDestination(player.position);
-        this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+        this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
     }
 
     private void OnDrawGizmos()

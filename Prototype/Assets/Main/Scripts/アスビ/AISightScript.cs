@@ -9,7 +9,7 @@ public class AISightScript : MonoBehaviour
     public float height = 2f;
     public Color color = Color.green;
 
-    public static bool inView, detected;
+    public bool inView, detected;
     Mesh mesh;
 
     // Update is called once per frame
