@@ -1,0 +1,9 @@
+影の設定
+
+「Light」のゲームオブジェクト（Directional, Spotlight等）に、
+「Shadow Type」を　「No Shadows」以外に選択する
+
+オブジェクトのコンポーネント「Mesh Renderer」に、
+「Lighting」の部分、
+・　「Cast Shadows」 を　On　にすると、影が見える。
+・　「Cast Shadows」 を　Shadows Only にすると、影しか見えない
