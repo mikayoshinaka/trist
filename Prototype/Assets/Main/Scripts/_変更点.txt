@@ -83,3 +83,51 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 
 208             this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
                 =>this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+
+
+
+============	2020.8.11	================
+
+	// EnemySearchScript //
+
+　　　　変更内容
+-       人形が音を鳴らしたとき、目指すように変更
+
+
+
+行		スクリプト
+
+72~76            // PATROLLING
+                 SetPatrol();
+
+                 // CHASING
+                  SetChase();
+
+                 => //人形用
+            if (monkeyChase)
+            {
+                Chasing();
+                MonkeyTime();
+            }
+            else
+            {
+                // PATROLLING
+                SetPatrol();
+
+                // CHASING
+                SetChase();
+            }
+
+229~238 
+            //人形用追加
+            void MonkeyTime()
+            {
+                time += Time.deltaTime;
+                if (time > monkeyChaseTime)
+                {
+                    time = 0.0f;
+                    monkeyChase = false;
+                }   
+            }
+
+

@@ -6,6 +6,7 @@ public class MonkeyDoll : MonoBehaviour
 {
     public GameObject[] enemy;
     public GameObject doorEnemy;
+    [SerializeField] GameObject openDoor;
     [SerializeField] private float speed=10.0f;
     [SerializeField] private float rotateSpeed = 100.0f;
     public Camera Camera;
@@ -38,12 +39,15 @@ public class MonkeyDoll : MonoBehaviour
         {
             transform.Rotate(0.0f,rotateSpeed * Time.deltaTime, 0.0f);
         }
-
-        //else if (Input.GetKey(KeyCode.B))
-        //{   doorEnemy.SetActive(true);
-        //    Sort();
-        //    enemy[0].GetComponent<NavMeshAgent>().SetDestination(this.transform.position);
-        //}
+        else if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0))
+        {
+            if (openDoor.GetComponent<DoorAnimation>().open == false)
+            {
+                openDoor.GetComponent<DoorAnimation>().open = true;
+            }
+            Sort();
+            enemy[0].GetComponent<EnemySearchScript>().monkeyChase = true;
+        }
         Vector3 cameraForward = Vector3.Scale(Camera.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 moveForward = cameraForward * inputVertical + Camera.transform.right * inputHorizontal;
         transform.position += moveForward * speed * Time.deltaTime;

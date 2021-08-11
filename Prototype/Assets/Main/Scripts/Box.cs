@@ -5,15 +5,16 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     [SerializeField] private float radius=0.0f;
-    [SerializeField] private float angle=0.0f;
-    [SerializeField] private float y = 0.0f;
+    private float angle=0.0f;
+    private float y = 0.0f;
     [SerializeField] private float speed = 100.0f;
     private float x = 0.0f;
     private float z = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
-   
+        angle = this.gameObject.transform.localEulerAngles.y;
+        y = this.gameObject.transform.localPosition.y;
     }
 
     // Update is called once per frame
@@ -30,7 +31,7 @@ public class Box : MonoBehaviour
         }
         if (Input.GetKey("right"))
         {
-            angle -= Time.deltaTime * speed;
+            angle += Time.deltaTime * speed;
         }
         else if (Input.GetKey("left"))
         {

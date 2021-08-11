@@ -35,6 +35,11 @@ public class EnemySearchScript : MonoBehaviour
     public static float sightRange = 7.5f, attackRange = 2f;
     public bool playerInSightRange, playerInAttackRange;
 
+    //人形用
+    public bool monkeyChase;
+    float time;
+    public float monkeyChaseTime = 4.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,11 +74,21 @@ public class EnemySearchScript : MonoBehaviour
         }
         else
         {
-            // PATROLLING
-            SetPatrol();
 
-            // CHASING
-            SetChase();
+            //人形用
+            if (monkeyChase)
+            {
+                Chasing();
+                MonkeyTime();
+            }
+            else
+            {
+                // PATROLLING
+                SetPatrol();
+
+                // CHASING
+                SetChase();
+            }
 
             // ATTACKING
             if (playerInSightRange && playerInAttackRange)
@@ -211,7 +226,16 @@ public class EnemySearchScript : MonoBehaviour
         agent.SetDestination(player.position);
         this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
     }
-
+    //人形用追加
+    void MonkeyTime()
+    {
+        time += Time.deltaTime;
+        if (time > monkeyChaseTime)
+        {
+            time = 0.0f;
+            monkeyChase = false;
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
