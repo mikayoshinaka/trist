@@ -22,8 +22,14 @@ public class DoorOpenScript : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton3)) && !once)
         {
             once = true;
-            door.GetComponent<Renderer>().material = color2;
-            door.GetComponent<BoxCollider>().enabled = true;
+            //door.GetComponent<Renderer>().material = color2;
+            //door.GetComponent<BoxCollider>().enabled = true;
+
+            for (int i = 0; i < door.transform.childCount; i++)
+            {
+                door.transform.GetChild(i).transform.GetChild(0).GetComponent<Renderer>().material = color2;
+                door.transform.GetChild(i).transform.GetChild(0).GetComponent<BoxCollider>().enabled = true;
+            }
             enemy.SetActive(true);
         }
     }

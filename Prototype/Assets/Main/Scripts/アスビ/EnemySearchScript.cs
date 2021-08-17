@@ -45,7 +45,7 @@ public class EnemySearchScript : MonoBehaviour
     {
         player = GameObject.Find("PlayerController").transform;
         enemy = this.gameObject;
-        Debug.Log(enemy.name);
+        //Debug.Log(enemy.name);
         agent = GetComponent<NavMeshAgent>();
         playerMask = LayerMask.GetMask("Player");
         stageMask = LayerMask.GetMask("Stages");
