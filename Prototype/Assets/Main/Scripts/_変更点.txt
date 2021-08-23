@@ -149,3 +149,38 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
     
     仮に作ったんで、何かがあったら教えてください。
      
+
+
+
+
+
+============	2021.8.17	================
+
+       //EnemySearchScript//
+
+　変更内容
+-       プレイヤーHP用に追加
+
+行	　　　スクリプト
+
+
+　　　　　　　//プレイヤーHP用
+42~44   　　　[SerializeField] ManagementScript managementScript;
+              private int playerHP;
+
+100~105       SceneManagerScript.gameOver = true;
+              =>managementScript.PlayerMinusHP();
+                playerHP = ManagementScript.GetPlayerHP();
+                if (playerHP <= 0)
+                {
+                    SceneManagerScript.gameOver = true;
+                }
+
+      //SceneManagerScript//
+
+変更内容
+-       移動先変更
+
+43      SceneManager.LoadScene("Stage 1");
+        =>SceneManager.LoadScene("Result");
+

@@ -39,7 +39,9 @@ public class EnemySearchScript : MonoBehaviour
     public bool monkeyChase;
     float time;
     public float monkeyChaseTime = 4.0f;
-
+    //プレイヤーHP用
+    [SerializeField] ManagementScript managementScript;
+    private int playerHP;
     // Start is called before the first frame update
     void Start()
     {
@@ -94,7 +96,13 @@ public class EnemySearchScript : MonoBehaviour
             if (playerInSightRange && playerInAttackRange)
             {
                 Attacking();
-                SceneManagerScript.gameOver = true;
+
+                managementScript.PlayerMinusHP();
+                playerHP = ManagementScript.GetPlayerHP();
+                if (playerHP <= 0)
+                {
+                    SceneManagerScript.gameOver = true;
+                }
             }
         }
     }

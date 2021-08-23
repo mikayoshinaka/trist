@@ -40,7 +40,7 @@ public class SceneManagerScript : MonoBehaviour
 
         if (OpenSesameScript.restart)
         {
-            SceneManager.LoadScene("Stage 1");
+            SceneManager.LoadScene("Result");
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7))

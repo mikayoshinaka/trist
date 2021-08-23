@@ -565,6 +565,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4649051393594382925, guid: 7fc7d7f53d09a044bb82be73db46ee53, type: 3}
+      propertyPath: managementScript
+      value: 
+      objectReference: {fileID: 1517479321}
+    - target: {fileID: 4649051393594382925, guid: 7fc7d7f53d09a044bb82be73db46ee53, type: 3}
       propertyPath: patrolPost.Array.data[0]
       value: 
       objectReference: {fileID: 2137814248}
@@ -999,6 +1003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy:
   - {fileID: 562630971}
+  - {fileID: 2060284338}
   PlayerParent: {fileID: 2114657315}
   PlayerController: {fileID: 154303409}
   PlayerBody:
@@ -3170,7 +3175,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.34882766, y: -0.000000016125602, z: 0.0000000060020646, w: 0.93718696}
+  m_LocalRotation: {x: 0.34882766, y: 0.00000001612559, z: -0.0000000060020593, w: 0.93718696}
   m_LocalPosition: {x: 63.387917, y: -9.27866, z: -7.983205}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3511,7 +3516,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018171943}
-  m_LocalRotation: {x: 0.34882766, y: -0.000000016125602, z: 0.0000000060020637, w: 0.9371869}
+  m_LocalRotation: {x: 0.34882766, y: 0.00000001612559, z: -0.00000000600206, w: 0.9371869}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3787,6 +3792,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1795478449}
+  - {fileID: 1507276736}
   m_Father: {fileID: 1542784808}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4796,6 +4802,130 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &1507276733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1507276736}
+  - component: {fileID: 1507276735}
+  - component: {fileID: 1507276734}
+  m_Layer: 5
+  m_Name: PlayerHPText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1507276734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507276733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'PlayerHP:'
+--- !u!222 &1507276735
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507276733}
+  m_CullTransparentMesh: 1
+--- !u!224 &1507276736
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507276733}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1101953259}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -114, y: -47}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1517479320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1517479322}
+  - component: {fileID: 1517479321}
+  m_Layer: 0
+  m_Name: Management
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1517479321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517479320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b10cd45c87fc98c4e9d2f664fc5b0a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1507276734}
+  startPlayerHP: 1
+--- !u!4 &1517479322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517479320}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 432.4475, y: 61.72426, z: 4.3225636}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1540690028
 GameObject:
   m_ObjectHideFlags: 0
@@ -6391,6 +6521,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &2060284338 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4649051393568544434, guid: 7fc7d7f53d09a044bb82be73db46ee53, type: 3}
+  m_PrefabInstance: {fileID: 116424800}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2062801355
 GameObject:
   m_ObjectHideFlags: 0
@@ -6889,6 +7024,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4649051393594382925, guid: 7fc7d7f53d09a044bb82be73db46ee53, type: 3}
+      propertyPath: managementScript
+      value: 
+      objectReference: {fileID: 1517479321}
     - target: {fileID: 4649051393594382925, guid: 7fc7d7f53d09a044bb82be73db46ee53, type: 3}
       propertyPath: patrolPost.Array.data[0]
       value: 
