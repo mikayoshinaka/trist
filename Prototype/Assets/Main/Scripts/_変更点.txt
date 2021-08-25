@@ -184,3 +184,19 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 43      SceneManager.LoadScene("Stage 1");
         =>SceneManager.LoadScene("Result");
 
+
+
+
+
+============	2021.8.25	================
+
+           //GhostChange//
+
+        変更内容
+
+-       public に変更
+
+
+行       スクリプト
+12      private bool possess = false;
+        => public bool possess = false;

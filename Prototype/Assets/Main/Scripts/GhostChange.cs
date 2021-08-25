@@ -9,7 +9,7 @@ public class GhostChange : MonoBehaviour
     public GameObject PlayerController;
     public GameObject[] PlayerBody;
     private GameObject possessObject;
-    private bool possess = false;
+    public bool possess = false;
     public List<GameObject> searchObject = new List<GameObject>();
     public List<GameObject> cooltimeObject = new List<GameObject>();
     public List<float> cool = new List<float>();

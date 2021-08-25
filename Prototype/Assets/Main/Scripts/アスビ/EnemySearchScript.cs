@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -35,11 +35,11 @@ public class EnemySearchScript : MonoBehaviour
     public static float sightRange = 7.5f, attackRange = 2f;
     public bool playerInSightRange, playerInAttackRange;
 
-    //lŒ`—p
+    //ÂlÅ’`â€”p
     public bool monkeyChase;
     float time;
     public float monkeyChaseTime = 4.0f;
-    //ƒvƒŒƒCƒ„[HP—p
+    //Æ’vÆ’Å’Æ’CÆ’â€Â[HPâ€”p
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
     // Start is called before the first frame update
@@ -60,6 +60,7 @@ public class EnemySearchScript : MonoBehaviour
         postNum = 0;
         timer = 0f;
         timeLimit = 5f;
+        
     }
 
     // Update is called once per frame
@@ -77,7 +78,7 @@ public class EnemySearchScript : MonoBehaviour
         else
         {
 
-            //lŒ`—p
+            //ÂlÅ’`â€”p
             if (monkeyChase)
             {
                 Chasing();
@@ -234,7 +235,7 @@ public class EnemySearchScript : MonoBehaviour
         agent.SetDestination(player.position);
         this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
     }
-    //lŒ`—p’Ç‰Á
+    //ÂlÅ’`â€”pâ€™Ã‡â€°Ã
     void MonkeyTime()
     {
         time += Time.deltaTime;

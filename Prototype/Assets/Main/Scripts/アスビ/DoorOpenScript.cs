@@ -8,15 +8,14 @@ public class DoorOpenScript : MonoBehaviour
     public GameObject enemy;
     public Material color1;
     public Material color2;
-    
+
+    #region Temp Unused
     bool once;
-    // Start is called before the first frame update
     void Start()
     {
         once = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton3)) && !once)
@@ -33,4 +32,5 @@ public class DoorOpenScript : MonoBehaviour
             enemy.SetActive(true);
         }
     }
+    #endregion
 }
