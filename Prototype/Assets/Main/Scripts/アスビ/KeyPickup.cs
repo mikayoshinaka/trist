@@ -43,7 +43,8 @@ public class KeyPickup : MonoBehaviour
             keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / 4";
             if(keySpawner.keyPicked != keySpawner.maxKey)
             {
-                keySpawner.SpawnKey();
+                keySpawner.keys[keySpawner.keyPicked].SetActive(true);
+                //keySpawner.SpawnKey();
             }
             Object.Destroy(this.gameObject);
         }

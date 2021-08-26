@@ -5,6 +5,7 @@ using UnityEngine;
 public class KeySpawner : MonoBehaviour
 {
     public GameObject key;
+    public GameObject[] keys;
     public float spawnPointRadius = 16f;
     public int keyPicked = 0;
     public int maxKey = 4;
@@ -15,16 +16,16 @@ public class KeySpawner : MonoBehaviour
     private void Start()
     {
         keyPicked = 0;
-        SpawnKey();
+        //SpawnKey();
     }
 
-    public void SpawnKey()
-    {
-        float pointX = Random.Range(-spawnPointRadius, spawnPointRadius);
-        float pointZ = Random.Range(-spawnPointRadius, spawnPointRadius);
+    //public void SpawnKey()
+    //{
+    //    float pointX = Random.Range(-spawnPointRadius, spawnPointRadius);
+    //    float pointZ = Random.Range(-spawnPointRadius, spawnPointRadius);
 
-        Instantiate(key, new Vector3(transform.position.x + pointX, transform.position.y, transform.position.z + pointZ), transform.rotation, transform);
-    }
+    //    Instantiate(key, new Vector3(transform.position.x + pointX, transform.position.y, transform.position.z + pointZ), transform.rotation, transform);
+    //}
 
     public void DoorSpawn()
     {
