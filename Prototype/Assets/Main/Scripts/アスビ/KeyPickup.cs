@@ -16,6 +16,7 @@ public class KeyPickup : MonoBehaviour
         keyUI = keySpawner.transform.GetChild(0).GetChild(0).GetComponent<Text>();
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
 
+        keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / " + keySpawner.maxKey;
         once = false;
         GetComponent<MeshRenderer>().enabled = false;
     }
@@ -40,7 +41,7 @@ public class KeyPickup : MonoBehaviour
         {
             keySpawner.DoorSpawn();
             keySpawner.keyPicked++;
-            keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / 4";
+            keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / " + keySpawner.maxKey;
             if(keySpawner.keyPicked != keySpawner.maxKey)
             {
                 keySpawner.keys[keySpawner.keyPicked].SetActive(true);

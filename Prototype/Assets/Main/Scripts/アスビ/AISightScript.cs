@@ -71,11 +71,11 @@ public class AISightScript : MonoBehaviour
 
         //右側
         vertices[vert++] = bottomCenter;
-        vertices[vert++] = bottomRight;
+        vertices[vert++] = topCenter;
         vertices[vert++] = topRight;
 
         vertices[vert++] = topRight;
-        vertices[vert++] = topCenter;
+        vertices[vert++] = bottomRight;
         vertices[vert++] = bottomCenter;
 
         //前側
