@@ -19,6 +19,7 @@ public class KeyPickup : MonoBehaviour
         keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / " + keySpawner.maxKey;
         once = false;
         GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<SphereCollider>().enabled = false;
     }
 
     private void Update()
@@ -26,11 +27,13 @@ public class KeyPickup : MonoBehaviour
         if (ghostChange.possess && !once)
         {
             GetComponent<MeshRenderer>().enabled = true;
+            GetComponent<SphereCollider>().enabled = true;
             once = true;
         }
         else if (!ghostChange.possess && once)
         {
             GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
             once = false;
         }
     }
