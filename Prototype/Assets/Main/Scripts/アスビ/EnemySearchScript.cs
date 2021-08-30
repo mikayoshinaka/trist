@@ -198,9 +198,9 @@ public class EnemySearchScript : MonoBehaviour
             timer = 0f;
         }
 
-        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != Color.blue)
+        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
         {
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
         }
     }
 
@@ -224,16 +224,16 @@ public class EnemySearchScript : MonoBehaviour
     void Chasing()
     {
         agent.SetDestination(player.position);
-        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != Color.yellow)
+        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
         {
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
+            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
         }
     }
 
     void Attacking()
     {
         agent.SetDestination(player.position);
-        this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
+        this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
     }
     //lŒ`—p’Ç‰Á
     void MonkeyTime()

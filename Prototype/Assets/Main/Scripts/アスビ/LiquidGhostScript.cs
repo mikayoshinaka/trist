@@ -48,13 +48,13 @@ public class LiquidGhostScript : MonoBehaviour
         {
             if (!stateChange)
             {
-                enemyBody.GetComponent<Renderer>().material.color = Color.red;
+                enemyBody.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, enemyBody.GetComponent<Renderer>().material.color.a);
                 stateChange = true;
             }
         }
         if (!PlayerInAttackRange && stateChange)
         {
-            enemyBody.GetComponent<Renderer>().material.color = Color.blue;
+            enemyBody.GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, enemyBody.GetComponent<Renderer>().material.color.a);
             stateChange = false;
         }
         else

@@ -200,3 +200,41 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 行       スクリプト
 12      private bool possess = false;
         => public bool possess = false;
+
+
+============	2021.7.31	================
+
+	//LiquidGhostScript //
+        
+　　　　変更内容
+-	透明化のため、状態の変化によるcolorの変更
+
+
+行       スクリプト
+51       enemyBody.GetComponent<Renderer>().material.color = Color.red;
+        => enemyBody.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, enemyBody.GetComponent<Renderer>().material.color.a);
+
+
+57       enemyBody.GetComponent<Renderer>().material.color = Color.blue;
+        =>enemyBody.GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, enemyBody.GetComponent<Renderer>().material.color.a);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

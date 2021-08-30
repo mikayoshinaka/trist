@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class MonkeyDoll : MonoBehaviour
 {
+    public CharacterController controller;
     public GameObject[] enemy;
     public GameObject doorEnemy;
     [SerializeField] GameObject openDoor;
@@ -15,7 +16,7 @@ public class MonkeyDoll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -50,7 +51,8 @@ public class MonkeyDoll : MonoBehaviour
         }
         Vector3 cameraForward = Vector3.Scale(Camera.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 moveForward = cameraForward * inputVertical + Camera.transform.right * inputHorizontal;
-        transform.position += moveForward * speed * Time.deltaTime;
+        controller.Move(moveForward * speed * Time.deltaTime);
+        //transform.position += moveForward * speed * Time.deltaTime;
         
 
     }

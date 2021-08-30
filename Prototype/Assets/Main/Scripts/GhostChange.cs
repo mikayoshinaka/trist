@@ -36,6 +36,7 @@ public class GhostChange : MonoBehaviour
     private GameObject possessCamera;
     private List<Color> defColor = new List<Color>();
     private List<Color> enemyDefColor = new List<Color>();
+    private Vector3 beforePossessPos;
     // private const float pi = 3.141592653589793238f;
     private int m = 100;
     //比例定数
@@ -55,6 +56,18 @@ public class GhostChange : MonoBehaviour
         {
             enemyDefColor.Add(enemy[i].GetComponent<Renderer>().material.color);
         }
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            enemy[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
+            enemy[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            enemy[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            enemy[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
+            enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+            enemy[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
+            enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            enemy[i].GetComponent<Renderer>().material.renderQueue = 3000;
+            enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, 0.0f);
+        }
     }
 
     // Update is called once per frame
@@ -62,7 +75,7 @@ public class GhostChange : MonoBehaviour
     {
         if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false)
         {
-            //PlayerController.layer = LayerMask.NameToLayer("Disappear");
+            PlayerController.layer = LayerMask.NameToLayer("Disappear");
 
             PlayerController.GetComponent<CharacterMovementScript>().enabled = false;
             possessObject = searchObject[0];
@@ -76,9 +89,10 @@ public class GhostChange : MonoBehaviour
                 }
             }
             relayCamera.SetActive(true);
+            mainCamera.SetActive(false);
+            beforePossessPos = PlayerController.transform.position;
             relayCamera.transform.position = mainCamera.transform.position;
             relayCamera.transform.rotation = mainCamera.transform.rotation;
-            mainCamera.SetActive(false);
             possess = true;
             canPossess = true;
             transparent = true;
@@ -164,21 +178,42 @@ public class GhostChange : MonoBehaviour
     //離れる動き
     private void FromPossess()
     {
-        PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
+        float dis;
         if (possessObject.tag == "Monkey")
         {
-            possessObject.GetComponent<MonkeyDoll>().enabled = false;
+            dis = 0.0f;
         }
         else if (possessObject.tag == "Box")
         {
-
+            dis = Vector3.Distance(PlayerController.transform.position, beforePossessPos);
+            F = k * Q / (dis * dis);
+            float a = F / m;
+            PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, beforePossessPos, Time.deltaTime * speed * a);
         }
-        PlayerController.transform.parent = PlayerParent.transform;
-        possess = false;
-        leave = false;
-        mainCamera.SetActive(true);
-        possessCamera.SetActive(false);
-        possessTime = 0.0f;
+        else
+        {
+            dis = 0.0f;
+        }
+        if (dis < 0.03f)
+        {
+            PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
+            PlayerController.layer = LayerMask.NameToLayer("Player");
+            if (possessObject.tag == "Monkey")
+            {
+                possessObject.GetComponent<MonkeyDoll>().enabled = false;
+            }
+            else if (possessObject.tag == "Box")
+            {
+
+            }
+            PlayerController.transform.parent = PlayerParent.transform;
+            possess = false;
+            leave = false;
+            mainCamera.SetActive(true);
+            possessCamera.SetActive(false);
+            possessTime = 0.0f;
+        }
+
     }
     //とりつく時間
     private void GhostChangeTime()

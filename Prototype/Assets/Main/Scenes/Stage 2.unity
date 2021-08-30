@@ -461,6 +461,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_bookcase_04 (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!4 &71376732 stripped
@@ -763,6 +771,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTPCamera: {fileID: 1415818862}
   stageWall: {fileID: 89513215}
+--- !u!1 &90051986 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4649051393568544434, guid: 7fc7d7f53d09a044bb82be73db46ee53, type: 3}
+  m_PrefabInstance: {fileID: 1276059126}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &96521722
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,7 +787,6 @@ GameObject:
   - component: {fileID: 96521723}
   - component: {fileID: 96521728}
   - component: {fileID: 96521727}
-  - component: {fileID: 96521726}
   - component: {fileID: 96521725}
   - component: {fileID: 96521724}
   m_Layer: 0
@@ -799,22 +811,24 @@ Transform:
   m_Father: {fileID: 1902275657}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &96521724
-Rigidbody:
+--- !u!143 &96521724
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 96521722}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 10000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &96521725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,6 +841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e0da298aab5ad46b94cb8b6176b1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 96521724}
   enemy:
   - {fileID: 0}
   - {fileID: 0}
@@ -835,19 +850,6 @@ MonoBehaviour:
   speed: 10
   rotateSpeed: 100
   Camera: {fileID: 1927114557}
---- !u!65 &96521726
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96521722}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &96521727
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1761,6 +1763,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_bookcase_04 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!1001 &245979865
@@ -2516,6 +2526,7 @@ MonoBehaviour:
   - {fileID: 1902165144}
   - {fileID: 266685673}
   - {fileID: 1565108308}
+  - {fileID: 90051986}
   PlayerParent: {fileID: 2114657315}
   PlayerController: {fileID: 154303409}
   PlayerBody:
@@ -3151,6 +3162,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_bookcase_04 (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!4 &447698234 stripped
@@ -3339,6 +3358,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
       propertyPath: m_Name
       value: SM_bookcase_04 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
@@ -4985,7 +5012,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
@@ -5312,6 +5339,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
       propertyPath: m_Name
       value: SM_bookcase_04 (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
@@ -5831,6 +5866,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_bookcase_04 (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!4 &949077195 stripped
@@ -6296,6 +6339,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
       propertyPath: m_Name
       value: SM_bookcase_04 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
@@ -9498,6 +9549,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_bookcase_04 (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!4 &1550505873 stripped
@@ -9606,6 +9665,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_bookcase_04 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!4 &1552159361 stripped
@@ -9710,6 +9777,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
       propertyPath: m_Name
       value: SM_bookcase_04 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
@@ -11610,15 +11685,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5307a4cb6c71d3045a16ad724a5d5f1f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.39490378
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5307a4cb6c71d3045a16ad724a5d5f1f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.4413707
+      value: -1.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5307a4cb6c71d3045a16ad724a5d5f1f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.3151464
+      value: 2.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5307a4cb6c71d3045a16ad724a5d5f1f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12882,6 +12957,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 226.508
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
 --- !u!1 &1980974492
@@ -12993,7 +13076,7 @@ GameObject:
   - component: {fileID: 2031447757}
   - component: {fileID: 2031447759}
   - component: {fileID: 2031447758}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13297,10 +13380,9 @@ GameObject:
   - component: {fileID: 2062801356}
   - component: {fileID: 2062801361}
   - component: {fileID: 2062801360}
-  - component: {fileID: 2062801359}
   - component: {fileID: 2062801358}
   - component: {fileID: 2062801357}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MonkeyDoll
   m_TagString: Monkey
   m_Icon: {fileID: 0}
@@ -13322,22 +13404,24 @@ Transform:
   m_Father: {fileID: 1902275657}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &2062801357
-Rigidbody:
+--- !u!143 &2062801357
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062801355}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 10000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2062801358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13350,6 +13434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e0da298aab5ad46b94cb8b6176b1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 2062801357}
   enemy:
   - {fileID: 0}
   - {fileID: 0}
@@ -13358,19 +13443,6 @@ MonoBehaviour:
   speed: 10
   rotateSpeed: 100
   Camera: {fileID: 2031447759}
---- !u!65 &2062801359
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062801355}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2062801360
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13431,7 +13503,6 @@ GameObject:
   - component: {fileID: 2084412046}
   - component: {fileID: 2084412051}
   - component: {fileID: 2084412050}
-  - component: {fileID: 2084412049}
   - component: {fileID: 2084412048}
   - component: {fileID: 2084412047}
   m_Layer: 0
@@ -13456,22 +13527,24 @@ Transform:
   m_Father: {fileID: 1902275657}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &2084412047
-Rigidbody:
+--- !u!143 &2084412047
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084412045}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 10000
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2084412048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13484,6 +13557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e0da298aab5ad46b94cb8b6176b1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 2084412047}
   enemy:
   - {fileID: 0}
   - {fileID: 0}
@@ -13492,19 +13566,6 @@ MonoBehaviour:
   speed: 10
   rotateSpeed: 100
   Camera: {fileID: 1967986068}
---- !u!65 &2084412049
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084412045}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2084412050
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14376,6 +14437,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
       propertyPath: m_Name
       value: SM_bookcase_04 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
+      propertyPath: m_TagString
+      value: Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2a25415dd25a74fad031ed2ba30f9c, type: 3}
