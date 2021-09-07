@@ -10,6 +10,16 @@ public class KeyPickup : MonoBehaviour
     public GhostChange ghostChange;
     private bool once;
 
+    // ObjectVisibilityに合わせる
+    public enum KeyType
+    {
+        type1,
+        type2,
+        type3
+    };
+    public KeyType keyType;
+
+
     private void Start()
     {
         keySpawner = transform.parent.GetComponent<KeySpawner>();
@@ -24,13 +34,17 @@ public class KeyPickup : MonoBehaviour
 
     private void Update()
     {
-        if (ghostChange.possess && !once)
+        if (!once && ghostChange.possess && ghostChange.possessObject.tag == "Monkey")
         {
-            GetComponent<MeshRenderer>().enabled = true;
-            GetComponent<SphereCollider>().enabled = true;
+            bool match = ObjectTypeCheck();
+            if (match)
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+                GetComponent<SphereCollider>().enabled = true;
+            }
             once = true;
         }
-        else if (!ghostChange.possess && once)
+        else if (once && !ghostChange.possess)
         {
             GetComponent<MeshRenderer>().enabled = false;
             GetComponent<SphereCollider>().enabled = false;
@@ -51,6 +65,21 @@ public class KeyPickup : MonoBehaviour
                 //keySpawner.SpawnKey();
             }
             Object.Destroy(this.gameObject);
+        }
+    }
+
+    bool ObjectTypeCheck()
+    {
+        string objectType = ghostChange.possessObject.GetComponent<ObjectVisibility>().visibilityType.ToString();
+        string keyTypename = keyType.ToString();
+
+        if (objectType == keyTypename)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

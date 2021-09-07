@@ -35,13 +35,14 @@ public class EnemySearchScript : MonoBehaviour
     public static float sightRange = 7.5f, attackRange = 2f;
     public bool playerInSightRange, playerInAttackRange;
 
-    //lŒ`—p
     public bool monkeyChase;
     float time;
     public float monkeyChaseTime = 4.0f;
-    //ƒvƒŒƒCƒ„[HP—p
+
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +105,8 @@ public class EnemySearchScript : MonoBehaviour
                 {
                     SceneManagerScript.gameOver = true;
                 }
+
+                StartCoroutine(AttackCooldown()); //    攻撃タイマー　（5秒）
             }
         }
     }
@@ -128,6 +131,8 @@ public class EnemySearchScript : MonoBehaviour
         }
     }
 
+
+    #region 索敵
     void SetPatrol()
     {
         if ((!playerInSightRange && !playerInAttackRange) || !enemy.GetComponent<AISightScript>().detected)
@@ -204,6 +209,9 @@ public class EnemySearchScript : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region 追走
     void SetChase()
     {
         if (playerInSightRange && !playerInAttackRange)
@@ -230,12 +238,25 @@ public class EnemySearchScript : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region 攻撃
     void Attacking()
     {
         agent.SetDestination(player.position);
         this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
     }
-    //lŒ`—p’Ç‰Á
+   
+    IEnumerator AttackCooldown()
+    {
+        playerMask = LayerMask.GetMask("Nothing");
+        yield return new WaitForSeconds(5f);
+
+        playerMask = LayerMask.GetMask("Player");
+    }
+
+    #endregion
+
     void MonkeyTime()
     {
         time += Time.deltaTime;
@@ -245,6 +266,7 @@ public class EnemySearchScript : MonoBehaviour
             monkeyChase = false;
         }
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;

@@ -220,8 +220,17 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 
 
 
+============	2021.9.4	================
 
+    // GhostChange //
 
+        変更内容
+-	possessObject を　Public　にする
+
+行       スクリプト
+
+11      private GameObject possessObject;
+        => public GameObject possessObject;
 
 
 
