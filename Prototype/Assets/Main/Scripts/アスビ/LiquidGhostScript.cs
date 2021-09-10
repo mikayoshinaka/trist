@@ -23,6 +23,9 @@ public class LiquidGhostScript : MonoBehaviour
     public Vector3 patrolPoint;
     float timer, timeLimit;
 
+    [SerializeField] ManagementScript managementScript;
+    private int playerHP;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +53,13 @@ public class LiquidGhostScript : MonoBehaviour
             {
                 enemyBody.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, enemyBody.GetComponent<Renderer>().material.color.a);
                 stateChange = true;
+
+                managementScript.PlayerMinusHP();
+                playerHP = ManagementScript.GetPlayerHP();
+                if (playerHP <= 0)
+                {
+                    SceneManagerScript.gameOver = true;
+                }
             }
         }
         if (!PlayerInAttackRange && stateChange)

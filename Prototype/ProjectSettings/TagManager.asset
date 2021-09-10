@@ -9,6 +9,7 @@ TagManager:
   - Monkey
   - Box
   - Enemy
+  - Bookstand
   layers:
   - Default
   - TransparentFX
