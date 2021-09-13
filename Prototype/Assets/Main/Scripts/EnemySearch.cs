@@ -4,47 +4,150 @@ using UnityEngine;
 
 public class EnemySearch : MonoBehaviour
 {
-    public List<GameObject> searchObject = new List<GameObject>();
+    public List<GameObject> enterObject = new List<GameObject>();
+    public List<GameObject> exitObject = new List<GameObject>();
+    public Material silhouetteMaterial;
+    private Color silhouetteColor;
+    private float magnificationTime = 3.0f;
+    private float timer = 0.0f;
+    public bool silhouette = false;
+    public bool monkey = false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        silhouetteColor = silhouetteMaterial.color;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Monkey" || other.tag == "Box")
+        ExitEnemy();
+        EnterEnemy();
+        if (Input.GetKeyDown(KeyCode.JoystickButton7)|| Input.GetKey(KeyCode.T))
         {
+            silhouette = true;
 
-            if (!searchObject.Contains(other.gameObject))
+        }
+        if (silhouette)
+        {
+            this.transform.localScale = new Vector3(3, 3, 3);
+            timer += Time.deltaTime;
+            if (timer >= magnificationTime)
             {
-                searchObject.Add(other.gameObject);
+                timer = 0.0f;
+                SilhouetteClear();
+                silhouette = false;
+                this.transform.localScale = new Vector3(1, 1, 1);
             }
-
-
         }
         else
         {
-            if (searchObject.Contains(other.gameObject))
+
+        }
+    }
+    private void ExitEnemy()
+    {
+        for (int i = 0; i < exitObject.Count; i++)
+        {
+            Color enemyDefColor;
+            exitObject[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
+            exitObject[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            exitObject[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            exitObject[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
+            exitObject[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+            exitObject[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
+            exitObject[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            exitObject[i].GetComponent<Renderer>().material.renderQueue = 3000;
+            exitObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+            enemyDefColor = exitObject[i].GetComponent<Renderer>().material.color;
+            enemyDefColor.a -= Time.deltaTime;
+            if (enemyDefColor.a > 0.0f)
             {
-                searchObject.Remove(other.gameObject);
+                exitObject[i].GetComponent<Renderer>().material.color = enemyDefColor;
+            }
+            else
+            {
+                exitObject[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor.r, enemyDefColor.g, enemyDefColor.b, 0.0f);
+                exitObject.Remove(exitObject[i]);
+            }
+        }
+
+    }
+    private void EnterEnemy()
+    {
+        for (int i = 0; i < enterObject.Count; i++)
+        {
+            Color enemyDefColor;
+            enemyDefColor = enterObject[i].GetComponent<Renderer>().material.color;
+            enemyDefColor.a += Time.deltaTime;
+            if (silhouette) {
+                enterObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 1.0f);
+            }
+            if (enemyDefColor.a < 1.0f)
+            {
+                enterObject[i].GetComponent<Renderer>().material.color = enemyDefColor;
+            }
+            else
+            {
+                enterObject[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "");
+                enterObject[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+                enterObject[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+                enterObject[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 1);
+                enterObject[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+                enterObject[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHABLEND_ON");
+                enterObject[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                enterObject[i].GetComponent<Renderer>().material.renderQueue = -1;
+                enterObject[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor.r, enemyDefColor.g, enemyDefColor.b, 1.0f);
+            }
+
+        }
+
+    }
+    private void SilhouetteClear()
+    {
+        for (int i = 0; i < enterObject.Count; i++)
+        {
+            enterObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+        }
+
+    }
+    public void EnemyClear()
+    {
+        enterObject.Clear();
+        exitObject.Clear();
+        this.gameObject.SetActive(false);
+        timer = 0.0f;
+        SilhouetteClear();
+        silhouette = false;
+        this.transform.localScale = new Vector3(1, 1, 1);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            Debug.Log("hit");
+            if (!enterObject.Contains(other.gameObject))
+            {
+                enterObject.Add(other.gameObject);
+                if (exitObject.Contains(other.gameObject))
+                {
+                    exitObject.Remove(other.gameObject);
+                }
             }
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Enemy" || other.tag == "Box")
+        if (other.tag == "Enemy")
         {
-
-            if (searchObject.Contains(other.gameObject))
+            if (enterObject.Contains(other.gameObject))
             {
-                searchObject.Remove(other.gameObject);
+                enterObject.Remove(other.gameObject);
+                if (!exitObject.Contains(other.gameObject))
+                {
+                    exitObject.Add(other.gameObject);
+                }
             }
         }
     }

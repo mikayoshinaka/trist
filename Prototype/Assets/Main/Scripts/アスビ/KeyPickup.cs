@@ -10,6 +10,8 @@ public class KeyPickup : MonoBehaviour
     public GhostChange ghostChange;
     private bool once;
 
+    //ドアのアニメーション用
+    public KeyDoorScript keyDoorScript;
     // ObjectVisibilityに合わせる
     public enum KeyType
     {
@@ -56,6 +58,9 @@ public class KeyPickup : MonoBehaviour
     {
         if (other.tag == "Player" && keySpawner.keyPicked < keySpawner.maxKey)
         {
+            //ドアのアニメーション用
+            keyDoorScript.KeyTouch();
+
             keySpawner.DoorSpawn();
             keySpawner.keyPicked++;
             keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / " + keySpawner.maxKey;

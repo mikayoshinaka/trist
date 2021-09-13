@@ -7,29 +7,31 @@ public class GhostChange : MonoBehaviour
     public GameObject[] enemy;
     public GameObject PlayerParent;
     public GameObject PlayerController;
+    public GameObject EnemySearch;
     public GameObject[] PlayerBody;
     public GameObject possessObject;
-    public bool possess = false;
+    public bool possess;
     public List<GameObject> searchObject = new List<GameObject>();
     public List<GameObject> cooltimeObject = new List<GameObject>();
     public List<float> cool = new List<float>();
-    private bool canPossess = false;
-    private bool leave = false;
-    private bool transparent = false;
-    private bool normal = false;
-    private bool enemyTransparent = false;
-    private bool enemyNormal = false;
+    public List<float> setEnemyColor = new List<float>();
+    public Material silhouetteMaterial;
+    private Color silhouetteColor;
+    private bool canPossess;
+    private bool leave;
+    private bool transparent;
+    private bool normal;
+    private bool enemyTransparent;
+    //private bool enemyNormal;
+    private bool once;
     private float setColor = 1.0f;
-    private float setEnemyColor = 0.0f;
-    private int enemyColor = 0;
-    private int playerColor = 0;
-    private float cooltime = 10.0f;
+    [SerializeField] private float cooltime = 5.0f;
     private float speed = 2.0f;
     private float cameraFirstSpeed = 7.0f;
     private float cameraSpeed = 0.0f;
     private float cameraAccelerate = 15.0f;
     private float cameraSpeedMax = 50.0f;
-    private float possessTimeMax = 7.0f;
+    private float possessTimeMax = 10.0f;
     private float possessTime = 0.0f;
     public GameObject mainCamera;
     public GameObject relayCamera;
@@ -37,6 +39,7 @@ public class GhostChange : MonoBehaviour
     private List<Color> defColor = new List<Color>();
     private List<Color> enemyDefColor = new List<Color>();
     private Vector3 beforePossessPos;
+
     // private const float pi = 3.141592653589793238f;
     private int m = 100;
     //比例定数
@@ -44,10 +47,21 @@ public class GhostChange : MonoBehaviour
     private float F;
     //点電荷
     private float Q = 0.25f;
+
+    private float olor = 0.0f;
+    private int lor = 0;
     // Start is called before the first frame update
     void Start()
     {
+        possess = false;
+        canPossess = false;
+        transparent = false;
+        normal = false;
+        enemyTransparent = false;
+        //enemyNormal = false;
+        once = false;
         k = 6.33f * 10f * 10f * 10f * 10f;
+        silhouetteColor = silhouetteMaterial.color;
         for (int i = 0; i < PlayerBody.Length; i++)
         {
             defColor.Add(PlayerBody[i].GetComponent<Renderer>().material.color);
@@ -67,6 +81,8 @@ public class GhostChange : MonoBehaviour
             enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             enemy[i].GetComponent<Renderer>().material.renderQueue = 3000;
             enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, 0.0f);
+            enemy[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+            setEnemyColor.Add(enemy[i].GetComponent<Renderer>().material.color.a);
         }
     }
 
@@ -96,13 +112,14 @@ public class GhostChange : MonoBehaviour
             possess = true;
             canPossess = true;
             transparent = true;
-            enemyNormal = true;
+            //enemyNormal = true;
         }
         else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == true && canPossess == false && transparent == false)
         {
             leave = true;
             normal = true;
             enemyTransparent = true;
+            EnemySearch.GetComponent<EnemySearch>().EnemyClear();
         }
         else if (!((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))) && possess == true && canPossess == false)
         {
@@ -137,10 +154,10 @@ public class GhostChange : MonoBehaviour
         {
             EnemyTransparent();
         }
-        if (enemyNormal)
-        {
-            EnemycanLook();
-        }
+        //if (enemyNormal)
+        //{
+        //    EnemycanLook();
+        //}
     }
     //とりつく動き
     private void ToPossess(Vector3 toPos)
@@ -158,6 +175,7 @@ public class GhostChange : MonoBehaviour
         PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, toPos, Time.deltaTime * speed * a);
         if (dis < 0.03f && cameraDis < 0.03f)
         {
+            EnemySearch.SetActive(true);
             relayCamera.SetActive(false);
             possessCamera.SetActive(true);
             PlayerController.transform.parent = possessObject.gameObject.transform;
@@ -221,22 +239,10 @@ public class GhostChange : MonoBehaviour
         possessTime += Time.deltaTime;
         if (possessTime >= possessTimeMax)
         {
-            PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
-            if (possessObject.tag == "Monkey")
-            {
-                possessObject.GetComponent<MonkeyDoll>().enabled = false;
-            }
-            else if (possessObject.tag == "Box")
-            {
-
-            }
-            PlayerController.transform.parent = PlayerParent.transform;
-            possess = false;
+            leave = true;
             normal = true;
             enemyTransparent = true;
-            mainCamera.SetActive(true);
-            possessCamera.SetActive(false);
-            possessTime = 0.0f;
+            EnemySearch.GetComponent<EnemySearch>().EnemyClear();
         }
     }
     //取り付ける者の範囲内距離ソート
@@ -273,9 +279,15 @@ public class GhostChange : MonoBehaviour
     }
     private void EnemyTransparent()
     {
-        setEnemyColor -= Time.deltaTime;
+        bool enemyBecameTransparent = false;
+        if (once == false)
+        {
+            NowEnemyColor();
+            once = true;
+        }
         for (int i = 0; i < enemy.Length; i++)
         {
+            setEnemyColor[i] -= Time.deltaTime;
             enemy[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
             enemy[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
             enemy[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
@@ -284,57 +296,82 @@ public class GhostChange : MonoBehaviour
             enemy[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
             enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             enemy[i].GetComponent<Renderer>().material.renderQueue = 3000;
-            if (setEnemyColor > 0.0f)
+            enemy[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+            if (setEnemyColor[i] > 0.0f)
             {
-                enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, setEnemyColor);
+                enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, setEnemyColor[i]);
             }
             else
             {
                 enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, 0.0f);
-                enemyColor++;
             }
         }
-        if (enemyColor >= enemy.Length)
-        {
-            enemyColor = 0;
-            setEnemyColor = 0.0f;
-            enemyTransparent = false;
-        }
-    }
-    private void EnemycanLook()
-    {
-        setEnemyColor += Time.deltaTime;
+
         for (int i = 0; i < enemy.Length; i++)
         {
-            if (setEnemyColor < 1.0f)
+            if (enemy[i].GetComponent<Renderer>().material.color.a == 0.0f)
             {
-                enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, setEnemyColor);
+                enemyBecameTransparent = true;
             }
             else
             {
-
-                enemy[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "");
-                enemy[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
-                enemy[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
-                enemy[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 1);
-                enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
-                enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHABLEND_ON");
-                enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                enemy[i].GetComponent<Renderer>().material.renderQueue = -1;
-                enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, 1.0f);
-                enemyColor++;
+                enemyBecameTransparent = false;
+                break;
             }
         }
-        if (enemyColor >= enemy.Length)
+        if (enemyBecameTransparent)
         {
-            enemyColor = 0;
-            setEnemyColor = 1.0f;
-            enemyNormal = false;
+            for (int i = 0; i < enemy.Length; i++)
+            {
+                setEnemyColor[i] = 0.0f;
+            }
+            enemyTransparent = false;
+            once = false;
+        }
+    }
+    //private void EnemycanLook()
+    //{
+    //    olor += Time.deltaTime;
+    //    for (int i = 0; i < enemy.Length; i++)
+    //    {
+    //        if (olor < 1.0f)
+    //        {
+    //            enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, olor);
+    //        }
+    //        else
+    //        {
+
+    //            enemy[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "");
+    //            enemy[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+    //            enemy[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+    //            enemy[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 1);
+    //            enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+    //            enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHABLEND_ON");
+    //            enemy[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+    //            enemy[i].GetComponent<Renderer>().material.renderQueue = -1;
+    //            enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, 1.0f);
+    //            lor++;
+    //        }
+    //    }
+    //    if (lor >= enemy.Length)
+    //    {
+    //        lor = 0;
+    //        olor = 0.0f;
+    //        enemyNormal = false;
+    //    }
+    //}
+    //透明になる前の敵の透明度
+    private void NowEnemyColor()
+    {
+        for (int i = 0; i < setEnemyColor.Count; i++)
+        {
+            setEnemyColor[i] = enemy[i].GetComponent<Renderer>().material.color.a;
         }
     }
     //透明になる
     private void ToTransparent()
     {
+        bool becameTransparent = false;
         setColor -= Time.deltaTime;
         for (int i = 0; i < PlayerBody.Length; i++)
         {
@@ -354,12 +391,23 @@ public class GhostChange : MonoBehaviour
             else
             {
                 PlayerBody[i].GetComponent<Renderer>().material.color = new Color(defColor[i].r, defColor[i].g, defColor[i].b, 0.0f);
-                playerColor++;
+
             }
         }
-        if (playerColor >= PlayerBody.Length)
+        for (int i = 0; i < PlayerBody.Length; i++)
         {
-            playerColor = 0;
+            if (PlayerBody[i].GetComponent<Renderer>().material.color.a == 0.0f)
+            {
+                becameTransparent = true;
+            }
+            else
+            {
+                becameTransparent = false;
+                break;
+            }
+        }
+        if (becameTransparent)
+        {
             setColor = 0.0f;
             transparent = false;
         }
@@ -367,6 +415,7 @@ public class GhostChange : MonoBehaviour
     //透明から元に戻る
     private void FromTransparent()
     {
+        bool def = false;
         setColor += Time.deltaTime;
         for (int i = 0; i < PlayerBody.Length; i++)
         {
@@ -385,12 +434,22 @@ public class GhostChange : MonoBehaviour
                 PlayerBody[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
                 PlayerBody[i].GetComponent<Renderer>().material.renderQueue = -1;
                 PlayerBody[i].GetComponent<Renderer>().material.color = new Color(defColor[i].r, defColor[i].g, defColor[i].b, 1.0f);
-                playerColor++;
             }
         }
-        if (playerColor >= PlayerBody.Length)
+        for (int i = 0; i < PlayerBody.Length; i++)
         {
-            playerColor = 0;
+            if (PlayerBody[i].GetComponent<Renderer>().material.color.a == 1.0f)
+            {
+                def = true;
+            }
+            else
+            {
+                def = false;
+                break;
+            }
+        }
+        if (def)
+        {
             setColor = 1.0f;
             normal = false;
         }
