@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,14 @@ public class OpenSesameScript : MonoBehaviour
     public static bool restart;
 
     float timer, timeLimit;
-    // Start is called before the first frame update
+    
+
+
+    // 仮のスクリプト
+
+
+
+
     void Start()
     {
         stageClear = false;

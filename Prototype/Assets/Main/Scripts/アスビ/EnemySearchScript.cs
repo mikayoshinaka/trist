@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemySearchScript : MonoBehaviour
 {
+    #region Initialize 初期化
+
     public GameObject enemy;
     public NavMeshAgent agent;
     public static Transform player;
@@ -42,8 +44,8 @@ public class EnemySearchScript : MonoBehaviour
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
 
+    public DoorView doorView;
 
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("PlayerController").transform;
@@ -61,23 +63,46 @@ public class EnemySearchScript : MonoBehaviour
         postNum = 0;
         timer = 0f;
         timeLimit = 5f;
-        
+
+        doorView = GameObject.Find("Door Gimmick").GetComponent<DoorView>();
     }
 
-    // Update is called once per frame
+    #endregion
+
     void Update()
     {
+        // 当たり判定
+        
+        // 索敵判定
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
+        
+        // 攻撃判定
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
+
+        // 現状利用しない
         if (distraction)
         {
             SearchDistraction();
 
             // todo SetChase() and set distraction to false
         }
+        // ドアアニメーションが始まったら、敵の移動を中止する
+        else if (doorView.gimmickPlay)
+        {
+            Debug.Log("STOP");
+            if (!agent.isStopped)
+            {
+                agent.isStopped = true;
+            }
+        }
         else
         {
+            // 移動を進む
+            if (agent.isStopped)
+            {
+                agent.isStopped = false;
+            }
 
             //lŒ`—p
             if (monkeyChase)
@@ -87,26 +112,21 @@ public class EnemySearchScript : MonoBehaviour
             }
             else
             {
-                // PATROLLING
+                // 巡回
                 SetPatrol();
 
-                // CHASING
+                // 索敵
                 SetChase();
             }
 
-            // ATTACKING
+            // 攻撃
             if (playerInSightRange && playerInAttackRange)
             {
+                // 攻撃処理
                 Attacking();
 
-                managementScript.PlayerMinusHP();
-                playerHP = ManagementScript.GetPlayerHP();
-                if (playerHP <= 0)
-                {
-                    SceneManagerScript.gameOver = true;
-                }
-
-                StartCoroutine(AttackCooldown()); //    攻撃タイマー　（5秒）
+                //    攻撃タイマー　（現状5秒）
+                StartCoroutine(AttackCooldown(5f)); 
             }
         }
     }
@@ -131,8 +151,9 @@ public class EnemySearchScript : MonoBehaviour
         }
     }
 
+    #region 巡回
 
-    #region 索敵
+    // 巡回設定
     void SetPatrol()
     {
         if ((!playerInSightRange && !playerInAttackRange) || !enemy.GetComponent<AISightScript>().detected)
@@ -175,6 +196,7 @@ public class EnemySearchScript : MonoBehaviour
         }
     }
 
+    // 巡回処理
     void Patrolling()
     {
         if (patrol == PatrolType.Random)
@@ -203,15 +225,17 @@ public class EnemySearchScript : MonoBehaviour
             timer = 0f;
         }
 
-        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
-        {
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
-        }
+        //if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
+        //{
+        //    this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+        //}
     }
 
     #endregion
 
     #region 追走
+
+    // 索敵の設定
     void SetChase()
     {
         if (playerInSightRange && !playerInAttackRange)
@@ -232,25 +256,35 @@ public class EnemySearchScript : MonoBehaviour
     void Chasing()
     {
         agent.SetDestination(player.position);
-        if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
-        {
-            this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
-        }
+        //if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
+        //{
+        //    this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+        //}
     }
 
     #endregion
 
     #region 攻撃
+
+    // 攻撃処理
     void Attacking()
     {
         agent.SetDestination(player.position);
-        this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+        //this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+
+        managementScript.PlayerMinusHP();
+        playerHP = ManagementScript.GetPlayerHP();
+        if (playerHP <= 0)
+        {
+            SceneManagerScript.gameOver = true;
+        }
     }
-   
-    IEnumerator AttackCooldown()
+    
+    // 攻撃タイマー
+    IEnumerator AttackCooldown(float timer)
     {
         playerMask = LayerMask.GetMask("Nothing");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(timer);
 
         playerMask = LayerMask.GetMask("Player");
     }

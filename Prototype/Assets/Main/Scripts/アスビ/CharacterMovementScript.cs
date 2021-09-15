@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +24,7 @@ public class CharacterMovementScript : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
+        // 移動処理
         if (move)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
@@ -42,6 +43,7 @@ public class CharacterMovementScript : MonoBehaviour
             controller.Move(moveDir * speed * Time.deltaTime);
         }
 
+        // 上下移動
         if (fly && !move)
         {
             Vector3 flying = new Vector3(0, flySpeed * 2, 0);

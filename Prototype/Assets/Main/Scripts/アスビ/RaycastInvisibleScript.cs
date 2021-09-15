@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +9,7 @@ public class RaycastInvisibleScript : MonoBehaviour
     int num, hitNum;
     float playerDist;
 
+    [Header("本棚")]
     public Material[] baseColor;
     public Material[] fadeColor;
 
@@ -17,7 +18,8 @@ public class RaycastInvisibleScript : MonoBehaviour
         num = 0;
     }
 
-    // Update is called once per frame
+
+    // 家具などの透明処理
     void Update()
     {
         int layerMask = 1 << 6; // Stages Layer
@@ -59,7 +61,7 @@ public class RaycastInvisibleScript : MonoBehaviour
                     {
                         names.Add(hit.collider.name);
                         hit.collider.gameObject.GetComponent<MeshRenderer>().materials = fadeColor;
-                        Debug.Log(hit.collider.name);
+                        //Debug.Log(hit.collider.name);
                     }
                 }
             }

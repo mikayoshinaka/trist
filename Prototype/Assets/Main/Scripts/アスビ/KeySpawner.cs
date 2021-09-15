@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +27,7 @@ public class KeySpawner : MonoBehaviour
     //    Instantiate(key, new Vector3(transform.position.x + pointX, transform.position.y, transform.position.z + pointZ), transform.rotation, transform);
     //}
 
+    // ドアの設定／判定
     public void DoorSpawn()
     {
         if(keyPicked < Doors.Length - 1)

@@ -10,6 +10,8 @@ public class KeyPickup : MonoBehaviour
     public GhostChange ghostChange;
     private bool once;
 
+    public DoorView doorView;
+
     //ドアのアニメーション用
     public KeyDoorScript keyDoorScript;
     // ObjectVisibilityに合わせる
@@ -21,12 +23,12 @@ public class KeyPickup : MonoBehaviour
     };
     public KeyType keyType;
 
-
     private void Start()
     {
         keySpawner = transform.parent.GetComponent<KeySpawner>();
         keyUI = keySpawner.transform.GetChild(0).GetChild(0).GetComponent<Text>();
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
+        doorView = GameObject.Find("Door Gimmick").GetComponent<DoorView>();
 
         keyUI.text = "かぎ\n" + keySpawner.keyPicked + " / " + keySpawner.maxKey;
         once = false;
@@ -36,6 +38,7 @@ public class KeyPickup : MonoBehaviour
 
     private void Update()
     {
+        // 鍵が見える範囲
         if (!once && ghostChange.possess && ghostChange.possessObject.tag == "Monkey")
         {
             bool match = ObjectTypeCheck();
@@ -56,10 +59,12 @@ public class KeyPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // 鍵の習得
         if (other.tag == "Player" && keySpawner.keyPicked < keySpawner.maxKey)
         {
             //ドアのアニメーション用
             keyDoorScript.KeyTouch();
+            doorView.CloseUpDoorView(keySpawner.keyPicked);
 
             keySpawner.DoorSpawn();
             keySpawner.keyPicked++;
@@ -73,6 +78,7 @@ public class KeyPickup : MonoBehaviour
         }
     }
 
+    // ObjectVisibility と Keytype を確認する
     bool ObjectTypeCheck()
     {
         string objectType = ghostChange.possessObject.GetComponent<ObjectVisibility>().visibilityType.ToString();

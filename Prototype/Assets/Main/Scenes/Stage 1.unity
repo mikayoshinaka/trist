@@ -894,15 +894,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6aad544cabfd0aa4c8e7c157b0a72770, type: 3}
       propertyPath: m_LocalScale.x
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6aad544cabfd0aa4c8e7c157b0a72770, type: 3}
       propertyPath: m_LocalScale.y
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6aad544cabfd0aa4c8e7c157b0a72770, type: 3}
       propertyPath: m_LocalScale.z
-      value: 15
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6aad544cabfd0aa4c8e7c157b0a72770, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1861,7 +1861,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576047499}
-  m_LocalRotation: {x: 0.3269951, y: -0.000000016260476, z: 0.0000000056264016, w: 0.94502604}
+  m_LocalRotation: {x: 0.3269951, y: 0.00000001626048, z: -0.0000000056264025, w: 0.94502604}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1899,10 +1899,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8bcbdc8a3f870489dde07201400df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 56162406}
-  enemy: {fileID: 537091521}
-  color1: {fileID: 2100000, guid: 978414057cabdb546b857980595c1402, type: 2}
-  color2: {fileID: 2100000, guid: 1e97744d76f953f44b6f30fd8801b2c4, type: 2}
+  mainCamera: {fileID: 0}
+  closeupCamera: {fileID: 0}
+  gimmickPlay: 0
 --- !u!4 &613456118
 Transform:
   m_ObjectHideFlags: 0
@@ -3780,7 +3779,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.34882766, y: -0.000000016125602, z: 0.0000000060020646, w: 0.93718696}
+  m_LocalRotation: {x: 0.34882766, y: 0.00000001612559, z: -0.0000000060020593, w: 0.93718696}
   m_LocalPosition: {x: 63.387917, y: -9.27866, z: -7.983205}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -3828,14 +3827,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a708f3223949edb49be01c4fa71ceb55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerRaycast: {fileID: 1448702736}
-  baseColor: []
-  fadeColor: []
+  baseColor:
+  - {fileID: 2100000, guid: 117fc97c670726145a946f3a348baf4c, type: 2}
+  - {fileID: 2100000, guid: 039bfdc1d0e8b2344be01528a4b19e41, type: 2}
+  - {fileID: 2100000, guid: 6bcbcb6a8c33c2043b1d48ff51f55246, type: 2}
+  - {fileID: 2100000, guid: b22b82ae185774e48b7667ac08264e4d, type: 2}
+  fadeColor:
+  - {fileID: 2100000, guid: 70103812f2143bc42991222a58f92851, type: 2}
+  - {fileID: 2100000, guid: 23d3f9ccc8c96fa48814c93c2fc25bed, type: 2}
+  - {fileID: 2100000, guid: 8da49a58387a1cf47ac7070fa9aa9e5c, type: 2}
+  - {fileID: 2100000, guid: 86a5b1db5c2fca24cbd11bbce009df11, type: 2}
 --- !u!1 &970974028 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6aad544cabfd0aa4c8e7c157b0a72770, type: 3}
@@ -4126,7 +4133,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018171943}
-  m_LocalRotation: {x: 0.34882766, y: -0.000000016125602, z: 0.0000000060020637, w: 0.9371869}
+  m_LocalRotation: {x: 0.34882766, y: 0.00000001612559, z: -0.00000000600206, w: 0.9371869}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8305,6 +8312,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 1517479321}
+  doorView: {fileID: 0}
 --- !u!1001 &4649051394131167113
 PrefabInstance:
   m_ObjectHideFlags: 0

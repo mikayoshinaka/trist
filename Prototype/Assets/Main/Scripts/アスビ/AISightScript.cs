@@ -22,6 +22,7 @@ public class AISightScript : MonoBehaviour
         }
     }
 
+    // 敵の行動、索敵の当たり判定にプレイヤーの位置を確認する。True の場合、追走を行う
     bool DetectPlayer()
     {
         Vector3 direction = EnemySearchScript.player.position - transform.position;
@@ -40,6 +41,8 @@ public class AISightScript : MonoBehaviour
         return true;
     }
 
+
+    // FOV にビジュアル
     Mesh CreateMesh()
     {
         Mesh mesh = new Mesh();

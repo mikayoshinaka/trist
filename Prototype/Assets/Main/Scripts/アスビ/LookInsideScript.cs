@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
@@ -10,7 +10,7 @@ public class LookInsideScript : MonoBehaviour
 
     public GameObject stageWall;
 
-    // Update is called once per frame
+    /// ステージの透明
     void Update()
     {
         camXAxisValue = playerTPCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;

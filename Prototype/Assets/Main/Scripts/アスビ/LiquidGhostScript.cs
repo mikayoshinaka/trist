@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -45,8 +45,10 @@ public class LiquidGhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 攻撃判定
         PlayerInAttackRange = Physics.CheckCapsule(enemy.transform.position, enemy.transform.position + enemyVertical, attackRange, playerMask);
 
+        // 攻撃処理
         if (PlayerInAttackRange)
         {
             if (!stateChange)
@@ -73,6 +75,7 @@ public class LiquidGhostScript : MonoBehaviour
         }
     }
 
+    #region 巡回
     void SetPatrol()
     {
         if (!patrolSet)
@@ -110,6 +113,7 @@ public class LiquidGhostScript : MonoBehaviour
         }
     }
 
+    #endregion
 
     private void OnDrawGizmos()
     {
