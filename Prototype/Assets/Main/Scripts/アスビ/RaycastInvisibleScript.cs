@@ -18,7 +18,6 @@ public class RaycastInvisibleScript : MonoBehaviour
         num = 0;
     }
 
-
     // 家具などの透明処理
     void Update()
     {
@@ -32,17 +31,9 @@ public class RaycastInvisibleScript : MonoBehaviour
 
         if (hitNum != num)
         {
-            string[] check = names.ToArray();
-            if (names.Count > 0)
-            {
-                for (int i = 0; i < names.Count; i++)
-                {
-                    //Debug.Log(check[i]);
-                    GameObject.Find(check[i]).GetComponent<MeshRenderer>().materials = baseColor;
-                }
-                names.Clear();
-            }
+            ResetTransparency();
 
+            // プレイヤーの位置を習得
             for (int i = 0; i < hits.Length; i++)
             {
                 RaycastHit hit = hits[i];
@@ -52,6 +43,7 @@ public class RaycastInvisibleScript : MonoBehaviour
                 }
             }
 
+            // プレイヤーの位置より遠いものを透明化
             for (int i = 0; i < hits.Length; i++)
             {
                 RaycastHit hit = hits[i];
@@ -68,5 +60,19 @@ public class RaycastInvisibleScript : MonoBehaviour
         }
 
         Debug.DrawRay(transform.position, (playerRaycast.transform.position - transform.position), Color.yellow);
+    }
+
+    public void ResetTransparency()
+    {
+        string[] check = names.ToArray();
+        if (names.Count > 0)
+        {
+            for (int i = 0; i < names.Count; i++)
+            {
+                //Debug.Log(check[i]);
+                GameObject.Find(check[i]).GetComponent<MeshRenderer>().materials = baseColor;
+            }
+            names.Clear();
+        }
     }
 }

@@ -89,8 +89,7 @@ public class EnemySearchScript : MonoBehaviour
         }
         // ドアアニメーションが始まったら、敵の移動を中止する
         else if (doorView.gimmickPlay)
-        {
-            Debug.Log("STOP");
+        {            
             if (!agent.isStopped)
             {
                 agent.isStopped = true;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DoorView : MonoBehaviour
 {
+    public GhostChange ghostChange;
     GameObject doors;
     public GameObject mainCamera;
     public GameObject closeupCamera;
@@ -11,6 +12,7 @@ public class DoorView : MonoBehaviour
     public bool gimmickPlay;
     private void Start()
     {
+        ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
         doors = transform.GetChild(1).gameObject;
         gimmickPlay = false;
     }
@@ -22,8 +24,16 @@ public class DoorView : MonoBehaviour
         //closeupCamera.transform.position = mainCamera.transform.position;
         //closeupCamera.transform.rotation = mainCamera.transform.rotation;
 
-        //mainCamera.SetActive(false);
+        if (!ghostChange.possess)
+        {
+            mainCamera.SetActive(false);
+        }        
+        if (ghostChange.possessObject != null)
+        {
+            ghostChange.possessObject.transform.Find("Camera").gameObject.SetActive(false);
+        }        
         closeupCamera.SetActive(true);
+
         StartCoroutine(CloseupTimer());
         gimmickPlay = true;
 
@@ -57,6 +67,14 @@ public class DoorView : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         closeupCamera.SetActive(false);
+        if (!ghostChange.possess)
+        {
+            mainCamera.SetActive(true);
+        }
+        if (ghostChange.possessObject != null && ghostChange.possess)
+        {
+            ghostChange.possessObject.transform.Find("Camera").gameObject.SetActive(true);
+        }
         gimmickPlay = false;
     }
 }
