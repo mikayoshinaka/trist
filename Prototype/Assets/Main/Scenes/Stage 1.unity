@@ -1505,6 +1505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaea92d21f74cf47a13740bd5dffdbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAppearColor: {fileID: 917573541}
   enemy:
   - {fileID: 901877987}
   PlayerParent: {fileID: 2114657315}
@@ -2018,7 +2019,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576047499}
-  m_LocalRotation: {x: 0.3269951, y: -0.000000016260476, z: 0.0000000056264016, w: 0.94502604}
+  m_LocalRotation: {x: 0.3269951, y: 0.00000001626048, z: -0.0000000056264025, w: 0.94502604}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2249,8 +2250,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba63310483cdc14cb374cd4d7077c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAppearColor: {fileID: 917573541}
+  ghostChange: {fileID: 351162514}
   enterObject: []
   exitObject: []
+  magnificationSearch: {x: 2.5, y: 2.5, z: 2.5}
   silhouetteMaterial: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   silhouette: 0
   monkey: 0
@@ -3656,6 +3660,52 @@ Transform:
   m_Father: {fileID: 1902275657}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &917573540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 917573542}
+  - component: {fileID: 917573541}
+  m_Layer: 0
+  m_Name: EnemyAppearColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &917573541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917573540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc96d17d1bfb1bf479eeeb08be8f82f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorAppearEnemy: []
+  closeupCamera: {fileID: 307763566}
+  doorScene: 0
+--- !u!4 &917573542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917573540}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 66.81692, y: -21.28231, z: 4.8805656}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &953182669
 GameObject:
   m_ObjectHideFlags: 3
@@ -3958,7 +4008,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.34882766, y: -0.000000016125602, z: 0.0000000060020646, w: 0.93718696}
+  m_LocalRotation: {x: 0.34882766, y: 0.00000001612559, z: -0.0000000060020593, w: 0.93718696}
   m_LocalPosition: {x: 63.387917, y: -9.27866, z: -7.983205}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4312,7 +4362,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018171943}
-  m_LocalRotation: {x: 0.34882766, y: -0.000000016125602, z: 0.0000000060020637, w: 0.9371869}
+  m_LocalRotation: {x: 0.34882766, y: 0.00000001612559, z: -0.00000000600206, w: 0.9371869}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
