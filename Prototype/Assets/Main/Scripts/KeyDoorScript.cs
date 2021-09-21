@@ -10,6 +10,7 @@ public class KeyDoorScript : MonoBehaviour
     [SerializeField] GameObject goal;
     [SerializeField] GameObject doorEnemy;
     [SerializeField] GameObject door;
+    [SerializeField] GameObject enemyAppearColor;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +43,7 @@ public class KeyDoorScript : MonoBehaviour
         else
         {
             doorEnemy.SetActive(true);
+            enemyAppearColor.GetComponent<EnemyAppearColor>().SetAppearEnemy(doorEnemy);
         }
         if (goal == null)
         {

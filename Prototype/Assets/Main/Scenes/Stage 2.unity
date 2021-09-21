@@ -4457,6 +4457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beaea92d21f74cf47a13740bd5dffdbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAppearColor: {fileID: 797378868}
   enemy:
   - {fileID: 356972397}
   - {fileID: 1830863721}
@@ -5010,6 +5011,7 @@ MonoBehaviour:
   goal: {fileID: 952769441}
   doorEnemy: {fileID: 0}
   door: {fileID: 407380469}
+  enemyAppearColor: {fileID: 797378867}
 --- !u!95 &407380472
 Animator:
   serializedVersion: 3
@@ -6540,6 +6542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8bcbdc8a3f870489dde07201400df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostChange: {fileID: 0}
   mainCamera: {fileID: 963194225}
   closeupCamera: {fileID: 369347119}
   gimmickPlay: 0
@@ -7312,6 +7315,7 @@ MonoBehaviour:
   goal: {fileID: 0}
   doorEnemy: {fileID: 4649051393724866677}
   door: {fileID: 718778393}
+  enemyAppearColor: {fileID: 797378867}
 --- !u!95 &718778396
 Animator:
   serializedVersion: 3
@@ -8190,6 +8194,55 @@ Transform:
   - {fileID: 4649051393724866678}
   m_Father: {fileID: 1229317003}
   m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &797378867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 797378869}
+  - component: {fileID: 797378868}
+  m_Layer: 0
+  m_Name: EnemyAppearColor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &797378868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797378867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc96d17d1bfb1bf479eeeb08be8f82f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorAppearEnemy:
+  - {fileID: 4649051392201644968}
+  - {fileID: 4649051393546785390}
+  - {fileID: 4649051393724866677}
+  closeupCamera: {fileID: 369347119}
+  doorScene: 0
+--- !u!4 &797378869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797378867}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.497328, y: -14.482834, z: -4.824994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &804055636
 GameObject:
@@ -9918,7 +9971,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.23187667, y: 0.001111729, z: -0.00026500685, w: 0.9727446}
+  m_LocalRotation: {x: 0.23187667, y: 0.0011116848, z: -0.0002649963, w: 0.9727446}
   m_LocalPosition: {x: -0.08, y: 19.79, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -10784,7 +10837,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018171943}
-  m_LocalRotation: {x: 0.23187664, y: 0.0011117234, z: -0.00026500557, w: 0.9727445}
+  m_LocalRotation: {x: 0.23187664, y: 0.00111169, z: -0.0002649976, w: 0.9727445}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14910,6 +14963,7 @@ MonoBehaviour:
   goal: {fileID: 0}
   doorEnemy: {fileID: 4649051393546785390}
   door: {fileID: 1524851313}
+  enemyAppearColor: {fileID: 797378867}
 --- !u!95 &1524851316
 Animator:
   serializedVersion: 3
@@ -16209,6 +16263,7 @@ MonoBehaviour:
   goal: {fileID: 0}
   doorEnemy: {fileID: 4649051392201644968}
   door: {fileID: 1636663448}
+  enemyAppearColor: {fileID: 797378867}
 --- !u!95 &1636663451
 Animator:
   serializedVersion: 3
@@ -19708,8 +19763,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba63310483cdc14cb374cd4d7077c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAppearColor: {fileID: 797378868}
+  ghostChange: {fileID: 351162514}
   enterObject: []
   exitObject: []
+  magnificationSearch: {x: 2.5, y: 2.5, z: 2.5}
   silhouetteMaterial: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   silhouette: 0
   monkey: 0

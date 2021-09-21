@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 public class ManagementScript : MonoBehaviour
 {
     [SerializeField] Text text;
-    [SerializeField] int startPlayerHP=1;
+    [SerializeField] int startPlayerHP = 1;
     public static int playerHP;
     private bool hitAttack;
-    private bool result ;
+    private bool result;
     private static bool stage1;
     private static bool stage2;
+    private static bool stage3;
     private float impossibleAttackTime = 3.0f;
     private float timer = 0.0f;
     public static float gameTime;
@@ -22,15 +23,23 @@ public class ManagementScript : MonoBehaviour
         gameTime = 0.0f;
         result = false;
         hitAttack = true;
-        if(SceneManager.GetActiveScene().name=="Stage 1")
+        if (SceneManager.GetActiveScene().name == "Stage 1")
         {
             stage1 = true;
             stage2 = false;
+            stage3 = false;
         }
-        else if(SceneManager.GetActiveScene().name == "Stage 2")
+        else if (SceneManager.GetActiveScene().name == "Stage 2")
         {
             stage1 = false;
             stage2 = true;
+            stage3 = false;
+        }
+        else if (SceneManager.GetActiveScene().name == "Stage 3")
+        {
+            stage1 = false;
+            stage2 = false;
+            stage3 = true;
         }
     }
 
@@ -53,14 +62,15 @@ public class ManagementScript : MonoBehaviour
     }
     private void TimeManagement()
     {
-        if (result==false) {
+        if (result == false)
+        {
             gameTime += Time.deltaTime;
         }
     }
 
     public void PlayerMinusHP()
     {
-        if (hitAttack&&result==false)
+        if (hitAttack && result == false)
         {
             playerHP -= 1;
             hitAttack = false;
@@ -82,5 +92,9 @@ public class ManagementScript : MonoBehaviour
     public static bool GetStage2()
     {
         return stage2;
+    }
+    public static bool GetStage3()
+    {
+        return stage3;
     }
 }

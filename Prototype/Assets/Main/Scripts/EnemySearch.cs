@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemySearch : MonoBehaviour
 {
+    [SerializeField] EnemyAppearColor enemyAppearColor;
+    [SerializeField] GhostChange ghostChange;
     public List<GameObject> enterObject = new List<GameObject>();
     public List<GameObject> exitObject = new List<GameObject>();
+    public Vector3 magnificationSearch = new Vector3(2.5f, 2.5f, 2.5f);
     public Material silhouetteMaterial;
     private Color silhouetteColor;
     private float magnificationTime = 3.0f;
@@ -21,16 +24,21 @@ public class EnemySearch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (enemyAppearColor.doorScene == true)
+        {
+            return;
+        }
+
         ExitEnemy();
         EnterEnemy();
-        if (Input.GetKeyDown(KeyCode.JoystickButton7)|| Input.GetKey(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKey(KeyCode.T)&&ghostChange.possessObject.tag=="Monkey")
         {
             silhouette = true;
 
         }
         if (silhouette)
         {
-            this.transform.localScale = new Vector3(3, 3, 3);
+            this.transform.localScale = magnificationSearch;
             timer += Time.deltaTime;
             if (timer >= magnificationTime)
             {
@@ -80,7 +88,8 @@ public class EnemySearch : MonoBehaviour
             Color enemyDefColor;
             enemyDefColor = enterObject[i].GetComponent<Renderer>().material.color;
             enemyDefColor.a += Time.deltaTime;
-            if (silhouette) {
+            if (silhouette)
+            {
                 enterObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 1.0f);
             }
             if (enemyDefColor.a < 1.0f)

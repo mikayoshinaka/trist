@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GhostChange : MonoBehaviour
 {
+    [SerializeField] EnemyAppearColor enemyAppearColor;
     public GameObject[] enemy;
     public GameObject PlayerParent;
     public GameObject PlayerController;
@@ -22,12 +23,15 @@ public class GhostChange : MonoBehaviour
     private bool transparent;
     private bool normal;
     private bool enemyTransparent;
+    private bool changeTime;
     //private bool enemyNormal;
     private bool once;
     private float setColor = 1.0f;
     [SerializeField] private float cooltime = 5.0f;
     private float speed = 2.0f;
     private float cameraFirstSpeed = 7.0f;
+    private float cameraFirstBackSpeed = 20.0f;
+    private float cameraFinalBackSpeed = 7.0f;
     private float cameraSpeed = 0.0f;
     private float cameraAccelerate = 15.0f;
     private float cameraSpeedMax = 50.0f;
@@ -41,18 +45,19 @@ public class GhostChange : MonoBehaviour
     private Vector3 beforePossessPos;
 
     // private const float pi = 3.141592653589793238f;
-    private int m = 100;
-    //比例定数
-    private float k;
-    private float F;
-    //点電荷
-    private float Q = 0.25f;
+    //private int m = 100;
+    ////比例定数
+    //private float k;
+    //private float F;
+    ////点電荷
+    //private float Q = 0.25f;
 
-    private float olor = 0.0f;
-    private int lor = 0;
+    //private float olor = 0.0f;
+    //private int lor = 0;
     // Start is called before the first frame update
     void Start()
     {
+        changeTime = true;
         possess = false;
         canPossess = false;
         transparent = false;
@@ -60,7 +65,6 @@ public class GhostChange : MonoBehaviour
         enemyTransparent = false;
         //enemyNormal = false;
         once = false;
-        k = 6.33f * 10f * 10f * 10f * 10f;
         silhouetteColor = silhouetteMaterial.color;
         for (int i = 0; i < PlayerBody.Length; i++)
         {
@@ -89,37 +93,18 @@ public class GhostChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (enemyAppearColor.doorScene == true)
+        {
+            return;
+        }
+
         if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false)
         {
-            PlayerController.layer = LayerMask.NameToLayer("Disappear");
-
-            PlayerController.GetComponent<CharacterMovementScript>().enabled = false;
-            possessObject = searchObject[0];
-            int objCount = possessObject.transform.childCount;
-            for (int i = 0; i < objCount; i++)
-            {
-                if (possessObject.transform.GetChild(i).gameObject.GetComponent<Camera>())
-                {
-                    possessCamera = possessObject.transform.GetChild(i).gameObject;
-                    break;
-                }
-            }
-            relayCamera.SetActive(true);
-            mainCamera.SetActive(false);
-            beforePossessPos = PlayerController.transform.position;
-            relayCamera.transform.position = mainCamera.transform.position;
-            relayCamera.transform.rotation = mainCamera.transform.rotation;
-            possess = true;
-            canPossess = true;
-            transparent = true;
-            //enemyNormal = true;
+            InputAndCanPossess();
         }
         else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == true && canPossess == false && transparent == false)
         {
-            leave = true;
-            normal = true;
-            enemyTransparent = true;
-            EnemySearch.GetComponent<EnemySearch>().EnemyClear();
+            GhostLeaveFromPossessObject();
         }
         else if (!((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))) && possess == true && canPossess == false)
         {
@@ -142,11 +127,11 @@ public class GhostChange : MonoBehaviour
         {
             TimeCount();
         }
-        if (transparent == true)
+        if (transparent)
         {
             ToTransparent();
         }
-        if (normal == true)
+        if (normal)
         {
             FromTransparent();
         }
@@ -164,13 +149,12 @@ public class GhostChange : MonoBehaviour
     {
         float dis = Vector3.Distance(PlayerController.transform.position, toPos);
         float cameraDis = Vector3.Distance(relayCamera.transform.position, toPos);
-        F = k * Q / (dis * dis);
         if (cameraSpeed < cameraSpeedMax)
         {
             cameraSpeed += Time.deltaTime * cameraAccelerate;
         }
         //加速度
-        float a = F / m;
+        float a = MagneticAccelerate(dis);
         relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, toPos, Time.deltaTime * ((cameraSpeed * cameraSpeed) + cameraFirstSpeed));
         PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, toPos, Time.deltaTime * speed * a);
         if (dis < 0.03f && cameraDis < 0.03f)
@@ -193,10 +177,39 @@ public class GhostChange : MonoBehaviour
             canPossess = false;
         }
     }
+
+    private float MagneticAccelerate(float dis)
+    {
+        //比例定数
+        float k = 6.33f * 10f * 10f * 10f * 10f;
+        float F;
+        int m = 100;
+        //点電荷
+        float Q = 0.25f;
+        F = k * Q / (dis * dis);
+        //加速度
+        float a = F / m;
+        return a;
+    }
     //離れる動き
     private void FromPossess()
     {
         float dis;
+        float cameraDis = Vector3.Distance(mainCamera.transform.position, relayCamera.transform.position);
+        if (cameraSpeed < cameraSpeedMax)
+        {
+            cameraSpeed += Time.deltaTime * cameraAccelerate;
+        }
+        relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, mainCamera.transform.position, Time.deltaTime * ((cameraSpeed * cameraSpeed) + cameraFirstSpeed));
+        //if ( (cameraFirstBackSpeed - (cameraSpeed * cameraSpeed))*Time.deltaTime> cameraFinalBackSpeed)
+        //{
+        //    cameraSpeed += Time.deltaTime;
+        //    relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, mainCamera.transform.position, (cameraFirstBackSpeed-(cameraSpeed * cameraSpeed))*Time.deltaTime);
+        //}
+        //else
+        //{
+        //    relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, mainCamera.transform.position,cameraFinalBackSpeed*Time.deltaTime);
+        //}
         if (possessObject.tag == "Monkey")
         {
             dis = 0.0f;
@@ -204,15 +217,15 @@ public class GhostChange : MonoBehaviour
         else if (possessObject.tag == "Box")
         {
             dis = Vector3.Distance(PlayerController.transform.position, beforePossessPos);
-            F = k * Q / (dis * dis);
-            float a = F / m;
+            float a = MagneticAccelerate(dis);
             PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, beforePossessPos, Time.deltaTime * speed * a);
         }
         else
         {
             dis = 0.0f;
         }
-        if (dis < 0.03f)
+
+        if (dis < 0.03f && cameraDis < 0.03f)
         {
             PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
             PlayerController.layer = LayerMask.NameToLayer("Player");
@@ -228,8 +241,10 @@ public class GhostChange : MonoBehaviour
             possess = false;
             leave = false;
             mainCamera.SetActive(true);
-            possessCamera.SetActive(false);
+            relayCamera.SetActive(false);
+            changeTime = true;
             possessTime = 0.0f;
+            cameraSpeed = 0.0f;
         }
 
     }
@@ -237,12 +252,9 @@ public class GhostChange : MonoBehaviour
     private void GhostChangeTime()
     {
         possessTime += Time.deltaTime;
-        if (possessTime >= possessTimeMax)
+        if (possessTime >= possessTimeMax && changeTime == true)
         {
-            leave = true;
-            normal = true;
-            enemyTransparent = true;
-            EnemySearch.GetComponent<EnemySearch>().EnemyClear();
+            GhostLeaveFromPossessObject();
         }
     }
     //取り付ける者の範囲内距離ソート
@@ -277,12 +289,13 @@ public class GhostChange : MonoBehaviour
             }
         }
     }
+    //敵が透明になる
     private void EnemyTransparent()
     {
         bool enemyBecameTransparent = false;
         if (once == false)
         {
-            NowEnemyColor();
+            NowEnemyTransparentColor();
             once = true;
         }
         for (int i = 0; i < enemy.Length; i++)
@@ -361,7 +374,7 @@ public class GhostChange : MonoBehaviour
     //    }
     //}
     //透明になる前の敵の透明度
-    private void NowEnemyColor()
+    private void NowEnemyTransparentColor()
     {
         for (int i = 0; i < setEnemyColor.Count; i++)
         {
@@ -454,6 +467,48 @@ public class GhostChange : MonoBehaviour
             normal = false;
         }
     }
+
+    private void InputAndCanPossess()
+    {
+        PlayerController.layer = LayerMask.NameToLayer("Disappear");
+
+        PlayerController.GetComponent<CharacterMovementScript>().enabled = false;
+        possessObject = searchObject[0];
+        int objCount = possessObject.transform.childCount;
+        for (int i = 0; i < objCount; i++)
+        {
+            if (possessObject.transform.GetChild(i).gameObject.GetComponent<Camera>())
+            {
+                possessCamera = possessObject.transform.GetChild(i).gameObject;
+                break;
+            }
+        }
+        relayCamera.SetActive(true);
+        mainCamera.SetActive(false);
+        beforePossessPos = PlayerController.transform.position;
+        relayCamera.transform.position = mainCamera.transform.position;
+        relayCamera.transform.rotation = mainCamera.transform.rotation;
+        possess = true;
+        canPossess = true;
+        transparent = true;
+        //enemyNormal = true;
+    }
+
+    private void GhostLeaveFromPossessObject()
+    {
+        leave = true;
+        normal = true;
+        enemyTransparent = true;
+        EnemySearch.GetComponent<EnemySearch>().EnemyClear();
+        relayCamera.SetActive(true);
+        possessCamera.SetActive(false);
+        if (possessObject.tag == "Monkey")
+        {
+            relayCamera.transform.position = possessObject.transform.position;
+        }
+        changeTime = false;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Monkey" || other.tag == "Box")

@@ -11,6 +11,7 @@ public class ResultScript : MonoBehaviour
     int playerHP;
     bool stage1;
     bool stage2;
+    bool stage3;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,7 @@ public class ResultScript : MonoBehaviour
         playerHP = ManagementScript.GetPlayerHP();
         stage1 = ManagementScript.GetStage1();
         stage2 = ManagementScript.GetStage2();
+        stage3 = ManagementScript.GetStage3();
         playerHPText.text = string.Format("Žc‚èHP:{0}", playerHP);
         gameTimeText.text = string.Format("Œo‰ßŽžŠÔ:{0}", gameTime);
     }
@@ -25,13 +27,17 @@ public class ResultScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.B)|| Input.GetKeyDown(KeyCode.JoystickButton0))
+        if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
-            if(stage1)
+            if (stage1)
             {
                 SceneManager.LoadScene("Stage 2");
             }
-            else if(stage2)
+            else if (stage2)
+            {
+                SceneManager.LoadScene("Stage 3");
+            }
+            else if (stage3)
             {
                 SceneManager.LoadScene("Stage 1");
             }
