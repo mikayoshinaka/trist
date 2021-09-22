@@ -269,3 +269,17 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 
 
 
+============	2021.9.21	================
+
+        変更内容
+-　Public化
+
+    // GhostChange //
+
+行       スクリプト
+
+21      private bool canPossess;
+        => public bool canPossess;
+
+22      private bool leave
+        => public bool leave;

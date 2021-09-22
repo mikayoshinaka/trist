@@ -12,7 +12,7 @@ public class Keyrunner : MonoBehaviour
 
     public float detectRange = 5f;
     public bool playerInRange;
-    
+
     public enum KeyRunnerType
     {
         type1,
@@ -42,7 +42,7 @@ public class Keyrunner : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         playerMask = LayerMask.GetMask("Player");
         stageMask = LayerMask.GetMask("Stages");
-        
+
         // Type 1 & Type 2
         keyrunnerSpot = GameObject.Find("KeyrunnerSpot").transform;
         spot = new Transform[keyrunnerSpot.childCount];
@@ -127,6 +127,7 @@ public class Keyrunner : MonoBehaviour
         Vector3 direction = Vector3.Scale((transform.position - player.transform.position), new Vector3(1, 0, 1)).normalized;
         if (!switchSpot)
         {
+            agent.isStopped = false;
             ChooseMoveSpot(direction);
         }
     }
@@ -140,6 +141,7 @@ public class Keyrunner : MonoBehaviour
         agent.speed *= 1.5f;
         if (!switchSpot)
         {
+            agent.isStopped = false;
             ChooseMoveSpot(direction);
         }
     }
@@ -173,6 +175,7 @@ public class Keyrunner : MonoBehaviour
     //　逃げ回る人形の移動方向（Spot 1 ~ 4）
     void ChooseMoveSpot(Vector3 direction)
     {
+        bool firstspot = false;
         int chosenSpot = 0;
         float chosenSpotAngle = 0f;
 
@@ -181,8 +184,15 @@ public class Keyrunner : MonoBehaviour
             Vector3 spotDirection = spot[i].position - transform.position;
             float angleToSpot = Vector3.Angle(direction, spotDirection);
             //Debug.Log(angleToSpot);
-            if (i == 0)
+
+            if (Vector3.Distance(transform.position, spot[i].position) < 10f)
             {
+                continue;
+            }
+
+            if (!firstspot)
+            {
+                firstspot = true;
                 chosenSpot = i;
                 chosenSpotAngle = angleToSpot;
             }
@@ -190,6 +200,7 @@ public class Keyrunner : MonoBehaviour
             {
                 if (angleToSpot < chosenSpotAngle)
                 {
+                    // Debug.Log(i + " = " + Vector3.Distance(transform.position, spot[i].position));
                     chosenSpot = i;
                     chosenSpotAngle = angleToSpot;
                 }
@@ -204,8 +215,9 @@ public class Keyrunner : MonoBehaviour
     IEnumerator SwitchSpotTimer()
     {
         switchSpot = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         switchSpot = false;
+        agent.isStopped = true;
     }
 
     #endregion

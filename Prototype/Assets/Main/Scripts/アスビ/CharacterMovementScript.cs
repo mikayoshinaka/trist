@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterMovementScript : MonoBehaviour
 {
     public CharacterController controller;
+    public GhostChange ghostChange;
     public Transform playerCamera;
     
     bool move, fly;
@@ -13,7 +14,11 @@ public class CharacterMovementScript : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
+    }
+
     void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -25,35 +30,38 @@ public class CharacterMovementScript : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         // 移動処理
-        if (move)
+        if (!ghostChange.canPossess && !ghostChange.leave)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (move)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            if (Input.GetKey(KeyCode.Space))
-            {
-                moveDir.y += flySpeed / 2;
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    moveDir.y += flySpeed / 2;
+                }
+                else if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    moveDir.y -= flySpeed / 2;
+                }
+                controller.Move(moveDir * speed * Time.deltaTime);
             }
-            else if (Input.GetKey(KeyCode.LeftShift))
-            {
-                moveDir.y -= flySpeed / 2;
-            }
-            controller.Move(moveDir * speed * Time.deltaTime);
-        }
 
-        // 上下移動
-        if (fly && !move)
-        {
-            Vector3 flying = new Vector3(0, flySpeed * 2, 0);
-            if (Input.GetKey(KeyCode.Space))
+            // 上下移動
+            if (fly && !move)
             {
-                controller.Move(flying * Time.deltaTime);
-            }
-            else if (Input.GetKey(KeyCode.LeftShift))
-            {
-                controller.Move(-flying * Time.deltaTime);
+                Vector3 flying = new Vector3(0, flySpeed * 2, 0);
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    controller.Move(flying * Time.deltaTime);
+                }
+                else if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    controller.Move(-flying * Time.deltaTime);
+                }
             }
         }
 

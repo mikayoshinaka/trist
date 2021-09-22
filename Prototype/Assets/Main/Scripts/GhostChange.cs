@@ -18,8 +18,8 @@ public class GhostChange : MonoBehaviour
     public List<float> setEnemyColor = new List<float>();
     public Material silhouetteMaterial;
     private Color silhouetteColor;
-    private bool canPossess;
-    private bool leave;
+    public bool canPossess;
+    public bool leave;
     private bool transparent;
     private bool normal;
     private bool enemyTransparent;

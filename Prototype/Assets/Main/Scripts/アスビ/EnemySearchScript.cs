@@ -44,6 +44,7 @@ public class EnemySearchScript : MonoBehaviour
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
 
+    public GhostChange ghostChange;
     public DoorView doorView;
 
     void Start()
@@ -64,6 +65,7 @@ public class EnemySearchScript : MonoBehaviour
         timer = 0f;
         timeLimit = 5f;
 
+        ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
         doorView = GameObject.Find("Door Gimmick").GetComponent<DoorView>();
     }
 
@@ -87,8 +89,8 @@ public class EnemySearchScript : MonoBehaviour
 
             // todo SetChase() and set distraction to false
         }
-        // ドアアニメーションが始まったら、敵の移動を中止する
-        else if (doorView.gimmickPlay)
+        // 敵の移動を中止する
+        else if (doorView.gimmickPlay || ghostChange.canPossess || ghostChange.leave)
         {            
             if (!agent.isStopped)
             {
@@ -157,17 +159,17 @@ public class EnemySearchScript : MonoBehaviour
     {
         if ((!playerInSightRange && !playerInAttackRange) || !enemy.GetComponent<AISightScript>().detected)
         {
-            if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton2))
-            {
-                if (patrol == PatrolType.Random)
-                {
-                    patrol = PatrolType.Post;
-                }
-                else
-                {
-                    patrol = PatrolType.Random;
-                }
-            }
+            //if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.JoystickButton2))
+            //{
+            //    if (patrol == PatrolType.Random)
+            //    {
+            //        patrol = PatrolType.Post;
+            //    }
+            //    else
+            //    {
+            //        patrol = PatrolType.Random;
+            //    }
+            //}
 
             if (!patrolSet)
             {

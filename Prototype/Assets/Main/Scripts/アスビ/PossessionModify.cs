@@ -20,9 +20,10 @@ public class PossessionModify : MonoBehaviour
         raycastInvisible = GameObject.Find("Main Camera").GetComponent<RaycastInvisibleScript>();
     }
 
-    // とりつく時、とりつくものLayerを変更する処理
+    
     private void Update()
     {
+        // とりつく時、とりつくものLayerを変更する処理
         if (ghostChange.possess && !layerChanged)
         {
             parentObj = ghostChange.possessObject;

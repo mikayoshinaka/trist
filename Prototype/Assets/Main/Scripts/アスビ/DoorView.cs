@@ -6,7 +6,9 @@ public class DoorView : MonoBehaviour
 {
     public GhostChange ghostChange;
     GameObject doors;
+    private GameObject cameras;
     public GameObject mainCamera;
+    public GameObject relayCamera;
     public GameObject closeupCamera;
 
     public bool gimmickPlay;
@@ -14,6 +16,12 @@ public class DoorView : MonoBehaviour
     {
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
         doors = transform.GetChild(1).gameObject;
+
+        cameras = GameObject.Find("Cameras");
+        mainCamera = cameras.transform.Find("Main Camera").gameObject;
+        relayCamera = cameras.transform.Find("RelayCamera").gameObject;
+        closeupCamera = cameras.transform.Find("CloseupCamera").gameObject;
+
         gimmickPlay = false;
     }
 
@@ -24,11 +32,13 @@ public class DoorView : MonoBehaviour
         //closeupCamera.transform.position = mainCamera.transform.position;
         //closeupCamera.transform.rotation = mainCamera.transform.rotation;
 
+        // BUG ON RELAY CAMERA
+
         if (!ghostChange.possess)
         {
             mainCamera.SetActive(false);
         }        
-        if (ghostChange.possessObject != null)
+        if (ghostChange.possessObject != null && ghostChange.possess)
         {
             ghostChange.possessObject.transform.Find("Camera").gameObject.SetActive(false);
         }        
@@ -63,15 +73,27 @@ public class DoorView : MonoBehaviour
         //}
     }
 
+    // BUG ON RELAY CAMERA
+
     IEnumerator CloseupTimer()
     {
+        if (!ghostChange.possess && mainCamera.activeInHierarchy)
+        {
+            mainCamera.SetActive(false);
+        }
+        if (ghostChange.possessObject != null && ghostChange.possess && ghostChange.possessObject.transform.Find("Camera").gameObject.activeInHierarchy)
+        {
+            ghostChange.possessObject.transform.Find("Camera").gameObject.SetActive(false);
+        }
+
         yield return new WaitForSeconds(3f);
+
         closeupCamera.SetActive(false);
-        if (!ghostChange.possess)
+        if (!ghostChange.possess || ghostChange.leave)
         {
             mainCamera.SetActive(true);
         }
-        if (ghostChange.possessObject != null && ghostChange.possess)
+        if (ghostChange.possessObject != null && ghostChange.possess && !ghostChange.leave)
         {
             ghostChange.possessObject.transform.Find("Camera").gameObject.SetActive(true);
         }

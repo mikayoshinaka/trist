@@ -5,23 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagerScript : MonoBehaviour
 {
+    Scene currentScene;
     public static bool gameOver;
     public GameObject gameOverUI;
-    bool countdown;
-    float timer, timeLimit;
+    GameObject canvas;
 
-
-    // 仮のスクリプト
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
+        canvas = transform.GetChild(0).gameObject;
+        canvas.SetActive(true);
+
+        currentScene = SceneManager.GetActiveScene();
         gameOver = false;
-        countdown = false;
-        timer = 0f;
-        timeLimit = 2f;
     }
 
     // Update is called once per frame
@@ -29,18 +24,10 @@ public class SceneManagerScript : MonoBehaviour
     {
         if (gameOver)
         {
-            gameOverUI.SetActive(true);
             gameOver = false;
-            countdown = true;
-        }
-        
-        if (countdown)
-        {
-            timer += Time.deltaTime;
-            if (timer >= timeLimit)
-            {
-                SceneManager.LoadScene("Stage 1");
-            }
+            StartCoroutine(GameOver());
+
+            gameOverUI.SetActive(true);
         }
 
         if (OpenSesameScript.restart)
@@ -52,5 +39,11 @@ public class SceneManagerScript : MonoBehaviour
         {
             SceneManager.LoadScene("Stage 1");
         }
+    }
+
+    IEnumerator GameOver()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(currentScene.name);
     }
 }
