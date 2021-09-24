@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2481,9 +2481,11 @@ MonoBehaviour:
   controller: {fileID: 154303412}
   ghostChange: {fileID: 0}
   playerCamera: {fileID: 963194228}
+  doorView: {fileID: 0}
   speed: 6
   flySpeed: 2
   turnSmoothTime: 0.1
+  playerInterupt: 0
 --- !u!143 &154303412
 CharacterController:
   m_ObjectHideFlags: 0
@@ -8749,6 +8751,7 @@ MonoBehaviour:
   patrolRange: 3
   patrolPoint: {x: 0, y: 0, z: 0}
   managementScript: {fileID: 706431044}
+  enemiesManager: {fileID: 0}
 --- !u!195 &747459960
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12678,6 +12681,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1229317003}
+  - component: {fileID: 1229317004}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -12703,6 +12707,19 @@ Transform:
   m_Father: {fileID: 1902275657}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1229317004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229317002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d345aa336df4b4a4f91acb2aa16afe82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacking: 0
 --- !u!1 &1236798149
 GameObject:
   m_ObjectHideFlags: 0
@@ -14071,6 +14088,7 @@ MonoBehaviour:
   patrolRange: 3
   patrolPoint: {x: 0, y: 0, z: 0}
   managementScript: {fileID: 706431044}
+  enemiesManager: {fileID: 0}
 --- !u!195 &1421915327
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -17372,6 +17390,7 @@ MonoBehaviour:
   patrolRange: 3
   patrolPoint: {x: 0, y: 0, z: 0}
   managementScript: {fileID: 706431044}
+  enemiesManager: {fileID: 0}
 --- !u!195 &1709179875
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22229,6 +22248,7 @@ MonoBehaviour:
   managementScript: {fileID: 706431044}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
+  enemiesManager: {fileID: 0}
 --- !u!1 &4649051392210409298
 GameObject:
   m_ObjectHideFlags: 0
@@ -22475,6 +22495,7 @@ MonoBehaviour:
   managementScript: {fileID: 706431044}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
+  enemiesManager: {fileID: 0}
 --- !u!114 &4649051392453199804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22584,6 +22605,7 @@ MonoBehaviour:
   managementScript: {fileID: 706431044}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
+  enemiesManager: {fileID: 0}
 --- !u!114 &4649051393546785388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22861,6 +22883,7 @@ MonoBehaviour:
   managementScript: {fileID: 706431044}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
+  enemiesManager: {fileID: 0}
 --- !u!195 &4649051393724866673
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22992,6 +23015,7 @@ MonoBehaviour:
   managementScript: {fileID: 706431044}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
+  enemiesManager: {fileID: 0}
 --- !u!114 &4649051393936331532
 MonoBehaviour:
   m_ObjectHideFlags: 0

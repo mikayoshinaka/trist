@@ -8,15 +8,21 @@ public class CharacterMovementScript : MonoBehaviour
     public GhostChange ghostChange;
     public Transform playerCamera;
     
+    public DoorView doorView;
+
     bool move, fly;
     public float speed = 5f;
     public float flySpeed = 2f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
+    public bool playerInterupt;
+
     private void Start()
     {
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
+        doorView = GameObject.Find("Door Gimmick").GetComponent<DoorView>();
+        playerInterupt = false;
     }
 
     void Update()
@@ -30,7 +36,7 @@ public class CharacterMovementScript : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         // 移動処理
-        if (!ghostChange.canPossess && !ghostChange.leave)
+        if (!playerInterupt && !doorView.gimmickPlay && !ghostChange.canPossess && !ghostChange.leave)
         {
             if (move)
             {

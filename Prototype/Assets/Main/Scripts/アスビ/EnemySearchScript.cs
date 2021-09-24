@@ -47,6 +47,10 @@ public class EnemySearchScript : MonoBehaviour
     public GhostChange ghostChange;
     public DoorView doorView;
 
+    // 攻撃
+    public EnemiesManager enemiesManager;
+    bool moveAway;
+
     void Start()
     {
         player = GameObject.Find("PlayerController").transform;
@@ -67,6 +71,9 @@ public class EnemySearchScript : MonoBehaviour
 
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
         doorView = GameObject.Find("Door Gimmick").GetComponent<DoorView>();
+
+        enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
+        moveAway = false;
     }
 
     #endregion
@@ -90,12 +97,17 @@ public class EnemySearchScript : MonoBehaviour
             // todo SetChase() and set distraction to false
         }
         // 敵の移動を中止する
-        else if (doorView.gimmickPlay || ghostChange.canPossess || ghostChange.leave)
-        {            
+        else if (enemiesManager.attacking || doorView.gimmickPlay || ghostChange.canPossess || ghostChange.leave)
+        {
             if (!agent.isStopped)
             {
                 agent.isStopped = true;
             }
+        }
+        // プレイヤーから離れる
+        else if (moveAway)
+        {
+            MoveAway();
         }
         else
         {
@@ -126,8 +138,11 @@ public class EnemySearchScript : MonoBehaviour
                 // 攻撃処理
                 Attacking();
 
-                //    攻撃タイマー　（現状5秒）
-                StartCoroutine(AttackCooldown(5f)); 
+                // 驚かす処理、タイマー等、全ての敵が止まっている
+                StartCoroutine(SurpriseAction(2f));
+
+                //    攻撃タイマー　（プレイヤーを無視するタイマー）
+                StartCoroutine(AttackCooldown(5f));
             }
         }
     }
@@ -272,13 +287,42 @@ public class EnemySearchScript : MonoBehaviour
     {
         agent.SetDestination(player.position);
         //this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+    }
 
+    IEnumerator SurpriseAction(float timer)
+    {
+        player.GetComponent<CharacterMovementScript>().playerInterupt = true;
+        enemiesManager.attacking = true;
+
+        yield return new WaitForSeconds(timer);
+        
+        player.GetComponent<CharacterMovementScript>().playerInterupt = false;
+        enemiesManager.attacking = false;
+
+        // ダメージを受ける
         managementScript.PlayerMinusHP();
         playerHP = ManagementScript.GetPlayerHP();
         if (playerHP <= 0)
         {
             SceneManagerScript.gameOver = true;
         }
+
+        // 離れる処理
+        StartCoroutine(StayAway(2f));
+    }
+
+    // 攻撃後、離れる処理
+    IEnumerator StayAway(float timer)
+    {
+        moveAway = true;
+        yield return new WaitForSeconds(timer);
+        moveAway = false;
+    }
+    void MoveAway()
+    {
+        Vector3 direction = Vector3.Scale(transform.position - player.transform.position, new Vector3(1f, 0f, 1f)).normalized;
+        agent.Move(direction * agent.speed * Time.deltaTime);
+        transform.rotation = Quaternion.LookRotation(direction, transform.up);
     }
     
     // 攻撃タイマー

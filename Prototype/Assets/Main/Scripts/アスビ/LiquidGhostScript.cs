@@ -8,6 +8,7 @@ public class LiquidGhostScript : MonoBehaviour
     public GameObject enemy;
     public GameObject enemyBody;
     public NavMeshAgent agent;
+    public static Transform player;
     public float upRange = 3f;
     Vector3 enemyVertical;
     public float attackRange = 2f;
@@ -26,12 +27,15 @@ public class LiquidGhostScript : MonoBehaviour
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
 
+    public EnemiesManager enemiesManager;
+
     // Start is called before the first frame update
     void Start()
     {
         enemy = this.gameObject;
         enemyBody = this.gameObject.transform.GetChild(0).gameObject;
         agent = enemy.GetComponent<NavMeshAgent>();
+        player = GameObject.Find("PlayerController").transform;
         playerMask = LayerMask.GetMask("Player");
         stageMask = LayerMask.GetMask("Stages");
         enemyVertical = new Vector3(0, upRange, 0);
@@ -40,6 +44,8 @@ public class LiquidGhostScript : MonoBehaviour
         
         timer = 0f;
         timeLimit = 5f;
+
+        enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
     }
 
     // Update is called once per frame
@@ -56,12 +62,8 @@ public class LiquidGhostScript : MonoBehaviour
                 enemyBody.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, enemyBody.GetComponent<Renderer>().material.color.a);
                 stateChange = true;
 
-                managementScript.PlayerMinusHP();
-                playerHP = ManagementScript.GetPlayerHP();
-                if (playerHP <= 0)
-                {
-                    SceneManagerScript.gameOver = true;
-                }
+                // 驚かす処理、タイマー等、全ての敵が止まっている
+                StartCoroutine(SurpriseAction(2f));
             }
         }
         if (!PlayerInAttackRange && stateChange)
@@ -74,6 +76,29 @@ public class LiquidGhostScript : MonoBehaviour
         //    SetPatrol();
         //}
     }
+
+    #region 攻撃
+
+    IEnumerator SurpriseAction(float timer)
+    {
+        player.GetComponent<CharacterMovementScript>().playerInterupt = true;
+        enemiesManager.attacking = true;
+
+        yield return new WaitForSeconds(timer);
+
+        player.GetComponent<CharacterMovementScript>().playerInterupt = false;
+        enemiesManager.attacking = false;
+
+        //　ダメージを受ける
+        managementScript.PlayerMinusHP();
+        playerHP = ManagementScript.GetPlayerHP();
+        if (playerHP <= 0)
+        {
+            SceneManagerScript.gameOver = true;
+        }
+    }
+
+    #endregion
 
     #region 巡回
     void SetPatrol()
