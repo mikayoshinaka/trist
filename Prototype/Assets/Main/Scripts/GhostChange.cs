@@ -5,6 +5,7 @@ using UnityEngine;
 public class GhostChange : MonoBehaviour
 {
     [SerializeField] EnemyAppearColor enemyAppearColor;
+    [SerializeField] ManagementScript managementScript;
     public GameObject[] enemy;
     public GameObject PlayerParent;
     public GameObject PlayerController;
@@ -93,6 +94,10 @@ public class GhostChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Mathf.Approximately(Time.timeScale,0f))
+        {
+            return;
+        }
         if (enemyAppearColor.doorScene == true)
         {
             return;
@@ -467,7 +472,7 @@ public class GhostChange : MonoBehaviour
             normal = false;
         }
     }
-
+    //とりつくとき
     private void InputAndCanPossess()
     {
         PlayerController.layer = LayerMask.NameToLayer("Disappear");
@@ -491,9 +496,10 @@ public class GhostChange : MonoBehaviour
         possess = true;
         canPossess = true;
         transparent = true;
+        managementScript.PlusPossessCount();
         //enemyNormal = true;
     }
-
+    //とりついたものから離れるとき
     private void GhostLeaveFromPossessObject()
     {
         leave = true;

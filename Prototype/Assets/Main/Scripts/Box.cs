@@ -20,7 +20,10 @@ public class Box : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
         if (Input.GetAxisRaw("RHorizontal") < 0)
         {
             angle -= Time.deltaTime * speed;

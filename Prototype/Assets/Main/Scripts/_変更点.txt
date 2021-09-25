@@ -283,3 +283,34 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 
 22      private bool leave
         => public bool leave;
+============	2021.9.21	================
+
+変更内容
+-　ゲームオーバー用に変更
+
+    //AISightScript//
+    //CharacterMovementScript//
+    //EnemySearchScript//
+    //KeyPickup//
+    //Keyrunner//
+    //LiquidGhostScript//
+    //LookInsideScript//
+    //MinimapScript//
+    //OpenSesameScript//
+    //PossessionModify//
+    //RaycastInvisibleScript//
+
+行       スクリプト
+
+updateの最初
+
+ 　　　　if (Mathf.Approximately(Time.timeScale, 0f))
+        　{
+            　　return;
+        　}
+
+　　//SceneManagerScript//
+
+13        [SerializeField] GameOverMigrate gameOverMigrate;
+
+49        gameOverMigrate.GameOver();

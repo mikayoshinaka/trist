@@ -15,6 +15,12 @@ public class AISightScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
+
         // EnemySearchScript CHASING
         if (inView)
         {

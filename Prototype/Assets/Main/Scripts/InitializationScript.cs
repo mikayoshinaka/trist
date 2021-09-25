@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-public class TitleScript : MonoBehaviour
+
+public class InitializationScript : MonoBehaviour
 {
+    [SerializeField] MenuScript menuScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,9 +14,11 @@ public class TitleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1))
+        if(Input.GetKeyDown(KeyCode.Z))
         {
-            SceneManager.LoadScene("Menu");
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            menuScript.ResetStage();
         }
-     }
+    }
 }

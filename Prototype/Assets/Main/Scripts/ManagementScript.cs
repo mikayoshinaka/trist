@@ -5,9 +5,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class ManagementScript : MonoBehaviour
 {
+    //リザルト用
+
+
     [SerializeField] Text text;
     [SerializeField] int startPlayerHP = 1;
     public static int playerHP;
+    public static int possessCount;
     private bool hitAttack;
     private bool result;
     private static bool stage1;
@@ -20,6 +24,7 @@ public class ManagementScript : MonoBehaviour
     void Start()
     {
         playerHP = startPlayerHP;
+        possessCount = 0;
         gameTime = 0.0f;
         result = false;
         hitAttack = true;
@@ -46,9 +51,14 @@ public class ManagementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
         HPManagement();
         TimeManagement();
     }
+    //現在のHP
     private void HPManagement()
     {
         text.text = "PlayerHP:" + playerHP;
@@ -60,6 +70,7 @@ public class ManagementScript : MonoBehaviour
         hitAttack = true;
         timer = 0.0f;
     }
+    //時間経過
     private void TimeManagement()
     {
         if (result == false)
@@ -67,7 +78,12 @@ public class ManagementScript : MonoBehaviour
             gameTime += Time.deltaTime;
         }
     }
-
+    //とりついた回数
+    public void PlusPossessCount()
+    {
+        possessCount += 1;
+    }
+    //HP減少
     public void PlayerMinusHP()
     {
         if (hitAttack && result == false)
@@ -76,10 +92,14 @@ public class ManagementScript : MonoBehaviour
             hitAttack = false;
         }
     }
-
+    
     public static int GetPlayerHP()
     {
         return playerHP;
+    }
+    public static int GetPossessCount()
+    {
+        return possessCount;
     }
     public static float GetGameTime()
     {

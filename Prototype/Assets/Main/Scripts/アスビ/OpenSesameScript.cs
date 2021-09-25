@@ -28,6 +28,11 @@ public class OpenSesameScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
         if (stageClear)
         {
             timer += Time.deltaTime;

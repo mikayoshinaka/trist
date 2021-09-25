@@ -23,6 +23,11 @@ public class PossessionModify : MonoBehaviour
     
     private void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
         // とりつく時、とりつくものLayerを変更する処理
         if (ghostChange.possess && !layerChanged)
         {

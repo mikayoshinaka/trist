@@ -21,6 +21,12 @@ public class LookInsideScript : MonoBehaviour
     /// ステージの透明
     void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
+
         camXAxisValue = playerTPCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
 
         if (!ghostChange.possess)

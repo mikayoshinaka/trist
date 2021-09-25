@@ -80,8 +80,14 @@ public class EnemySearchScript : MonoBehaviour
 
     void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
+
         // 当たり判定
-        
+
         // 索敵判定
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
         

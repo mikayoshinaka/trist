@@ -51,6 +51,12 @@ public class LiquidGhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
+
         // 攻撃判定
         PlayerInAttackRange = Physics.CheckCapsule(enemy.transform.position, enemy.transform.position + enemyVertical, attackRange, playerMask);
 

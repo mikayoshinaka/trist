@@ -38,6 +38,12 @@ public class KeyPickup : MonoBehaviour
 
     private void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
+
         // 鍵が見える範囲
         if (!once && ghostChange.possess && ghostChange.possessObject.tag == "Monkey")
         {

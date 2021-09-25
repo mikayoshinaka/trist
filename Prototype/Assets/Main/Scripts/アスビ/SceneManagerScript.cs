@@ -9,7 +9,8 @@ public class SceneManagerScript : MonoBehaviour
     public static bool gameOver;
     public GameObject gameOverUI;
     GameObject canvas;
-
+    //小野澤　ゲームオーバー用
+    [SerializeField] GameOverMigrate gameOverMigrate;
     void Start()
     {
         canvas = transform.GetChild(0).gameObject;
@@ -44,6 +45,9 @@ public class SceneManagerScript : MonoBehaviour
     IEnumerator GameOver()
     {
         yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(currentScene.name);
+        //小野澤　ゲームオーバー用
+        gameOverMigrate.GameOver();
+        //SceneManager.LoadScene(currentScene.name);
+
     }
 }

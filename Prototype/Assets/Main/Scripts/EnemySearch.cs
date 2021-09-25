@@ -24,6 +24,10 @@ public class EnemySearch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
         if (enemyAppearColor.doorScene == true)
         {
             return;
@@ -31,7 +35,7 @@ public class EnemySearch : MonoBehaviour
 
         ExitEnemy();
         EnterEnemy();
-        if (Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKey(KeyCode.T)&&ghostChange.possessObject.tag=="Monkey")
+        if (Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKey(KeyCode.T)&&ghostChange.possessObject.tag=="Monkey")
         {
             silhouette = true;
 

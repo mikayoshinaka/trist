@@ -20,6 +20,12 @@ public class MinimapScript : MonoBehaviour
 
     private void LateUpdate()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
+
         camXAxisValue = playerTPCamera.GetComponent<CinemachineFreeLook>().m_XAxis.Value;
         transform.rotation = Quaternion.Euler(90f, camXAxisValue, 0f);
     }

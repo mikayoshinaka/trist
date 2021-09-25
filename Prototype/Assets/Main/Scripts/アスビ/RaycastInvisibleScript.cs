@@ -21,6 +21,11 @@ public class RaycastInvisibleScript : MonoBehaviour
     // 家具などの透明処理
     void Update()
     {
+        //小野澤ゲームオーバー用
+        if (Mathf.Approximately(Time.timeScale, 0f))
+        {
+            return;
+        }
         int layerMask = 1 << 6; // Stages Layer
         layerMask = ~layerMask;
 
