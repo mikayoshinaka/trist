@@ -47,8 +47,8 @@ public class DoorView : MonoBehaviour
         StartCoroutine(CloseupTimer());
         gimmickPlay = true;
 
-        closeupCamera.transform.position = doors.transform.GetChild(doorNum).GetChild(1).transform.position;
-        closeupCamera.transform.rotation = doors.transform.GetChild(doorNum).GetChild(1).transform.rotation;
+        closeupCamera.transform.position = doors.transform.GetChild(doorNum).Find("ViewSpot").transform.position;
+        closeupCamera.transform.rotation = doors.transform.GetChild(doorNum).Find("ViewSpot").transform.rotation;
         //Vector3 targetSpot = doors.transform.GetChild(doorNum).GetChild(1).transform.position;
         //Quaternion targetRotation = doors.transform.GetChild(doorNum).GetChild(1).transform.rotation;
         //closeupCamera.transform.position = Vector3.MoveTowards(closeupCamera.transform.position, targetSpot, 1f * Time.deltaTime);

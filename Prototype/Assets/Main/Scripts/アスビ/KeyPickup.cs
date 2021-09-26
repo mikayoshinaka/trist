@@ -26,7 +26,7 @@ public class KeyPickup : MonoBehaviour
     private void Start()
     {
         keySpawner = transform.parent.GetComponent<KeySpawner>();
-        keyUI = keySpawner.transform.GetChild(0).GetChild(0).GetComponent<Text>();
+        keyUI = keySpawner.transform.Find("Canvas").Find("KeyUI").GetComponent<Text>();
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
         doorView = GameObject.Find("Door Gimmick").GetComponent<DoorView>();
 
