@@ -4286,6 +4286,11 @@ MonoBehaviour:
   - {fileID: 1411523527}
   - {fileID: 448953697}
   - {fileID: 294145123}
+  key:
+  - {fileID: 1002654323240473931}
+  - {fileID: 1002654321861135415}
+  - {fileID: 1002654323319243731}
+  - {fileID: 1002654323478793230}
   PlayerParent: {fileID: 2114657315}
   PlayerController: {fileID: 154303409}
   EnemySearch: {fileID: 1968232595}
@@ -4297,6 +4302,7 @@ MonoBehaviour:
   cooltimeObject: []
   cool: []
   setEnemyColor: []
+  setKeyColor: []
   silhouetteMaterial: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   canPossess: 0
   leave: 0
@@ -16939,6 +16945,8 @@ MonoBehaviour:
   ghostChange: {fileID: 351162514}
   enterObject: []
   exitObject: []
+  enterKey: []
+  exitKey: []
   magnificationSearch: {x: 2.5, y: 2.5, z: 2.5}
   silhouetteMaterial: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   silhouette: 0
@@ -18630,6 +18638,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ef0cf441cd1f5c24dafa62c6794443f1, type: 2}
+  - {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18703,7 +18712,7 @@ GameObject:
   - component: {fileID: 1002654321861135416}
   m_Layer: 0
   m_Name: KeyRunnerDoll_2
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18798,7 +18807,7 @@ GameObject:
   - component: {fileID: 1002654323240473933}
   m_Layer: 0
   m_Name: KeyRunnerDoll_1
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18869,6 +18878,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ef0cf441cd1f5c24dafa62c6794443f1, type: 2}
+  - {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18942,7 +18952,7 @@ GameObject:
   - component: {fileID: 1002654323319243732}
   m_Layer: 0
   m_Name: KeyRunnerDoll_3
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19013,6 +19023,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ef0cf441cd1f5c24dafa62c6794443f1, type: 2}
+  - {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19070,6 +19081,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ef0cf441cd1f5c24dafa62c6794443f1, type: 2}
+  - {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19135,7 +19147,7 @@ GameObject:
   - component: {fileID: 1002654323478793231}
   m_Layer: 0
   m_Name: KeyRunnerDoll_4
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20280,6 +20292,7 @@ MonoBehaviour:
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   keyDoorScript: {fileID: 1636663450}
+  enemySearch: {fileID: 1968232597}
   keyType: 0
 --- !u!114 &8435728509637217751
 MonoBehaviour:
@@ -20298,6 +20311,7 @@ MonoBehaviour:
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   keyDoorScript: {fileID: 718778395}
+  enemySearch: {fileID: 1968232597}
   keyType: 0
 --- !u!114 &8435728509729325578
 MonoBehaviour:
@@ -20316,6 +20330,7 @@ MonoBehaviour:
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   keyDoorScript: {fileID: 407380471}
+  enemySearch: {fileID: 1968232597}
   keyType: 0
 --- !u!114 &8435728511346459187
 MonoBehaviour:
@@ -20334,4 +20349,5 @@ MonoBehaviour:
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   keyDoorScript: {fileID: 1524851315}
+  enemySearch: {fileID: 1968232597}
   keyType: 0

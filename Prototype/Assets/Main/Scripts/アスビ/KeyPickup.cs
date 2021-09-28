@@ -12,8 +12,9 @@ public class KeyPickup : MonoBehaviour
 
     public DoorView doorView;
 
-    //ドアのアニメーション用
+    //小野澤　ドアのアニメーション用　鍵の色変更用
     public KeyDoorScript keyDoorScript;
+    public EnemySearch enemySearch;
     // ObjectVisibilityに合わせる
     public enum KeyType
     {
@@ -68,9 +69,10 @@ public class KeyPickup : MonoBehaviour
         // 鍵の習得
         if (other.tag == "Player" && keySpawner.keyPicked < keySpawner.maxKey)
         {
-            //ドアのアニメーション用
+            //小野澤　ドアのアニメーション用　鍵の色変更用
             keyDoorScript.KeyTouch();
             doorView.CloseUpDoorView(keySpawner.keyPicked);
+            enemySearch.DestroyKeyClear(this.gameObject);
 
             keySpawner.DoorSpawn();
             keySpawner.keyPicked++;

@@ -283,7 +283,7 @@ MonkeyDollのスクリプトをまだいじってないので、コントロー�
 
 22      private bool leave
         => public bool leave;
-============	2021.9.21	================
+============	2021.9.24	================
 
 変更内容
 -　ゲームオーバー用に変更
@@ -314,3 +314,29 @@ updateの最初
 13        [SerializeField] GameOverMigrate gameOverMigrate;
 
 49        gameOverMigrate.GameOver();
+
+
+
+============	2021.9.24	================
+
+
+変更内容
+-　鍵の透明変更
+
+    //KeyPickup//
+
+
+行       スクリプト
+
+
+
+17      public EnemySearch enemySearch;
+
+75      enemySearch.DestroyKeyClear(this.gameObject);
+
+
+
+
+
+
+

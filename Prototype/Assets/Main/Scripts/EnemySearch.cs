@@ -8,6 +8,8 @@ public class EnemySearch : MonoBehaviour
     [SerializeField] GhostChange ghostChange;
     public List<GameObject> enterObject = new List<GameObject>();
     public List<GameObject> exitObject = new List<GameObject>();
+    public List<GameObject> enterKey = new List<GameObject>();
+    public List<GameObject> exitKey = new List<GameObject>();
     public Vector3 magnificationSearch = new Vector3(2.5f, 2.5f, 2.5f);
     public Material silhouetteMaterial;
     private Color silhouetteColor;
@@ -33,8 +35,10 @@ public class EnemySearch : MonoBehaviour
             return;
         }
 
-        ExitEnemy();
-        EnterEnemy();
+        ExitOtherObjectInvisible(exitObject);
+        EnterOtherObjectSeem(enterObject);
+        ExitOtherObjectInvisible(exitKey);
+        EnterOtherObjectSeem(enterKey);
         if (Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKey(KeyCode.T)&&ghostChange.possessObject.tag=="Monkey")
         {
             silhouette = true;
@@ -57,7 +61,7 @@ public class EnemySearch : MonoBehaviour
 
         }
     }
-    private void ExitEnemy()
+    private void ExitOtherObjectInvisible(List<GameObject> exitObject)
     {
         for (int i = 0; i < exitObject.Count; i++)
         {
@@ -85,7 +89,7 @@ public class EnemySearch : MonoBehaviour
         }
 
     }
-    private void EnterEnemy()
+    private void EnterOtherObjectSeem(List<GameObject> enterObject)
     {
         for (int i = 0; i < enterObject.Count; i++)
         {
@@ -122,17 +126,76 @@ public class EnemySearch : MonoBehaviour
         {
             enterObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
         }
+        for (int i = 0; i < exitObject.Count; i++)
+        {
+            exitObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+        }
+        for (int i = 0; i < enterKey.Count; i++)
+        {
+            enterKey[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+        }
+        for (int i = 0; i < exitKey.Count; i++)
+        {
+            exitKey[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+        }
 
     }
-    public void EnemyClear()
+
+    private void KeyColorClear()
     {
+        for (int i = 0; i < enterKey.Count; i++)
+        {
+            Color keyDefColor;
+            keyDefColor = enterKey[i].GetComponent<Renderer>().material.color;
+            enterKey[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
+            enterKey[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            enterKey[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            enterKey[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
+            enterKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+            enterKey[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
+            enterKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            enterKey[i].GetComponent<Renderer>().material.renderQueue = 3000;
+            enterKey[i].GetComponent<Renderer>().material.color = new Color(keyDefColor.r, keyDefColor.g, keyDefColor.b, 0.0f);
+        }
+        for (int i = 0; i < exitKey.Count; i++)
+        {
+            Color keyDefColor;
+            keyDefColor = enterKey[i].GetComponent<Renderer>().material.color;
+            exitKey[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
+            exitKey[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            exitKey[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            exitKey[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
+            exitKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+            exitKey[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
+            exitKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            exitKey[i].GetComponent<Renderer>().material.renderQueue = 3000;
+            exitKey[i].GetComponent<Renderer>().material.color = new Color(keyDefColor.r, keyDefColor.g, keyDefColor.b, 0.0f);
+        }
+    }
+    public void OtherObjectClear()
+    {
+        SilhouetteClear();
+        KeyColorClear();
+        enterObject.Clear();
+        exitObject.Clear();
         enterObject.Clear();
         exitObject.Clear();
         this.gameObject.SetActive(false);
         timer = 0.0f;
-        SilhouetteClear();
         silhouette = false;
         this.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    public void DestroyKeyClear(GameObject key)
+    {
+        if (enterKey.Contains(key))
+        {
+            enterKey.Remove(key);
+        }
+        if (exitKey.Contains(key))
+        {
+            exitKey.Remove(key);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -148,6 +211,18 @@ public class EnemySearch : MonoBehaviour
                 }
             }
         }
+        if (other.tag == "Key")
+        {
+            Debug.Log("hit");
+            if (!enterKey.Contains(other.gameObject))
+            {
+                enterKey.Add(other.gameObject);
+                if (exitKey.Contains(other.gameObject))
+                {
+                    exitKey.Remove(other.gameObject);
+                }
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -160,6 +235,18 @@ public class EnemySearch : MonoBehaviour
                 if (!exitObject.Contains(other.gameObject))
                 {
                     exitObject.Add(other.gameObject);
+                }
+            }
+        }
+
+        if (other.tag == "Key")
+        {
+            if (enterKey.Contains(other.gameObject))
+            {
+                enterKey.Remove(other.gameObject);
+                if (!exitKey.Contains(other.gameObject))
+                {
+                    exitKey.Add(other.gameObject);
                 }
             }
         }

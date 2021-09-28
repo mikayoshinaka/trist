@@ -7,6 +7,7 @@ public class GhostChange : MonoBehaviour
     [SerializeField] EnemyAppearColor enemyAppearColor;
     [SerializeField] ManagementScript managementScript;
     public GameObject[] enemy;
+    public GameObject[] key;
     public GameObject PlayerParent;
     public GameObject PlayerController;
     public GameObject EnemySearch;
@@ -17,6 +18,7 @@ public class GhostChange : MonoBehaviour
     public List<GameObject> cooltimeObject = new List<GameObject>();
     public List<float> cool = new List<float>();
     public List<float> setEnemyColor = new List<float>();
+    public List<float> setKeyColor = new List<float>();
     public Material silhouetteMaterial;
     private Color silhouetteColor;
     public bool canPossess;
@@ -88,6 +90,10 @@ public class GhostChange : MonoBehaviour
             enemy[i].GetComponent<Renderer>().material.color = new Color(enemyDefColor[i].r, enemyDefColor[i].g, enemyDefColor[i].b, 0.0f);
             enemy[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
             setEnemyColor.Add(enemy[i].GetComponent<Renderer>().material.color.a);
+        }
+        for (int i = 0; i < key.Length; i++)
+        {
+            key[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
         }
     }
 
@@ -347,6 +353,7 @@ public class GhostChange : MonoBehaviour
             once = false;
         }
     }
+   
     //private void EnemycanLook()
     //{
     //    olor += Time.deltaTime;
@@ -505,7 +512,7 @@ public class GhostChange : MonoBehaviour
         leave = true;
         normal = true;
         enemyTransparent = true;
-        EnemySearch.GetComponent<EnemySearch>().EnemyClear();
+        EnemySearch.GetComponent<EnemySearch>().OtherObjectClear();
         relayCamera.SetActive(true);
         possessCamera.SetActive(false);
         if (possessObject.tag == "Monkey")
@@ -514,6 +521,7 @@ public class GhostChange : MonoBehaviour
         }
         changeTime = false;
     }
+
 
     public void OnTriggerEnter(Collider other)
     {

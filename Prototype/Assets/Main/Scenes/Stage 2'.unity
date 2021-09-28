@@ -2959,7 +2959,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188312362}
-  m_LocalRotation: {x: 0.25447515, y: 0.0011052481, z: -0.00029083272, w: 0.9670787}
+  m_LocalRotation: {x: 0.25447515, y: 0.0011052148, z: -0.00029082395, w: 0.9670787}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4649,6 +4649,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349688, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_TagString
+      value: Key
+      objectReference: {fileID: 0}
     - target: {fileID: 1002654321546349691, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -4693,6 +4697,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
+    - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: enemySearch
+      value: 
+      objectReference: {fileID: 1968232597}
     - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: keyDoorScript
       value: 
@@ -5225,6 +5241,11 @@ MonoBehaviour:
   - {fileID: 1411523527}
   - {fileID: 448953697}
   - {fileID: 294145123}
+  key:
+  - {fileID: 2097535285}
+  - {fileID: 323797073}
+  - {fileID: 2041827245}
+  - {fileID: 1932607608}
   PlayerParent: {fileID: 2114657315}
   PlayerController: {fileID: 154303409}
   EnemySearch: {fileID: 1968232595}
@@ -5236,6 +5257,7 @@ MonoBehaviour:
   cooltimeObject: []
   cool: []
   setEnemyColor: []
+  setKeyColor: []
   silhouetteMaterial: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   canPossess: 0
   leave: 0
@@ -20287,6 +20309,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349688, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_TagString
+      value: Key
+      objectReference: {fileID: 0}
     - target: {fileID: 1002654321546349691, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -20331,6 +20357,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
+    - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: enemySearch
+      value: 
+      objectReference: {fileID: 1968232597}
     - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: keyDoorScript
       value: 
@@ -20640,6 +20678,8 @@ MonoBehaviour:
   ghostChange: {fileID: 351162514}
   enterObject: []
   exitObject: []
+  enterKey: []
+  exitKey: []
   magnificationSearch: {x: 2.5, y: 2.5, z: 2.5}
   silhouetteMaterial: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
   silhouette: 0
@@ -21460,6 +21500,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349688, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_TagString
+      value: Key
+      objectReference: {fileID: 0}
     - target: {fileID: 1002654321546349691, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -21504,6 +21548,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
+    - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: enemySearch
+      value: 
+      objectReference: {fileID: 1968232597}
     - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: keyDoorScript
       value: 
@@ -22277,6 +22333,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349688, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_TagString
+      value: Key
+      objectReference: {fileID: 0}
     - target: {fileID: 1002654321546349691, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -22321,10 +22381,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002654321546349693, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8c65351dd1d413e428e68f1862f0d386, type: 2}
     - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: keyType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
+      propertyPath: enemySearch
+      value: 
+      objectReference: {fileID: 1968232597}
     - target: {fileID: 8435728511124898428, guid: 60529dc87848cc1428ef3b7a66b6e4ae, type: 3}
       propertyPath: keyDoorScript
       value: 

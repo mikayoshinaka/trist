@@ -10,6 +10,7 @@ TagManager:
   - Box
   - Enemy
   - Bookstand
+  - Key
   layers:
   - Default
   - TransparentFX
