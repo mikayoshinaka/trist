@@ -39,7 +39,7 @@ public class GhostChange : MonoBehaviour
     private float cameraAccelerate = 15.0f;
     private float cameraSpeedMax = 50.0f;
     private float possessTimeMax = 10.0f;
-    private float possessTime = 0.0f;
+    public float possessTime = 0.0f;
     public GameObject mainCamera;
     public GameObject relayCamera;
     private GameObject possessCamera;

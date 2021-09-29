@@ -335,7 +335,18 @@ updateの最初
 75      enemySearch.DestroyKeyClear(this.gameObject);
 
 
+============	2021.9.28	================
 
+        変更内容
+
+-　Public化
+
+    // GhostChange //
+
+行       スクリプト
+
+42       private float possessTime = 0.0f;
+        =>  public float possessTime = 0.0f;
 
 
 

@@ -36,13 +36,14 @@ public class KeySpawner : MonoBehaviour
         }
         else if (keyPicked == Doors.Length - 1)
         {
-            Doors[keyPicked].GetComponent<Renderer>().material.color = Color.green;
+            // Doors[keyPicked].GetComponent<Renderer>().material.color = Color.green;
             Doors[keyPicked].GetComponent<BoxCollider>().enabled = true;
         }
 
         if (keyPicked < spawnEnemies.Length)
         {
             spawnEnemies[keyPicked].SetActive(true);
+            spawnEnemies[keyPicked].transform.Find("EnemyBody").GetComponent<Animator>().Play("Ghost Entry");
         }
     }
 

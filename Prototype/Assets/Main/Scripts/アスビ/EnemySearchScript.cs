@@ -90,7 +90,7 @@ public class EnemySearchScript : MonoBehaviour
 
         // 索敵判定
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
-        
+
         // 攻撃判定
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
@@ -145,10 +145,10 @@ public class EnemySearchScript : MonoBehaviour
                 Attacking();
 
                 // 驚かす処理、タイマー等、全ての敵が止まっている
-                StartCoroutine(SurpriseAction(2f));
+                StartCoroutine(SurpriseAction(enemiesManager.worldStopTimer));
 
                 //    攻撃タイマー　（プレイヤーを無視するタイマー）
-                StartCoroutine(AttackCooldown(5f));
+                StartCoroutine(AttackCooldown(enemiesManager.attackCooldown));
             }
         }
     }
@@ -293,6 +293,8 @@ public class EnemySearchScript : MonoBehaviour
     {
         agent.SetDestination(player.position);
         //this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+
+        player.GetComponent<CharacterMovementScript>().FaceEnemy(this.transform);
     }
 
     IEnumerator SurpriseAction(float timer)
@@ -301,7 +303,7 @@ public class EnemySearchScript : MonoBehaviour
         enemiesManager.attacking = true;
 
         yield return new WaitForSeconds(timer);
-        
+
         player.GetComponent<CharacterMovementScript>().playerInterupt = false;
         enemiesManager.attacking = false;
 
@@ -321,23 +323,29 @@ public class EnemySearchScript : MonoBehaviour
     IEnumerator StayAway(float timer)
     {
         moveAway = true;
+        SetAwayDirection();
         yield return new WaitForSeconds(timer);
         moveAway = false;
     }
+    private Vector3 awayDirection;
+    void SetAwayDirection()
+    {
+        awayDirection = Vector3.Scale(transform.position - player.transform.position, new Vector3(1f, 0f, 1f)).normalized;
+    }
     void MoveAway()
     {
-        Vector3 direction = Vector3.Scale(transform.position - player.transform.position, new Vector3(1f, 0f, 1f)).normalized;
-        agent.Move(direction * agent.speed * Time.deltaTime);
-        transform.rotation = Quaternion.LookRotation(direction, transform.up);
+        agent.Move(awayDirection * agent.speed * Time.deltaTime);
+        transform.rotation = Quaternion.LookRotation(awayDirection, transform.up);
     }
-    
+
     // 攻撃タイマー
     IEnumerator AttackCooldown(float timer)
     {
-        playerMask = LayerMask.GetMask("Nothing");
+        player.gameObject.layer = LayerMask.NameToLayer("Default");
+
         yield return new WaitForSeconds(timer);
 
-        playerMask = LayerMask.GetMask("Player");
+        player.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     #endregion

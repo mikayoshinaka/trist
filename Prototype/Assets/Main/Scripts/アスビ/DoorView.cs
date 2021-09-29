@@ -12,6 +12,14 @@ public class DoorView : MonoBehaviour
     public GameObject closeupCamera;
 
     public bool gimmickPlay;
+
+    public enum StageType
+    {
+        normal,
+        tutorial
+    };
+    public StageType stageType;
+
     private void Start()
     {
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
@@ -37,11 +45,11 @@ public class DoorView : MonoBehaviour
         if (!ghostChange.possess)
         {
             mainCamera.SetActive(false);
-        }        
+        }
         if (ghostChange.possessObject != null && ghostChange.possess)
         {
             ghostChange.possessObject.transform.Find("Camera").gameObject.SetActive(false);
-        }        
+        }
         closeupCamera.SetActive(true);
 
         StartCoroutine(CloseupTimer());
@@ -71,6 +79,13 @@ public class DoorView : MonoBehaviour
         //    player.transform.rotation = treeTopPosition.transform.rotation;
         //    rotate = 0;
         //}
+
+        // チュートリアル用
+        if (stageType == StageType.tutorial)
+        {
+            GameObject.Find("TutorialUI").GetComponent<TutorialTextManager>().TutorialGoal();
+        }
+
     }
 
     // BUG ON RELAY CAMERA

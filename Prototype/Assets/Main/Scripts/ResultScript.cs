@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,11 +25,11 @@ public class ResultScript : MonoBehaviour
         //stage1 = ManagementScript.GetStage1();
         stage2 = ManagementScript.GetStage2();
         //stage3 = ManagementScript.GetStage3();
-        playerHPText.text = string.Format("Žc‚èHP:{0}", playerHP);
-        //gameTimeText.text = string.Format("Œo‰ßŽžŠÔ:{0}", gameTime);
-        possessCountText.text = string.Format("‚Æ‚è‚Â‚¢‚½‰ñ”:{0}", possessCount);
+        playerHPText.text = string.Format("æ®‹ã‚ŠHP:{0}", playerHP);
+        //gameTimeText.text = string.Format("çµŒéŽæ™‚é–“:{0}", gameTime);
+        possessCountText.text = string.Format("ã¨ã‚Šã¤ã„ãŸå›žæ•°:{0}", possessCount);
         Achieve();
-        if(stage2)
+        if (stage2)
         {
             PlayerPrefs.SetInt("version", 2);
         }
@@ -60,14 +60,14 @@ public class ResultScript : MonoBehaviour
             SceneManager.LoadScene("Menu");
         }
     }
-    //Ì†
+    //ÂÃŒÂâ€ 
     private void Achieve()
     {
-        if (playerHP>=3)
+        if (playerHP >= 3)
         {
             playerHPAchieve.SetActive(true);
         }
-        if(possessCount>=15)
+        if (possessCount >= 15)
         {
             possessAchieve.SetActive(true);
         }

@@ -7,7 +7,7 @@ public class CharacterMovementScript : MonoBehaviour
     public CharacterController controller;
     public GhostChange ghostChange;
     public Transform playerCamera;
-    
+
     public DoorView doorView;
 
     bool move, fly;
@@ -35,7 +35,7 @@ public class CharacterMovementScript : MonoBehaviour
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-        
+
         move = horizontal == 0 && vertical == 0 ? false : true;
         fly = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftShift) ? true : false;
 
@@ -82,5 +82,12 @@ public class CharacterMovementScript : MonoBehaviour
         //{
         //    EnemySearchScript.distraction = true;
         //}
+    }
+
+    // 敵の方向に向かう
+    public void FaceEnemy(Transform enemy)
+    {
+        Vector3 direction = Vector3.Scale((enemy.position - transform.position), new Vector3(1, 0, 1)).normalized;
+        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
     }
 }

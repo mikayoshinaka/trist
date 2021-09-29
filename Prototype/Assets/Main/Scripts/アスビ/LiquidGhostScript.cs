@@ -19,10 +19,10 @@ public class LiquidGhostScript : MonoBehaviour
     bool stateChange;
 
     // Patrolling
-    bool patrolSet;
-    public float patrolRange = 2f;
-    public Vector3 patrolPoint;
-    float timer, timeLimit;
+    //bool patrolSet;
+    //public float patrolRange = 2f;
+    //public Vector3 patrolPoint;
+    //float timer, timeLimit;
 
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
@@ -40,10 +40,10 @@ public class LiquidGhostScript : MonoBehaviour
         stageMask = LayerMask.GetMask("Stages");
         enemyVertical = new Vector3(0, upRange, 0);
         stateChange = false;
-        patrolSet = false;
-        
-        timer = 0f;
-        timeLimit = 5f;
+        //patrolSet = false;
+
+        //timer = 0f;
+        //timeLimit = 5f;
 
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
     }
@@ -68,8 +68,13 @@ public class LiquidGhostScript : MonoBehaviour
                 enemyBody.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, enemyBody.GetComponent<Renderer>().material.color.a);
                 stateChange = true;
 
+                Attacking();
+
                 // 驚かす処理、タイマー等、全ての敵が止まっている
-                StartCoroutine(SurpriseAction(2f));
+                StartCoroutine(SurpriseAction(enemiesManager.worldStopTimer));
+
+                //    攻撃タイマー　（プレイヤーを無視するタイマー）
+                StartCoroutine(AttackCooldown(enemiesManager.attackCooldown));
             }
         }
         if (!PlayerInAttackRange && stateChange)
@@ -84,6 +89,11 @@ public class LiquidGhostScript : MonoBehaviour
     }
 
     #region 攻撃
+
+    void Attacking()
+    {
+        player.GetComponent<CharacterMovementScript>().FaceEnemy(this.transform);
+    }
 
     IEnumerator SurpriseAction(float timer)
     {
@@ -104,45 +114,55 @@ public class LiquidGhostScript : MonoBehaviour
         }
     }
 
+    // 攻撃タイマー
+    IEnumerator AttackCooldown(float timer)
+    {
+        player.gameObject.layer = LayerMask.NameToLayer("Default");
+
+        yield return new WaitForSeconds(timer);
+
+        player.gameObject.layer = LayerMask.NameToLayer("Player");
+    }
+
     #endregion
 
     #region 巡回
-    void SetPatrol()
-    {
-        if (!patrolSet)
-        {
-            Patrolling();
-        }
+    //void SetPatrol()
+    //{
+    //    if (!patrolSet)
+    //    {
+    //        Patrolling();
+    //    }
 
-        // Timer
-        if (patrolSet)
-        {
-            timer += Time.deltaTime;
-            if (timer >= timeLimit)
-            {
-                patrolSet = false;
-            }
-        }
+    //    // Timer
+    //    if (patrolSet)
+    //    {
+    //        timer += Time.deltaTime;
+    //        if (timer >= timeLimit)
+    //        {
+    //            patrolSet = false;
+    //        }
+    //    }
 
-        //if (patrolPoint == transform.position)
-        //{
-        //    patrolSet = false;
-        //}
-    }
+    //    //if (patrolPoint == transform.position)
+    //    //{
+    //    //    patrolSet = false;
+    //    //}
+    //}
 
-    void Patrolling()
-    {
-        float pointX = Random.Range(-patrolRange, patrolRange);
-        float pointZ = Random.Range(-patrolRange, patrolRange);
-        patrolPoint = new Vector3(transform.position.x + pointX, transform.position.y, transform.position.z + pointZ);
+    //void Patrolling()
+    //{
+    //    float pointX = Random.Range(-patrolRange, patrolRange);
+    //    float pointZ = Random.Range(-patrolRange, patrolRange);
+    //    patrolPoint = new Vector3(transform.position.x + pointX, transform.position.y, transform.position.z + pointZ);
 
-        if (Physics.Raycast(patrolPoint, -transform.up, 10f, stageMask))
-        {
-            agent.SetDestination(patrolPoint);
-            patrolSet = true;
-            timer = 0f;
-        }
-    }
+    //    if (Physics.Raycast(patrolPoint, -transform.up, 10f, stageMask))
+    //    {
+    //        agent.SetDestination(patrolPoint);
+    //        patrolSet = true;
+    //        timer = 0f;
+    //    }
+    //}
 
     #endregion
 
