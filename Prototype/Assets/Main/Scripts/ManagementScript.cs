@@ -1,10 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class ManagementScript : MonoBehaviour
-{  //ƒŠƒUƒ‹ƒg—p
+{  //ãƒªã‚¶ãƒ«ãƒˆç”¨
 
 
     [SerializeField] Text text;
@@ -64,7 +64,7 @@ public class ManagementScript : MonoBehaviour
         PossessManagement();
         SearchManagement();
     }
-    //Œ»İ‚ÌHP
+    //ç¾åœ¨ã®HP
     private void HPManagement()
     {
         text.text = "PlayerHP:" + playerHP;
@@ -76,7 +76,7 @@ public class ManagementScript : MonoBehaviour
         //hitAttack = true;
         //timer = 0.0f;
     }
-    //ŠÔŒo‰ß
+    //æ™‚é–“çµŒé
     private void TimeManagement()
     {
         if (result == false)
@@ -88,32 +88,32 @@ public class ManagementScript : MonoBehaviour
     {
         if (ghostChange.canPossessText == true)
         {
-            possessText.text = "‚Æ‚è‚Â‚«:‰Â”\";
+            possessText.text = "ã¨ã‚Šã¤ã:å¯èƒ½";
         }
         else
         {
-            possessText.text = "‚Æ‚è‚Â‚«:•s‰Â”\";
-        }
-        
-    }
-    private void SearchManagement()
-    {
-        if (enemySearch.silhouette==false&&enemySearchObj.activeSelf)
-        {
-            searchText.text = "ƒT[ƒ`:‰Â”\";
-        }
-        else
-        {
-            searchText.text = "ƒT[ƒ`:•s‰Â”\";
+            possessText.text = "ã¨ã‚Šã¤ã:ä¸å¯èƒ½";
         }
 
     }
-    //‚Æ‚è‚Â‚¢‚½‰ñ”
+    private void SearchManagement()
+    {
+        if (enemySearch.silhouette == false && enemySearchObj.activeSelf)
+        {
+            searchText.text = "ã‚µãƒ¼ãƒ:å¯èƒ½";
+        }
+        else
+        {
+            searchText.text = "ã‚µãƒ¼ãƒ:ä¸å¯èƒ½";
+        }
+
+    }
+    //ã¨ã‚Šã¤ã„ãŸå›æ•°
     public void PlusPossessCount()
     {
         possessCount += 1;
     }
-    //HPŒ¸­
+    //HPæ¸›å°‘
     public void PlayerMinusHP()
     {
         //if (hitAttack && result == false)

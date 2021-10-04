@@ -32,7 +32,7 @@ public class EnemiesManager : MonoBehaviour
             GameObject.Find(ghostChange.possessObject.name).GetComponent<MonkeyDoll>().enabled = false;
             attacked = true;
             timerHalt = ghostChange.possessTime;
-            Debug.Log(timerHalt);
+            //Debug.Log(timerHalt);
         }
         else if (attacked && !attacking && ghostChange.possess)
         {

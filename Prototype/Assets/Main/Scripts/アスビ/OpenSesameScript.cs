@@ -45,7 +45,7 @@ public class OpenSesameScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player"
+        if (other.gameObject.tag == "Player"
             //小野澤ゲームクリア判定用
             && gameClearOverJugge.gameOver==false)
         {

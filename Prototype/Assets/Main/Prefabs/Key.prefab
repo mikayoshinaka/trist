@@ -109,3 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keySpawner: {fileID: 0}
+  keyUI: {fileID: 0}
+  ghostChange: {fileID: 0}
+  doorView: {fileID: 0}
+  keyDoorScript: {fileID: 0}
+  enemySearch: {fileID: 0}
+  keyType: 0
