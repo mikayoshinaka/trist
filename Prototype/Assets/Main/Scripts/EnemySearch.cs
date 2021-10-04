@@ -39,13 +39,15 @@ public class EnemySearch : MonoBehaviour
         EnterOtherObjectSeem(enterObject);
         ExitOtherObjectInvisible(exitKey);
         EnterOtherObjectSeem(enterKey);
-        if (Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKey(KeyCode.T)&&ghostChange.possessObject.tag=="Monkey")
+        if (Input.GetKeyDown(KeyCode.JoystickButton3) || Input.GetKey(KeyCode.T) && ghostChange.possessObject.tag == "Monkey")
         {
             silhouette = true;
 
         }
         if (silhouette)
         {
+            ExitOtherObjectInvisible(exitKey);
+            EnterOtherObjectSeem(enterKey);
             this.transform.localScale = magnificationSearch;
             timer += Time.deltaTime;
             if (timer >= magnificationTime)
@@ -74,7 +76,10 @@ public class EnemySearch : MonoBehaviour
             exitObject[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
             exitObject[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
             exitObject[i].GetComponent<Renderer>().material.renderQueue = 3000;
-            exitObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+            if (exitObject[i].tag == "Enemy")
+            {
+                exitObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
+            }
             enemyDefColor = exitObject[i].GetComponent<Renderer>().material.color;
             enemyDefColor.a -= Time.deltaTime;
             if (enemyDefColor.a > 0.0f)
@@ -98,7 +103,10 @@ public class EnemySearch : MonoBehaviour
             enemyDefColor.a += Time.deltaTime;
             if (silhouette)
             {
-                enterObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 1.0f);
+                if (enterObject[i].tag == "Enemy")
+                {
+                    enterObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 1.0f);
+                }
             }
             if (enemyDefColor.a < 1.0f)
             {
@@ -130,52 +138,31 @@ public class EnemySearch : MonoBehaviour
         {
             exitObject[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
         }
-        for (int i = 0; i < enterKey.Count; i++)
-        {
-            enterKey[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
-        }
-        for (int i = 0; i < exitKey.Count; i++)
-        {
-            exitKey[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
-        }
-
     }
 
-    private void KeyColorClear()
+    private void KeyColorClear(List<GameObject> key)
     {
-        for (int i = 0; i < enterKey.Count; i++)
+        for (int i = 0; i < key.Count; i++)
         {
+
             Color keyDefColor;
-            keyDefColor = enterKey[i].GetComponent<Renderer>().material.color;
-            enterKey[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
-            enterKey[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            enterKey[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            enterKey[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
-            enterKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
-            enterKey[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
-            enterKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            enterKey[i].GetComponent<Renderer>().material.renderQueue = 3000;
-            enterKey[i].GetComponent<Renderer>().material.color = new Color(keyDefColor.r, keyDefColor.g, keyDefColor.b, 0.0f);
-        }
-        for (int i = 0; i < exitKey.Count; i++)
-        {
-            Color keyDefColor;
-            keyDefColor = enterKey[i].GetComponent<Renderer>().material.color;
-            exitKey[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
-            exitKey[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            exitKey[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            exitKey[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
-            exitKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
-            exitKey[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
-            exitKey[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-            exitKey[i].GetComponent<Renderer>().material.renderQueue = 3000;
-            exitKey[i].GetComponent<Renderer>().material.color = new Color(keyDefColor.r, keyDefColor.g, keyDefColor.b, 0.0f);
+            keyDefColor = key[i].GetComponent<Renderer>().material.color;
+            key[i].GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
+            key[i].GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            key[i].GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            key[i].GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
+            key[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+            key[i].GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
+            key[i].GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            key[i].GetComponent<Renderer>().material.renderQueue = 3000;
+            key[i].GetComponent<Renderer>().material.color = new Color(keyDefColor.r, keyDefColor.g, keyDefColor.b, 0.0f);
         }
     }
     public void OtherObjectClear()
     {
         SilhouetteClear();
-        KeyColorClear();
+        KeyColorClear(enterKey);
+        KeyColorClear(exitKey);
         enterObject.Clear();
         exitObject.Clear();
         enterObject.Clear();

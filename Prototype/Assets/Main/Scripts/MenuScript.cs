@@ -13,6 +13,8 @@ public class MenuScript : MonoBehaviour
     private float inputVertical;
     private bool stage2 = false;
     private bool cannotInput = false;
+    [SerializeField] Text stage1Text;
+    [SerializeField] Text stage2Text;
     [SerializeField] GameObject[] image = new GameObject[4];
     [SerializeField] GameObject cannotPushStage2Image;
     // Start is called before the first frame update
@@ -22,7 +24,7 @@ public class MenuScript : MonoBehaviour
         upAndDown = 1;
         beforeReleaseAround = 1;
         beforeReleaseUpAndDown = 1;
-        if(PlayerPrefs.GetInt("version")==2)
+        if (PlayerPrefs.GetInt("version")==2)
         {
             stage2 = true;
             cannotPushStage2Image.SetActive(false);
@@ -32,6 +34,7 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        DenoteStage();
         inputHorizontal = Input.GetAxisRaw("Horizontal");
         inputVertical = Input.GetAxisRaw("Vertical");
         StickMove();
@@ -148,11 +151,39 @@ public class MenuScript : MonoBehaviour
     {
         if (around == 1 && upAndDown == 1 && (Input.GetKeyDown(KeyCode.JoystickButton1)|| Input.GetKey(KeyCode.B)))
         {
-            SceneManager.LoadScene("Stage 2");
+            if (PlayerPrefs.GetInt("stage") == 1) 
+            {
+                PlayerPrefs.SetInt("stage", 2);
+                SceneManager.LoadScene("Stage 2");
+            }
+            else if (PlayerPrefs.GetInt("stage") == 2)
+            {
+                PlayerPrefs.SetInt("stage", 1);
+                SceneManager.LoadScene("Stage 2'");
+            }
+            else
+            {
+                PlayerPrefs.SetInt("stage", 2);
+                SceneManager.LoadScene("Stage 2");
+            }
         }
         else if (around == 2 && upAndDown == 1 && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B)))
         {
-            SceneManager.LoadScene("Stage 3");
+            if (PlayerPrefs.GetInt("stage") == 1)
+            {
+                PlayerPrefs.SetInt("stage", 2);
+                SceneManager.LoadScene("Stage 3");
+            }
+            else if (PlayerPrefs.GetInt("stage") == 2)
+            {
+                PlayerPrefs.SetInt("stage", 1);
+                SceneManager.LoadScene("Stage 3'");
+            }
+            else
+            {
+                PlayerPrefs.SetInt("stage", 2);
+                SceneManager.LoadScene("Stage 3");
+            }
         }
         else if (around == 1 && upAndDown == 2 && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B)))
         {
@@ -163,7 +194,19 @@ public class MenuScript : MonoBehaviour
             SceneManager.LoadScene("Title");
         }
     }
-
+    private void DenoteStage()
+    {
+        if (PlayerPrefs.GetInt("stage") == 1)
+        {
+            stage1Text.text = "stage1";
+            stage2Text.text = "stage2";
+        }
+        else if(PlayerPrefs.GetInt("stage") == 2)
+        {
+            stage1Text.text = "stage1'";
+            stage2Text.text = "stage2'";
+        }
+    }
     public void ResetStage()
     {
         stage2 = false;
@@ -172,5 +215,6 @@ public class MenuScript : MonoBehaviour
         upAndDown = 1;
         beforeReleaseAround = 1;
         beforeReleaseUpAndDown = 1;
+        PlayerPrefs.SetInt("stage", 1);
     }
 }

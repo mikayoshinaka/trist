@@ -4,21 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class ManagementScript : MonoBehaviour
-{
-    //リザルト用
+{  //リザルト用
 
 
     [SerializeField] Text text;
+    [SerializeField] Text possessText;
+    [SerializeField] Text searchText;
     [SerializeField] int startPlayerHP = 1;
+    [SerializeField] GhostChange ghostChange;
+    [SerializeField] EnemySearch enemySearch;
+    [SerializeField] GameObject enemySearchObj;
     public static int playerHP;
     public static int possessCount;
-    private bool hitAttack;
+    //private bool hitAttack;
     private bool result;
     private static bool stage1;
     private static bool stage2;
     private static bool stage3;
-    private float impossibleAttackTime = 3.0f;
-    private float timer = 0.0f;
+    //private float impossibleAttackTime = 3.0f;
+    //private float timer = 0.0f;
     public static float gameTime;
     // Start is called before the first frame update
     void Start()
@@ -27,7 +31,7 @@ public class ManagementScript : MonoBehaviour
         possessCount = 0;
         gameTime = 0.0f;
         result = false;
-        hitAttack = true;
+        //hitAttack = true;
         if (SceneManager.GetActiveScene().name == "Stage 1")
         {
             stage1 = true;
@@ -57,18 +61,20 @@ public class ManagementScript : MonoBehaviour
         }
         HPManagement();
         TimeManagement();
+        PossessManagement();
+        SearchManagement();
     }
     //現在のHP
     private void HPManagement()
     {
         text.text = "PlayerHP:" + playerHP;
-        if (hitAttack == false && timer < impossibleAttackTime)
-        {
-            timer += Time.deltaTime;
-            return;
-        }
-        hitAttack = true;
-        timer = 0.0f;
+        //if (hitAttack == false && timer < impossibleAttackTime)
+        //{
+        //    timer += Time.deltaTime;
+        //    return;
+        //}
+        //hitAttack = true;
+        //timer = 0.0f;
     }
     //時間経過
     private void TimeManagement()
@@ -78,6 +84,30 @@ public class ManagementScript : MonoBehaviour
             gameTime += Time.deltaTime;
         }
     }
+    private void PossessManagement()
+    {
+        if (ghostChange.canPossessText == true)
+        {
+            possessText.text = "とりつき:可能";
+        }
+        else
+        {
+            possessText.text = "とりつき:不可能";
+        }
+        
+    }
+    private void SearchManagement()
+    {
+        if (enemySearch.silhouette==false&&enemySearchObj.activeSelf)
+        {
+            searchText.text = "サーチ:可能";
+        }
+        else
+        {
+            searchText.text = "サーチ:不可能";
+        }
+
+    }
     //とりついた回数
     public void PlusPossessCount()
     {
@@ -86,13 +116,13 @@ public class ManagementScript : MonoBehaviour
     //HP減少
     public void PlayerMinusHP()
     {
-        if (hitAttack && result == false)
-        {
-            playerHP -= 1;
-            hitAttack = false;
-        }
+        //if (hitAttack && result == false)
+        //{
+        playerHP -= 1;
+        //hitAttack = false;
+        //}
     }
-    
+
     public static int GetPlayerHP()
     {
         return playerHP;

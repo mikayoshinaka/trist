@@ -11,6 +11,9 @@ public class SceneManagerScript : MonoBehaviour
     GameObject canvas;
     //小野澤　ゲームオーバー用
     [SerializeField] GameOverMigrate gameOverMigrate;
+    //小野澤ゲームクリア判定用
+    [SerializeField] GameClearOverJugge gameClearOverJugge;
+
     void Start()
     {
         canvas = transform.GetChild(0).gameObject;
@@ -26,9 +29,12 @@ public class SceneManagerScript : MonoBehaviour
         if (gameOver)
         {
             gameOver = false;
-            StartCoroutine(GameOver());
+            //小野澤ゲームクリア判定用
+            if (gameClearOverJugge.gameClear==false) {
+                StartCoroutine(GameOver());
 
-            gameOverUI.SetActive(true);
+                gameOverUI.SetActive(true);
+            }
         }
 
         if (OpenSesameScript.restart)

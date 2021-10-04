@@ -7,7 +7,6 @@ public class GhostChange : MonoBehaviour
     [SerializeField] EnemyAppearColor enemyAppearColor;
     [SerializeField] ManagementScript managementScript;
     public GameObject[] enemy;
-    public GameObject[] key;
     public GameObject PlayerParent;
     public GameObject PlayerController;
     public GameObject EnemySearch;
@@ -23,18 +22,20 @@ public class GhostChange : MonoBehaviour
     private Color silhouetteColor;
     public bool canPossess;
     public bool leave;
+    public bool canPossessText;
     private bool transparent;
     private bool normal;
     private bool enemyTransparent;
     private bool changeTime;
+    private bool away;
     //private bool enemyNormal;
     private bool once;
     private float setColor = 1.0f;
     [SerializeField] private float cooltime = 5.0f;
     private float speed = 2.0f;
     private float cameraFirstSpeed = 7.0f;
-    private float cameraFirstBackSpeed = 20.0f;
-    private float cameraFinalBackSpeed = 7.0f;
+    //private float cameraFirstBackSpeed = 20.0f;
+    //private float cameraFinalBackSpeed = 7.0f;
     private float cameraSpeed = 0.0f;
     private float cameraAccelerate = 15.0f;
     private float cameraSpeedMax = 50.0f;
@@ -60,6 +61,7 @@ public class GhostChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         changeTime = true;
         possess = false;
         canPossess = false;
@@ -68,6 +70,7 @@ public class GhostChange : MonoBehaviour
         enemyTransparent = false;
         //enemyNormal = false;
         once = false;
+        away = false;
         silhouetteColor = silhouetteMaterial.color;
         for (int i = 0; i < PlayerBody.Length; i++)
         {
@@ -91,16 +94,13 @@ public class GhostChange : MonoBehaviour
             enemy[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
             setEnemyColor.Add(enemy[i].GetComponent<Renderer>().material.color.a);
         }
-        for (int i = 0; i < key.Length; i++)
-        {
-            key[i].GetComponent<Renderer>().materials[1].color = new Color(silhouetteColor.r, silhouetteColor.g, silhouetteColor.b, 0.0f);
-        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Mathf.Approximately(Time.timeScale,0f))
+        if (Mathf.Approximately(Time.timeScale, 0f))
         {
             return;
         }
@@ -113,7 +113,7 @@ public class GhostChange : MonoBehaviour
         {
             InputAndCanPossess();
         }
-        else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == true && canPossess == false && transparent == false)
+        else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == true && canPossess == false && transparent == false && away == false)
         {
             GhostLeaveFromPossessObject();
         }
@@ -154,6 +154,7 @@ public class GhostChange : MonoBehaviour
         //{
         //    EnemycanLook();
         //}
+        CanPossessText();
     }
     //とりつく動き
     private void ToPossess(Vector3 toPos)
@@ -251,6 +252,7 @@ public class GhostChange : MonoBehaviour
             PlayerController.transform.parent = PlayerParent.transform;
             possess = false;
             leave = false;
+            away = false;
             mainCamera.SetActive(true);
             relayCamera.SetActive(false);
             changeTime = true;
@@ -353,7 +355,7 @@ public class GhostChange : MonoBehaviour
             once = false;
         }
     }
-   
+
     //private void EnemycanLook()
     //{
     //    olor += Time.deltaTime;
@@ -512,6 +514,7 @@ public class GhostChange : MonoBehaviour
         leave = true;
         normal = true;
         enemyTransparent = true;
+        away = true;
         EnemySearch.GetComponent<EnemySearch>().OtherObjectClear();
         relayCamera.SetActive(true);
         possessCamera.SetActive(false);
@@ -522,6 +525,17 @@ public class GhostChange : MonoBehaviour
         changeTime = false;
     }
 
+    private void CanPossessText()
+    {
+        if (possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false)
+        {
+            canPossessText = true;
+        }
+        else
+        {
+            canPossessText = false;
+        }
+    }
 
     public void OnTriggerEnter(Collider other)
     {

@@ -808,6 +808,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1548857480250419b5f19f32cde55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stage1Text: {fileID: 810172627}
+  stage2Text: {fileID: 872069857}
   image:
   - {fileID: 1954693272}
   - {fileID: 11656410}

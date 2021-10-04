@@ -5,17 +5,17 @@ using UnityEngine;
 public class OpenSesameScript : MonoBehaviour
 {
     public GameObject clearUI;
-    bool stageClear;
+    public bool stageClear;
     public static bool restart;
 
     float timer, timeLimit;
-    
+
 
 
     // 仮のスクリプト
 
-
-
+    //小野澤ゲームクリア判定用
+    [SerializeField] GameClearOverJugge gameClearOverJugge;
 
     void Start()
     {
@@ -45,7 +45,9 @@ public class OpenSesameScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player"
+            //小野澤ゲームクリア判定用
+            && gameClearOverJugge.gameOver==false)
         {
             clearUI.SetActive(true);
             stageClear = true;

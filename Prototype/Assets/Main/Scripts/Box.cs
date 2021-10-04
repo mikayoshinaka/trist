@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    [SerializeField] private float radius=0.0f;
-    private float angle=0.0f;
-    private float y = 0.0f;
+    private float horizontalAngle = 0.0f;
+    private float verticalAngle = 0.0f;
+    private float setHorizontalAngle = 0.0f;
+    private float setVerticalAngle = 0.0f;
+    //private float y = 0.0f;
     [SerializeField] private float speed = 100.0f;
-    private float x = 0.0f;
-    private float z = 0.0f;
+    //private float x = 0.0f;
+    //private float z = 0.0f;
+    private float underVerticalAngleLimit = 40.0f;
+    private float upperVerticalAngleLimit = 10.0f;
+    private float HorizontalAngleLimit = 90.0f;
     // Start is called before the first frame update
     void Start()
     {
-        angle = this.gameObject.transform.localEulerAngles.y;
-        y = this.gameObject.transform.localPosition.y;
+        horizontalAngle = this.gameObject.transform.localEulerAngles.y;
+        //y = this.gameObject.transform.localPosition.y;
     }
 
     // Update is called once per frame
@@ -24,34 +29,64 @@ public class Box : MonoBehaviour
         {
             return;
         }
-        if (Input.GetAxisRaw("RHorizontal") < 0)
+        if (Input.GetAxisRaw("RHorizontal") < 0 || Input.GetKey("left"))
         {
-            angle -= Time.deltaTime * speed;
+            setHorizontalAngle -= Time.deltaTime * speed;
         }
-        else if (0 < Input.GetAxisRaw("RHorizontal"))
+        else if (0 < Input.GetAxisRaw("RHorizontal") || Input.GetKey("right"))
         {
-            angle += Time.deltaTime * speed;
+            setHorizontalAngle += Time.deltaTime * speed;
         }
-        if (Input.GetKey("right"))
+        if (Input.GetAxisRaw("RVertical") < 0 || Input.GetKey("up"))
         {
-            angle += Time.deltaTime * speed;
+            setVerticalAngle -= Time.deltaTime * speed;
         }
-        else if (Input.GetKey("left"))
+        else if (0 < Input.GetAxisRaw("RVertical") || Input.GetKey("down"))
         {
-            angle -= Time.deltaTime * speed;
+            setVerticalAngle += Time.deltaTime * speed;
+        }
 
-        }
-        if (angle>360.0f)
-       {
-            angle -= 360.0f;
-       }
-       else if(angle<0.0f)
-       {
-            angle += 360.0f;
-       }
-            x = (radius * Mathf.Sin((angle) * Mathf.Deg2Rad));
-            z = (radius * Mathf.Cos((angle) * Mathf.Deg2Rad));
-        this.transform.localPosition = new Vector3(x, y, z);
-        this.transform.localRotation = Quaternion.Euler(0.0f,angle,0.0f);
+        LimitAngle();
+        //    x = ( Mathf.Sin((horizontalAngle) * Mathf.Deg2Rad));
+        //    z = ( Mathf.Cos((horizontalAngle) * Mathf.Deg2Rad));
+        //this.transform.localPosition = new Vector3(x, y, z);
+        this.transform.localRotation = Quaternion.Euler(verticalAngle, horizontalAngle, 0.0f);
     }
+    private void LimitAngle()
+    {
+        if (setHorizontalAngle > HorizontalAngleLimit || setHorizontalAngle < -HorizontalAngleLimit)
+        {
+            setHorizontalAngle = horizontalAngle;
+        }
+        else
+        {
+            horizontalAngle = setHorizontalAngle;
+        }
+
+        if (setVerticalAngle > underVerticalAngleLimit || setVerticalAngle < -upperVerticalAngleLimit)
+        {
+            setVerticalAngle = verticalAngle;
+        }
+        else
+        {
+            verticalAngle = setVerticalAngle;
+        }
+        if (horizontalAngle > 180.0f)
+        {
+            horizontalAngle -= 360.0f;
+            setHorizontalAngle -= 360.0f;
+        }
+        else if (horizontalAngle < -180.0f)
+        {
+            horizontalAngle += 360.0f;
+            setHorizontalAngle += 360.0f;
+        }
+    }
+
+    //private void DefCamera()
+    //{
+
+    //}
+
+
 }

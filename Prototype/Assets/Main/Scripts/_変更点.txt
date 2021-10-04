@@ -348,6 +348,25 @@ updateの最初
 42       private float possessTime = 0.0f;
         =>  public float possessTime = 0.0f;
 
+============	2021.10.4	================
 
+        変更内容
 
+-　シーン遷移用に追加
+
+    // SceneManagerScript //
+
+行       スクリプト
+
+14～15       //小野澤ゲームクリア判定用
+             [SerializeField] GameClearOverJugge gameClearOverJugge;
+
+32～33         //小野澤ゲームクリア判定用
+            if (gameClearOverJugge.gameClear==false) {
+
+   // OpenSesameScript //
+17～18        //小野澤ゲームクリア判定用
+             [SerializeField] GameClearOverJugge gameClearOverJugge;
+49～50       //小野澤ゲームクリア判定用
+               && gameClearOverJugge.gameOver==false)
 
