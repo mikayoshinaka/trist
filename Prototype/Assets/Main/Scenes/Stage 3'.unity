@@ -7376,7 +7376,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576047499}
-  m_LocalRotation: {x: 0.20925078, y: 0.00111755, z: -0.00023914245, w: 0.97786134}
+  m_LocalRotation: {x: 0.20925078, y: 0.0011175163, z: -0.00023913525, w: 0.97786134}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9327,6 +9327,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 356972397}
+  ghostChange: {fileID: 0}
 --- !u!195 &747459960
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14109,7 +14111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc96d17d1bfb1bf479eeeb08be8f82f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorAppearEnemy: []
+  doorAppearEnemy:
+  - {fileID: 4649051392201644968}
+  - {fileID: 4649051393546785390}
+  - {fileID: 4649051393724866677}
   closeupCamera: {fileID: 1536118225}
   doorScene: 0
 --- !u!4 &1287143942
@@ -15021,6 +15026,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 1830863721}
+  ghostChange: {fileID: 0}
 --- !u!195 &1421915327
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18554,6 +18561,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 344918246}
+  ghostChange: {fileID: 0}
 --- !u!195 &1709179875
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22935,7 +22944,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1002654323240473931}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: -0.35, z: -2}
+  m_LocalPosition: {x: 4.9, y: -0.35, z: -1.58}
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 628177689}
@@ -23518,6 +23527,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 1411523527}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -23765,6 +23775,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 552218465}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -23875,6 +23886,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 448953697}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -24153,6 +24165,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 294145123}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -24285,6 +24298,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 733555626}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}

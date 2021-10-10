@@ -90,21 +90,29 @@ public class ManagementScript : MonoBehaviour
         {
             possessText.text = "とりつき:可能";
         }
+        else if (ghostChange.canPossessText == false&&ghostChange.possess==true) 
+        {
+            possessText.text = "とりついている";
+        }
         else
         {
-            possessText.text = "とりつき:不可能";
+            possessText.text = "";
         }
 
     }
     private void SearchManagement()
     {
-        if (enemySearch.silhouette == false && enemySearchObj.activeSelf)
+        if (enemySearch.silhouette == false && enemySearchObj.activeSelf&&ghostChange.possessObject.tag== "Monkey")
         {
             searchText.text = "サーチ:可能";
         }
+        else if (enemySearch.silhouette == true && enemySearchObj.activeSelf)
+        {
+            searchText.text = "サーチしている";
+        }
         else
         {
-            searchText.text = "サーチ:不可能";
+            searchText.text = "";
         }
 
     }

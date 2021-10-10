@@ -29,6 +29,9 @@ public class LiquidGhostScript : MonoBehaviour
 
     public EnemiesManager enemiesManager;
 
+    //小野澤　攻撃時に見える用
+    [SerializeField] private GameObject enemyLiquidBody;
+    public GhostChange ghostChange;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +47,8 @@ public class LiquidGhostScript : MonoBehaviour
 
         //timer = 0f;
         //timeLimit = 5f;
+        //攻撃中透明度変化　小野澤用
+        ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
 
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
     }
@@ -99,15 +104,18 @@ public class LiquidGhostScript : MonoBehaviour
     {
         player.GetComponent<CharacterMovementScript>().playerInterupt = true;
         enemiesManager.attacking = true;
+        //  キャラが見えるようにする　小野澤用
+        ghostChange.AttackTransparent(enemyLiquidBody);
 
         yield return new WaitForSeconds(timer);
 
         player.GetComponent<CharacterMovementScript>().playerInterupt = false;
         enemiesManager.attacking = false;
 
-        //　ダメージを受ける
+        //　ダメージを受ける 攻撃後　小野澤用
         managementScript.PlayerMinusHP();
         playerHP = ManagementScript.GetPlayerHP();
+        ghostChange.AttackedTransparent(enemyLiquidBody);
         if (playerHP <= 0)
         {
             SceneManagerScript.gameOver = true;

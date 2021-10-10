@@ -7017,6 +7017,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 2037243624}
+  ghostChange: {fileID: 0}
 --- !u!195 &536063732
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7283,7 +7285,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576047499}
-  m_LocalRotation: {x: 0.20925075, y: 0.0011175509, z: -0.00023914265, w: 0.97786134}
+  m_LocalRotation: {x: 0.20925076, y: 0.0011175836, z: -0.00023914968, w: 0.97786134}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7473,6 +7475,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 1641039224}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -10923,7 +10926,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.23187667, y: 0.0011116848, z: -0.0002649963, w: 0.9727446}
+  m_LocalRotation: {x: 0.23187667, y: 0.001111729, z: -0.00026500685, w: 0.9727446}
   m_LocalPosition: {x: -0.08, y: 19.79, z: -35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -11658,7 +11661,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1018171943}
-  m_LocalRotation: {x: 0.23187664, y: 0.00111169, z: -0.0002649976, w: 0.9727445}
+  m_LocalRotation: {x: 0.23187664, y: 0.0011117234, z: -0.00026500557, w: 0.9727445}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -15136,6 +15139,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 1830863721}
+  ghostChange: {fileID: 0}
 --- !u!195 &1421915327
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -18664,6 +18669,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 344918246}
+  ghostChange: {fileID: 0}
 --- !u!195 &1709179875
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23936,6 +23943,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 1411523527}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -24183,6 +24191,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 552218465}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -24293,6 +24302,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 448953697}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -24571,6 +24581,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 294145123}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -24703,6 +24714,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 733555626}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}

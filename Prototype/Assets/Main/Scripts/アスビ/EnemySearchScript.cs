@@ -43,6 +43,8 @@ public class EnemySearchScript : MonoBehaviour
 
     [SerializeField] ManagementScript managementScript;
     private int playerHP;
+    //小野澤　攻撃時に見える用
+    [SerializeField] private GameObject enemyBody;
 
     public GhostChange ghostChange;
     public DoorView doorView;
@@ -301,15 +303,19 @@ public class EnemySearchScript : MonoBehaviour
     {
         player.GetComponent<CharacterMovementScript>().playerInterupt = true;
         enemiesManager.attacking = true;
+        //  キャラが見えるようにする　小野澤用
+        ghostChange.AttackTransparent(enemyBody);
 
         yield return new WaitForSeconds(timer);
 
         player.GetComponent<CharacterMovementScript>().playerInterupt = false;
         enemiesManager.attacking = false;
 
-        // ダメージを受ける
+        // ダメージを受ける 攻撃後　小野澤用
         managementScript.PlayerMinusHP();
         playerHP = ManagementScript.GetPlayerHP();
+        ghostChange.AttackedTransparent(enemyBody);
+
         if (playerHP <= 0)
         {
             SceneManagerScript.gameOver = true;

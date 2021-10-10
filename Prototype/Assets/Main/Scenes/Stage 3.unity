@@ -7552,6 +7552,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 356972397}
+  ghostChange: {fileID: 0}
 --- !u!195 &747459960
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -11680,7 +11682,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc96d17d1bfb1bf479eeeb08be8f82f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorAppearEnemy: []
+  doorAppearEnemy:
+  - {fileID: 4649051392201644968}
+  - {fileID: 4649051393546785390}
+  - {fileID: 4649051393724866677}
   closeupCamera: {fileID: 1536118225}
   doorScene: 0
 --- !u!4 &1287143942
@@ -12398,6 +12403,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 1830863721}
+  ghostChange: {fileID: 0}
 --- !u!195 &1421915327
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15243,6 +15250,8 @@ MonoBehaviour:
   PlayerInAttackRange: 0
   managementScript: {fileID: 706431044}
   enemiesManager: {fileID: 0}
+  enemyLiquidBody: {fileID: 344918246}
+  ghostChange: {fileID: 0}
 --- !u!195 &1709179875
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -19906,6 +19915,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 1411523527}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -20153,6 +20163,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 552218465}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -20263,6 +20274,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 448953697}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -20541,6 +20553,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 294145123}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}
@@ -20673,6 +20686,7 @@ MonoBehaviour:
   monkeyChase: 0
   monkeyChaseTime: 4
   managementScript: {fileID: 706431044}
+  enemyBody: {fileID: 733555626}
   ghostChange: {fileID: 0}
   doorView: {fileID: 0}
   enemiesManager: {fileID: 0}

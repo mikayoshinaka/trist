@@ -370,3 +370,30 @@ updateの最初
 49～50       //小野澤ゲームクリア判定用
                && gameClearOverJugge.gameOver==false)
 
+============	2021.10.10	================
+
+        変更内容
+
+-　攻撃時のenemyの可視化のため変更
+
+    // EnemySearchScript //
+
+行       スクリプト
+
+46～47     //小野澤　攻撃時に見える用
+            [SerializeField] private GameObject enemyBody;
+306～307        //  キャラが見えるようにする　小野澤用
+            ghostChange.AttackTransparent(enemyBody);
+317         ghostChange.AttackedTransparent(enemyBody);
+
+
+   // LiquidGhostScript //
+32～34     //小野澤　攻撃時に見える用
+           [SerializeField] private GameObject enemyLiquidBody;
+           public GhostChange ghostChange;
+50～51     //攻撃中透明度変化　小野澤用
+           ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
+107～108         //  キャラが見えるようにする　小野澤用
+            ghostChange.AttackTransparent(enemyLiquidBody);
+118      ghostChange.AttackedTransparent(enemyLiquidBody);
+

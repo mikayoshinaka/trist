@@ -74,6 +74,7 @@ public class GhostChange : MonoBehaviour
         silhouetteColor = silhouetteMaterial.color;
         for (int i = 0; i < PlayerBody.Length; i++)
         {
+
             defColor.Add(PlayerBody[i].GetComponent<Renderer>().material.color);
         }
         for (int i = 0; i < enemy.Length; i++)
@@ -213,6 +214,7 @@ public class GhostChange : MonoBehaviour
             cameraSpeed += Time.deltaTime * cameraAccelerate;
         }
         relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, mainCamera.transform.position, Time.deltaTime * ((cameraSpeed * cameraSpeed) + cameraFirstSpeed));
+        relayCamera.transform.rotation = mainCamera.transform.rotation;
         //if ( (cameraFirstBackSpeed - (cameraSpeed * cameraSpeed))*Time.deltaTime> cameraFinalBackSpeed)
         //{
         //    cameraSpeed += Time.deltaTime;
@@ -536,6 +538,37 @@ public class GhostChange : MonoBehaviour
             canPossessText = false;
         }
     }
+    //即時切替
+    public void AttackTransparent(GameObject attackBody)
+    {
+        Color defColor = attackBody.GetComponent<Renderer>().material.color;
+        attackBody.GetComponent<Renderer>().material.SetOverrideTag("RenderType", "");
+        attackBody.GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        attackBody.GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        attackBody.GetComponent<Renderer>().material.SetInt("_ZWrite", 1);
+        attackBody.GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+        attackBody.GetComponent<Renderer>().material.DisableKeyword("_ALPHABLEND_ON");
+        attackBody.GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        attackBody.GetComponent<Renderer>().material.renderQueue = -1;
+        attackBody.GetComponent<Renderer>().material.color = new Color(defColor.r, defColor.g, defColor.b, 1.0f);
+    }
+    //即時切替
+    public void AttackedTransparent(GameObject attackedBody)
+    {
+        if (EnemySearch.activeSelf==false) {
+            Color defColor = attackedBody.GetComponent<Renderer>().material.color;
+            attackedBody.GetComponent<Renderer>().material.SetOverrideTag("RenderType", "Transparent");
+            attackedBody.GetComponent<Renderer>().material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            attackedBody.GetComponent<Renderer>().material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            attackedBody.GetComponent<Renderer>().material.SetInt("_ZWrite", 0);
+            attackedBody.GetComponent<Renderer>().material.DisableKeyword("_ALPHATEST_ON");
+            attackedBody.GetComponent<Renderer>().material.EnableKeyword("_ALPHABLEND_ON");
+            attackedBody.GetComponent<Renderer>().material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+            attackedBody.GetComponent<Renderer>().material.renderQueue = 3000;
+            attackedBody.GetComponent<Renderer>().material.color = new Color(defColor.r, defColor.g, defColor.b, 0.0f);
+        }
+    }
+
 
     public void OnTriggerEnter(Collider other)
     {
