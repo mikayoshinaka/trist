@@ -24,13 +24,13 @@ public class EnemySearchScript : MonoBehaviour
     public float patrolRange = 10f;
     float timer;
     public float timeLimit;
-    enum PatrolType
+    public enum PatrolType
     {
         Random,
         Post
     }
-    PatrolType patrol;
-    public Transform[] patrolPost = new Transform[3];
+    public PatrolType patrol;
+    public Transform[] patrolPost;
     int postNum;
 
     // States
@@ -65,7 +65,6 @@ public class EnemySearchScript : MonoBehaviour
         distraction = false;
         searching = false;
 
-        patrol = PatrolType.Random;     // patrol type at start
         patrolSet = false;
         postNum = 0;
         timer = 0f;
@@ -238,10 +237,7 @@ public class EnemySearchScript : MonoBehaviour
         }
         else if (patrol == PatrolType.Post)
         {
-            if (postNum > 2)
-            {
-                postNum = 0;
-            }
+            postNum %= patrolPost.Length;
 
             agent.SetDestination(patrolPost[postNum].position);
             postNum++;
