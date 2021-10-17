@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Bookstand
   - Key
+  - Wall
   layers:
   - Default
   - TransparentFX

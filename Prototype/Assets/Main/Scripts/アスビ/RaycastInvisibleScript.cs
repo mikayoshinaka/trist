@@ -13,6 +13,10 @@ public class RaycastInvisibleScript : MonoBehaviour
     public Material[] baseColor;
     public Material[] fadeColor;
 
+    [Header("壁")]
+    public Material wallColor;
+    public Material wallFadeColor;
+
     void Start()
     {
         num = 0;
@@ -60,6 +64,13 @@ public class RaycastInvisibleScript : MonoBehaviour
                         hit.collider.gameObject.GetComponent<MeshRenderer>().materials = fadeColor;
                         //Debug.Log(hit.collider.name);
                     }
+
+                    if (!names.Contains(hit.collider.name) && hit.collider.tag == "Wall")
+                    {
+                        names.Add(hit.collider.name);
+                        hit.collider.gameObject.GetComponent<MeshRenderer>().material = wallFadeColor;
+                        //Debug.Log(hit.collider.name);
+                    }
                 }
             }
         }
@@ -75,7 +86,17 @@ public class RaycastInvisibleScript : MonoBehaviour
             for (int i = 0; i < names.Count; i++)
             {
                 //Debug.Log(check[i]);
-                GameObject.Find(check[i]).GetComponent<MeshRenderer>().materials = baseColor;
+                GameObject currentObject = GameObject.Find(check[i]);
+
+                if (currentObject.tag == "Box")
+                {
+                    currentObject.GetComponent<MeshRenderer>().materials = baseColor;
+                }
+
+                if (currentObject.tag == "Wall")
+                {
+                    currentObject.GetComponent<MeshRenderer>().material = wallColor;
+                }
             }
             names.Clear();
         }
