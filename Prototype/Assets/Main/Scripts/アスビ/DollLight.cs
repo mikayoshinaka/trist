@@ -23,7 +23,7 @@ public class DollLight : MonoBehaviour
         enemyMask = LayerMask.GetMask("Enemy");
         clearEnemy = false;
 
-        showGizmos = true;
+        //showGizmos = true;
     }
 
     //private void Update()
