@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1649139254202003589}
   - component: {fileID: 5120613330128737583}
-  - component: {fileID: 1138291610916001684}
   - component: {fileID: 3728084918289137944}
   m_Layer: 9
   m_Name: Camera
@@ -76,14 +75,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1138291610916001684
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844819247107101406}
-  m_Enabled: 1
 --- !u!114 &3728084918289137944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6fed094525e1f54bbc24b9e784a8410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0
   speed: 100
 --- !u!1 &1467938981604893255
 GameObject:
@@ -112,7 +102,7 @@ GameObject:
   - component: {fileID: 4582726153712072300}
   - component: {fileID: 7649349582312320073}
   m_Layer: 9
-  m_Name: bookstand2
+  m_Name: Bookstand2
   m_TagString: Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

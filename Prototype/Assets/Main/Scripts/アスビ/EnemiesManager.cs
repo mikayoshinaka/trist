@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class EnemiesManager : MonoBehaviour
 {
+    public GameObject[] enemies;
     public bool attacking;
     public float attackCooldown = 3f;
     public float worldStopTimer = 2f;
@@ -14,6 +16,12 @@ public class EnemiesManager : MonoBehaviour
     public GameObject ghost;
     public GhostChange ghostChange;
 
+    public float flashDuration = 3f;
+    // Post Processing
+    public PostProcessVolume postProcessVolume;
+    LensDistortion lensDistortion;
+    Coroutine Modify;
+
     private void Start()
     {
         attacking = false;
@@ -21,6 +29,7 @@ public class EnemiesManager : MonoBehaviour
         playerController = GameObject.Find("PlayerController");
         ghost = playerController.transform.Find("Ghost").gameObject;
         ghostChange = ghost.GetComponent<GhostChange>();
+        postProcessVolume = GameObject.Find("Post-Processing").GetComponent<PostProcessVolume>();
     }
 
     private void Update()
@@ -50,4 +59,49 @@ public class EnemiesManager : MonoBehaviour
     {
         ghostChange.possessTime = timerHalt;
     }
+
+    #region Post-Processing Effects
+
+    public void ModifyPostProcess()
+    {
+        if (postProcessVolume.profile.TryGetSettings(out lensDistortion))
+        {
+            lensDistortion.intensity.value = 0;
+            if (Modify != null)
+            {
+                StopCoroutine(Modify);
+            }
+            Modify = StartCoroutine(ModifyProgress());
+        }
+    }
+
+    IEnumerator ModifyProgress()
+    {
+        float timer = 0f;
+        float timeLimit = flashDuration;
+
+        while (timer < timeLimit)
+        {
+            timer += Time.deltaTime;
+            lensDistortion.intensity.value -= 100 / timeLimit * Time.deltaTime;
+            yield return null;
+        }
+
+        ResetPostProcess();
+    }
+
+    
+    public void ResetPostProcess()
+    {
+        if (postProcessVolume.profile.TryGetSettings(out lensDistortion))
+        {
+            if (Modify != null)
+            {
+                StopCoroutine(Modify);
+            }
+            lensDistortion.intensity.value = 0;
+        }
+    }
+
+    #endregion
 }

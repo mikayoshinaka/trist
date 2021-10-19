@@ -6,13 +6,15 @@ public class DollLight : MonoBehaviour
 {
     public Light lampLight;
     public GhostChange ghostChange;
+    public EnemiesManager enemiesManager;
 
     // 当たり判定用
     List<string> enemyList = new List<string>();
+    string[] enemyCheck;
     public bool enemyInSight;
     public float lightRange = 1f;
     LayerMask enemyMask;
-    Coroutine[] FlashedObjects;
+
     Mesh mesh;
     public bool showGizmos;
 
@@ -21,8 +23,10 @@ public class DollLight : MonoBehaviour
         lampLight = transform.Find("LampLight").GetComponent<Light>();
         lightRange = lampLight.range / 2;
         ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
+        enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
 
         enemyMask = LayerMask.GetMask("Enemy");
+        
         //showGizmos = true;
     }
 
@@ -37,25 +41,39 @@ public class DollLight : MonoBehaviour
             {
                 // 当たり判定処理
                 DetectEnemy();
+                //Debug.Log(enemyList.Count);
             }
         }
         else if (!ghostChange.possess)  // enemyList　Clear
         {
             if (enemyList.Count != 0)
             {
+                string[] enemies = enemyList.ToArray();
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    GameObject.Find(enemies[i]).GetComponent<EnemySearchScript>().StopFlash();
+                }
                 enemyList.Clear();
             }
         }
 
-        // ライトギミック開始
-        if (enemyList.Count != 0)
+        // 敵を見つかった時
+        if (enemyList.Count > 0)
         {
-            //FlashedObjects = new Coroutine[5];
-
-            // Declare new array
-            // Call FlashStart() >>> FlashCountdown()
-            // Call EnemySearchScript.FlashGimmick
-
+            enemyCheck = enemyList.ToArray();
+            for (int i = 0; i < enemyCheck.Length; i++)
+            {
+                for (int j = 0; j < enemiesManager.enemies.Length; j++)
+                {
+                    if (enemyCheck[i] == enemiesManager.enemies[j].name)
+                    {
+                        if (!enemiesManager.enemies[j].GetComponent<EnemySearchScript>().flash)
+                        {
+                            enemiesManager.enemies[j].GetComponent<EnemySearchScript>().flash = true;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -82,6 +100,7 @@ public class DollLight : MonoBehaviour
                 if (enemyList.Contains(enemyName))
                 {
                     Debug.Log("Remove [" + enemyName + "]");
+                    GameObject.Find(enemyName).GetComponent<EnemySearchScript>().StopFlash();
                     enemyList.Remove(enemyName);
                 }
                 continue;
@@ -102,19 +121,6 @@ public class DollLight : MonoBehaviour
                 enemyList.Add(enemyName);
             }
         }
-    }
-
-    void FlashStart()
-    {
-        for (int i = 0; i < enemyList.Count; i++)
-        {
-
-        }
-    }
-
-    IEnumerator FlashCountdown()
-    {
-        yield return new WaitForSeconds(3f);
     }
 
     // FOVのビジュアル

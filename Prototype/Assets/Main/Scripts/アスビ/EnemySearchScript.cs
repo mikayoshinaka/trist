@@ -52,7 +52,12 @@ public class EnemySearchScript : MonoBehaviour
     // 攻撃
     public EnemiesManager enemiesManager;
     bool moveAway;
+
+    // ライトギミック
+    Coroutine flashCoroutine;
+    public bool flash;
     bool flashed;
+    bool flashStarted;
 
     void Start()
     {
@@ -76,7 +81,10 @@ public class EnemySearchScript : MonoBehaviour
 
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
         moveAway = false;
+
+        flash = false;
         flashed = false;
+        flashStarted = false;
     }
 
     #endregion
@@ -97,7 +105,6 @@ public class EnemySearchScript : MonoBehaviour
         // 攻撃判定
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
-
         // 現状利用しない
         if (distraction)
         {
@@ -117,6 +124,14 @@ public class EnemySearchScript : MonoBehaviour
         else if (moveAway)
         {
             MoveAway();
+        }
+        // ライトギミック
+        else if (flash && !flashed)
+        {
+            if (!flashStarted)
+            {
+                FlashGimmick();
+            } 
         }
         else
         {
@@ -356,19 +371,38 @@ public class EnemySearchScript : MonoBehaviour
 
     #region ライトギミック
 
-    public void FlashGimmick()
+    // ライトギミック開始
+    void FlashGimmick()
     {
+        flashStarted = true;
+
         if (!agent.isStopped)
         {
             agent.isStopped = true;
-            StartCoroutine(FlashDuration());
         }
+
+        flashCoroutine = StartCoroutine(FlashDuration());
+        enemiesManager.ModifyPostProcess();
     }
 
     IEnumerator FlashDuration()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(enemiesManager.flashDuration);
+
+        // ギミック終了 - 効果エフェクト追加
+
         agent.isStopped = false;
+        flashed = true;
+    }
+
+    public void StopFlash()
+    {
+        flash = false;
+        flashStarted = false;
+        flashed = false;
+        StopCoroutine(flashCoroutine);
+
+        enemiesManager.ResetPostProcess();
     }
 
     #endregion
