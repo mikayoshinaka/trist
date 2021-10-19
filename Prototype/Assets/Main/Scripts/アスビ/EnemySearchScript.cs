@@ -52,6 +52,7 @@ public class EnemySearchScript : MonoBehaviour
     // 攻撃
     public EnemiesManager enemiesManager;
     bool moveAway;
+    bool flashed;
 
     void Start()
     {
@@ -75,6 +76,7 @@ public class EnemySearchScript : MonoBehaviour
 
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
         moveAway = false;
+        flashed = false;
     }
 
     #endregion
@@ -348,6 +350,25 @@ public class EnemySearchScript : MonoBehaviour
         yield return new WaitForSeconds(timer);
 
         player.gameObject.layer = LayerMask.NameToLayer("Player");
+    }
+
+    #endregion
+
+    #region ライトギミック
+
+    public void FlashGimmick()
+    {
+        if (!agent.isStopped)
+        {
+            agent.isStopped = true;
+            StartCoroutine(FlashDuration());
+        }
+    }
+
+    IEnumerator FlashDuration()
+    {
+        yield return new WaitForSeconds(2f);
+        agent.isStopped = false;
     }
 
     #endregion

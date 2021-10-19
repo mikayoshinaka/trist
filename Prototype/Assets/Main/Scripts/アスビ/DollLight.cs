@@ -5,13 +5,14 @@ using UnityEngine;
 public class DollLight : MonoBehaviour
 {
     public Light lampLight;
+    public GhostChange ghostChange;
 
     // 当たり判定用
     List<string> enemyList = new List<string>();
-    private bool clearEnemy;
     public bool enemyInSight;
     public float lightRange = 1f;
     LayerMask enemyMask;
+    Coroutine[] FlashedObjects;
     Mesh mesh;
     public bool showGizmos;
 
@@ -19,41 +20,44 @@ public class DollLight : MonoBehaviour
     {
         lampLight = transform.Find("LampLight").GetComponent<Light>();
         lightRange = lampLight.range / 2;
+        ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
 
         enemyMask = LayerMask.GetMask("Enemy");
-        clearEnemy = false;
-
         //showGizmos = true;
     }
 
-    //private void Update()
-    //{
-    //    // 当たり判定
+    private void Update()
+    {
+        // 当たり判定
 
-    //    enemyInSight = Physics.CheckSphere(transform.position, lightRange, enemyMask);
-    //    if (enemyInSight)
-    //    {
-    //        // リストをクリアする
-    //        ClearEnemy();
+        if (ghostChange.possess && ghostChange.possessObject == this.gameObject)
+        {
+            enemyInSight = Physics.CheckSphere(transform.position, lightRange, enemyMask);
+            if (enemyInSight)
+            {
+                // 当たり判定処理
+                DetectEnemy();
+            }
+        }
+        else if (!ghostChange.possess)  // enemyList　Clear
+        {
+            if (enemyList.Count != 0)
+            {
+                enemyList.Clear();
+            }
+        }
 
-    //        // 当たり判定処理
-    //        DetectEnemy();
+        // ライトギミック開始
+        if (enemyList.Count != 0)
+        {
+            //FlashedObjects = new Coroutine[5];
 
-    //        // DetectEnemyのリストにより、ギミックを行う
-    //        TriggerEnemy();
+            // Declare new array
+            // Call FlashStart() >>> FlashCountdown()
+            // Call EnemySearchScript.FlashGimmick
 
-    //        if (!clearEnemy)
-    //        {
-    //            clearEnemy = true;
-    //        }
-    //    }
-    //    else if (clearEnemy)
-    //    {
-    //        // リストをクリアする
-    //        ClearEnemy();
-    //        clearEnemy = false;
-    //    }
-    //}
+        }
+    }
 
     // オブジェクトが判定内にある場合の処理
     void DetectEnemy()
@@ -70,12 +74,19 @@ public class DollLight : MonoBehaviour
             float deltaAngle = Vector3.Angle(targetDirection, lampDirection);
             // Debug.Log(deltaAngle);
 
+            string enemyName = hitColliders[i].transform.parent.name;
+
             if (deltaAngle > lampLight.spotAngle / 3)
             {
+                // 判定以外
+                if (enemyList.Contains(enemyName))
+                {
+                    Debug.Log("Remove [" + enemyName + "]");
+                    enemyList.Remove(enemyName);
+                }
                 continue;
             }
 
-            string enemyName = hitColliders[i].transform.parent.name;
             //Debug.Log(enemyName);
 
             if (enemyList.Contains(enemyName))
@@ -85,35 +96,25 @@ public class DollLight : MonoBehaviour
             else
             {
                 //Debug.Log(enemyName);
+
+                // 判定以内
+                Debug.Log("Add [" + enemyName + "]");
                 enemyList.Add(enemyName);
             }
         }
     }
 
-    void ClearEnemy()
+    void FlashStart()
     {
-        // todo 敵のスクリプトに統合
-
-        string[] enemyName = enemyList.ToArray();
-
-        for (int i = 0; i < enemyName.Length; i++)
+        for (int i = 0; i < enemyList.Count; i++)
         {
-            GameObject.Find(enemyName[i]).transform.Find("EnemyBody").GetComponent<MeshRenderer>().enabled = false;
-        }
 
-        enemyList.Clear();
+        }
     }
 
-    void TriggerEnemy()
+    IEnumerator FlashCountdown()
     {
-        // todo 敵のスクリプトに統合
-
-        string[] enemyName = enemyList.ToArray();
-
-        for (int i = 0; i < enemyName.Length; i++)
-        {
-            GameObject.Find(enemyName[i]).transform.Find("EnemyBody").GetComponent<MeshRenderer>().enabled = true;
-        }
+        yield return new WaitForSeconds(3f);
     }
 
     // FOVのビジュアル
