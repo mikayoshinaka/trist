@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySight : MonoBehaviour
 {
     public float angle = 30f;
+    public float chaseAngle = 1f;
     float height = 2f;
     public Color color = Color.cyan;
 
@@ -15,6 +16,11 @@ public class EnemySight : MonoBehaviour
     [Header("Editor View")]
     public bool enableGizmos;
     Mesh mesh;
+
+    private void Start()
+    {
+        // enableGizmos = true;
+    }
 
     void Update()
     {
@@ -36,14 +42,13 @@ public class EnemySight : MonoBehaviour
 
         direction.y = 0;
         float deltaAngle = Vector3.Angle(direction, transform.forward);
-        if (deltaAngle > angle)
+        if (deltaAngle > angle * chaseAngle)
         {
             return false;
         }
 
         return true;
     }
-
 
     // FOV にビジュアル
     Mesh CreateMesh()
@@ -57,8 +62,8 @@ public class EnemySight : MonoBehaviour
         int[] triangles = new int[numVertices];
 
         Vector3 bottomCenter = Vector3.zero;
-        Vector3 bottomLeft = Quaternion.Euler(0, -angle, 0) * Vector3.forward * EnemyBehaviour.sightRange;
-        Vector3 bottomRight = Quaternion.Euler(0, angle, 0) * Vector3.forward * EnemyBehaviour.sightRange;
+        Vector3 bottomLeft = Quaternion.Euler(0, -angle * chaseAngle, 0) * Vector3.forward * EnemyBehaviour.sightRange;
+        Vector3 bottomRight = Quaternion.Euler(0, angle * chaseAngle, 0) * Vector3.forward * EnemyBehaviour.sightRange;
 
         Vector3 topCenter = bottomCenter + Vector3.up * height;
         Vector3 topLeft = bottomLeft + Vector3.up * height;

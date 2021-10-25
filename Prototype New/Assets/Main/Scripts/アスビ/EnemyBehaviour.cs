@@ -8,6 +8,7 @@ public class EnemyBehaviour : MonoBehaviour
     public static Transform player;
     public EnemiesManager enemiesManager;
     public GameObject enemy;
+    public EnemySight enemySight;
     public NavMeshAgent agent;
 
     [Header("当たり判定")]
@@ -17,14 +18,26 @@ public class EnemyBehaviour : MonoBehaviour
     public LayerMask playerMask;
     public LayerMask stageMask;
     public bool playerInSightRange, playerInAttackRange;
-    
+
+    private enum EnemyState
+    {
+        Patrol,
+        Locate,
+        Attack
+    }
+    private EnemyState enemyState;
+
     [Header("Patrol")]
     public Vector3 patrolPoint;
     public bool patrolSet;
 
     [Header("Locate")]
     public bool moveAway;
+    private bool chasing;
+    private float chaseRange = 1f;
 
+    [Header("Attack")]
+    public bool attackAction;
 
     [Header("Editor View")]
     public bool enableGizmos;
@@ -34,24 +47,39 @@ public class EnemyBehaviour : MonoBehaviour
         player = GameObject.Find("PlayerController").transform;
         enemiesManager = transform.parent.GetComponent<EnemiesManager>();
         enemy = this.gameObject;
+        enemySight = GetComponent<EnemySight>();
+
         agent = GetComponent<NavMeshAgent>();
         playerMask = LayerMask.GetMask("Player");
         stageMask = LayerMask.GetMask("Stages");
 
+        agent.speed = enemiesManager.speed;
+        patrolRange = enemiesManager.patrolRange;
+        sightRange = enemiesManager.sightRange;
+        attackRange = enemiesManager.attackRange;
+
+        enemyState = EnemyState.Patrol;
         patrolSet = false;
         moveAway = false;
+        attackAction = false;
+
+        // enableGizmos = true;
     }
 
     void Update()
     {
         // 当たり判定
         // 索敵判定
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange * chaseRange, playerMask);
 
         // 攻撃判定
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
-        if (moveAway)
+        if (attackAction)
+        {
+
+        }
+        else if (moveAway)
         {
             // プレイヤーから逃げる
             MoveAway();
@@ -69,11 +97,39 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    void ActionAdjustment()
+    {
+        // ノーマルスピード
+        if (enemyState == EnemyState.Patrol)
+        {
+            chasing = false;
+            agent.speed = enemiesManager.speed;
+            chaseRange = 1f;
+            enemySight.chaseAngle = 1f;
+        }
+        // スピード上がる
+        else if (enemyState == EnemyState.Locate)
+        {
+            chasing = true;
+            agent.speed = enemiesManager.chaseSpeed;
+            chaseRange = 2f;
+            enemySight.chaseAngle = 2f;
+        }
+    }
+
     #region 自由移動
+
+    // 設定
     void Patrol()
     {
-        if ((!playerInSightRange && !playerInAttackRange) || !enemy.GetComponent<EnemySight>().detected)
+        if ((!playerInSightRange && !playerInAttackRange) || !enemySight.detected)
         {
+            if (enemyState != EnemyState.Patrol)
+            {
+                enemyState = EnemyState.Patrol;
+                ActionAdjustment();
+            }
+
             if (!patrolSet)
             {
                 SetPatrol();
@@ -121,13 +177,20 @@ public class EnemyBehaviour : MonoBehaviour
     #endregion
 
     #region 索敵
+
+    // 設定
     void Locate()
     {
         if (playerInSightRange && !playerInAttackRange)
         {
-            enemy.GetComponent<EnemySight>().inView = true;
-            if (enemy.GetComponent<EnemySight>().detected)
+            enemySight.inView = true;
+            if (enemySight.detected)
             {
+                if (enemyState != EnemyState.Locate)
+                {
+                    enemyState = EnemyState.Locate;
+                }
+
                 if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
                 {
                     Runaway();
@@ -138,9 +201,9 @@ public class EnemyBehaviour : MonoBehaviour
                 }
             }
         }
-        else if (enemy.GetComponent<EnemySight>().inView)
+        else if (enemySight.inView)
         {
-            enemy.GetComponent<EnemySight>().inView = false;
+            enemySight.inView = false;
         }
     }
 
@@ -172,6 +235,11 @@ public class EnemyBehaviour : MonoBehaviour
     // プレイヤーを追いかける
     void Chase()
     {
+        if (!chasing)
+        {
+            ActionAdjustment();
+        }
+
         agent.SetDestination(player.position);
     }
 
@@ -194,16 +262,35 @@ public class EnemyBehaviour : MonoBehaviour
     #endregion
 
     #region 攻撃
+
+    // 設定
     void Action()
     {
+        if (playerInSightRange && playerInAttackRange)
+        {
+            if (enemyState != EnemyState.Attack)
+            {
+                enemyState = EnemyState.Attack;
+            }
 
+            if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
+            {
+                Defense();
+            }
+            else if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
+            {
+                Offense();
+            }
+        }   
     }
 
+    // 袋の中に入れるギミック
     void Defense()
     {
 
     }
 
+    // プレイヤーを攻撃するギミック
     void Offense()
     {
 
@@ -219,7 +306,7 @@ public class EnemyBehaviour : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, patrolRange);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, sightRange);
+            Gizmos.DrawWireSphere(transform.position, sightRange * chaseRange);
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
