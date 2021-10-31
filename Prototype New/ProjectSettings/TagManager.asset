@@ -7,6 +7,10 @@ TagManager:
   - Monkey
   - Box
   - Enemy
+  - BlueEnemyBody
+  - RedEnemyBody
+  - YellowEnemyBody
+  - PlayerBody
   layers:
   - Default
   - TransparentFX
@@ -15,7 +19,7 @@ TagManager:
   - Water
   - UI
   - Stages
-  - 
+  - Synthesis
   - 
   - 
   - 
