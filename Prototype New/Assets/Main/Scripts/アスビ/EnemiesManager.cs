@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemiesManager : MonoBehaviour
 {
+    [Header("Game State")]
+    public GameStateManager gameStateManager;
+
     [Header ("Player")]
     public GameObject playerController;
 
@@ -20,7 +23,7 @@ public class EnemiesManager : MonoBehaviour
     public float chaseSpeed = 6f;
     public float patrolRange = 10f;
     public float sightRange = 8f;
-    public float attackRange = 3f;
+    public float attackRange = 2f;
 
     #region 現状利用しない
 
@@ -35,12 +38,8 @@ public class EnemiesManager : MonoBehaviour
 
     private void Start()
     {
+        gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
         playerController = GameObject.Find("PlayerController");
         attacking = false;
-    }
-
-    private void Update()
-    {
-       
     }
 }

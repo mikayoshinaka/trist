@@ -19,7 +19,7 @@ public class EnemySight : MonoBehaviour
 
     private void Start()
     {
-        // enableGizmos = true;
+        //enableGizmos = true;
     }
 
     void Update()
@@ -35,12 +35,8 @@ public class EnemySight : MonoBehaviour
     bool DetectPlayer()
     {
         Vector3 direction = EnemyBehaviour.player.position - transform.position;
-        if (direction.y < 0 || direction.y > height)
-        {
-            return false;
-        }
-
         direction.y = 0;
+
         float deltaAngle = Vector3.Angle(direction, transform.forward);
         if (deltaAngle > angle * chaseAngle)
         {

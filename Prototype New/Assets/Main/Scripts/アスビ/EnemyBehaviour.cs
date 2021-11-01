@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("当たり判定")]
     public float patrolRange = 10f;
     public static float sightRange = 7.5f;
-    public static float attackRange = 2f;
+    public static float attackRange = 1.5f;
     public LayerMask playerMask;
     public LayerMask stageMask;
     public bool playerInSightRange, playerInAttackRange;
@@ -63,7 +63,7 @@ public class EnemyBehaviour : MonoBehaviour
         moveAway = false;
         attackAction = false;
 
-        // enableGizmos = true;
+        //enableGizmos = true;
     }
 
     void Update()
@@ -207,31 +207,6 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    // プレイヤーから逃げる
-    void Runaway()
-    {
-        if (!moveAway)
-        {
-            if (runningAway != null)
-            {
-                StopCoroutine(runningAway);
-            }
-            runningAway = StartCoroutine(RunningAway());
-        }
-    }
-
-    // 逃げるタイマー
-    Coroutine runningAway;
-    IEnumerator RunningAway()
-    {
-        agent.isStopped = true;
-        SetAwayDirection();
-        moveAway = true;
-        yield return new WaitForSeconds(3f);
-        agent.isStopped = false;
-        moveAway = false;
-    }
-
     // プレイヤーを追いかける
     void Chase()
     {
@@ -241,22 +216,6 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         agent.SetDestination(player.position);
-    }
-
-    #endregion
-
-    #region 離れる行動
-
-    // プレイヤーから離れる方向
-    private Vector3 awayDirection;
-    void SetAwayDirection()
-    {
-        awayDirection = Vector3.Scale(transform.position - player.transform.position, new Vector3(1f, 0f, 1f)).normalized;
-    }
-    void MoveAway()
-    {        
-        agent.Move(awayDirection * agent.speed * 2f * Time.deltaTime);
-        transform.rotation = Quaternion.LookRotation(awayDirection, transform.up);
     }
 
     #endregion
@@ -284,16 +243,63 @@ public class EnemyBehaviour : MonoBehaviour
         }   
     }
 
-    // 袋の中に入れるギミック
+    // プレイヤーと当たった時に逃げる
     void Defense()
     {
-
+        Runaway();
     }
 
     // プレイヤーを攻撃するギミック
     void Offense()
     {
 
+        //
+            // プレイヤーと当たった時 //
+            // ここにスポーン処理を呼ぶ //
+        // 
+
+        enemiesManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+    }
+
+    #endregion
+
+    #region 離れる行動
+
+    // プレイヤーから逃げる
+    void Runaway()
+    {
+        if (!moveAway)
+        {
+            if (runningAway != null)
+            {
+                StopCoroutine(runningAway);
+            }
+            runningAway = StartCoroutine(RunningAway());
+        }
+    }
+
+    // 逃げるタイマー
+    Coroutine runningAway;
+    IEnumerator RunningAway()
+    {
+        agent.isStopped = true;
+        SetAwayDirection();
+        moveAway = true;
+        yield return new WaitForSeconds(3f);
+        agent.isStopped = false;
+        moveAway = false;
+    }
+
+    // プレイヤーから離れる方向
+    private Vector3 awayDirection;
+    void SetAwayDirection()
+    {
+        awayDirection = Vector3.Scale(transform.position - player.transform.position, new Vector3(1f, 0f, 1f)).normalized;
+    }
+    void MoveAway()
+    {
+        agent.Move(awayDirection * agent.speed * 2f * Time.deltaTime);
+        transform.rotation = Quaternion.LookRotation(awayDirection, transform.up);
     }
 
     #endregion

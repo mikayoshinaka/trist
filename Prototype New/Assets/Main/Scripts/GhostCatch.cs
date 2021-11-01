@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,7 +50,11 @@ public class GhostCatch : MonoBehaviour
         CannotGrab
     }
     public Mode mode;
-    // Start is called before the first frame update
+
+    // アスビ用
+    private GameStateManager gameStateManager;
+    private ColorAction colorAction;
+
     void Start()
     {
         grab = false;
@@ -60,6 +64,9 @@ public class GhostCatch : MonoBehaviour
         image.SetActive(false); 
         image2.SetActive(false);
 
+        // アスビ用
+        gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
+        colorAction = GameObject.Find("PlayerController").GetComponent<ColorAction>();
     }
 
     // Update is called once per frame
@@ -88,7 +95,7 @@ public class GhostCatch : MonoBehaviour
             CaughtObjStop();
         }
     }
-    //�G��͂�
+    //“G‚ð’Í‚Þ
     private void GhostGrab()
     {
         if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && enemy.Count > 0)
@@ -151,7 +158,7 @@ public class GhostCatch : MonoBehaviour
             mode = Mode.Fusion;
         }
     }
-    //�G�𔠂ɓ����
+    //“G‚ð” ‚É“ü‚ê‚é
     private void GhostFusion()
     {
         for (int i = 0; i < caughtObj.Count; i++)
@@ -182,21 +189,28 @@ public class GhostCatch : MonoBehaviour
         }
 
     }
-    //�l�`�����
+    //lŒ`‚ðì‚é
     private void DollInstance()
     {
         DollCombination(caughtObj);
         mode = Mode.Carry;
+
+        // アスビ用
+        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
     }
-    //�l�`���^��
+
+    //lŒ`‚ð‰^‚Ô
     private void DollCarry()
     {
         if (doll == null&&!(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
         {
-                mode = Mode.CanGrab;
+            mode = Mode.CanGrab;
+
+            // アスビ用
+            gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
         }
     }
-    //�߂܂��邱�Ƃ��ł��Ȃ�
+    //•ß‚Ü‚¦‚é‚±‚Æ‚ª‚Å‚«‚È‚¢
     private void CannotCatch()
     {
         notCatchTime += Time.deltaTime;
@@ -206,6 +220,9 @@ public class GhostCatch : MonoBehaviour
             notCatchTime = 0.0f;
             grab = false;
             mode = Mode.CanGrab;
+
+            // アスビ用
+            gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
         }
     }
 
@@ -291,6 +308,9 @@ public class GhostCatch : MonoBehaviour
             caughtObj.Clear();
             enemy.Clear();
             mode = Mode.CannotGrab;
+
+            // アスビ用
+            gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
         }
     }
 
@@ -373,14 +393,17 @@ public class GhostCatch : MonoBehaviour
             if (ghost[0].transform.GetChild(0).tag == "RedEnemyBody")
             {
                 doll = Instantiate(redDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Red);
             }
             else if (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody")
             {
                 doll = Instantiate(blueDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Blue);
             }
             else if (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody")
             {
                 doll = Instantiate(yellowDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Yellow);
             }
         }
         else if (ghost.Count >= 2)
@@ -388,34 +411,39 @@ public class GhostCatch : MonoBehaviour
             if (ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody")
             {
                 doll = Instantiate(darkRedDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkRed);
             }
             else if (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
             {
                 doll = Instantiate(darkBlueDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkBlue);
             }
             else if (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
             {
                 doll = Instantiate(darkYellowDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkYellow);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
                   || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
             {
                 doll = Instantiate(purpleDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Purple);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
                   || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody"))
             {
-                doll = Instantiate(greenDoll, dollInstancePos.position, Quaternion.identity);
+                doll = Instantiate(greenDoll, dollInstancePos.position, Quaternion.identity);;
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Green);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
                   || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
             {
                 doll = Instantiate(orangeDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Orange);
             }
         }
         doll.transform.localScale = new Vector3(1.0f + (ghost.Count - 1) * 0.3f, 1.0f + (ghost.Count - 1) * 0.3f, 1.0f + (ghost.Count - 1) * 0.3f);
         doll.transform.parent = player.transform;
-
     }
 
 
@@ -441,6 +469,7 @@ public class GhostCatch : MonoBehaviour
         time.Clear();
         canGrabTime = 3.0f;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
