@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class GameStateManager : MonoBehaviour
 {
     [Header("Cameras")]
     public GameObject cameras;
-    public GameObject zoomOutCamera;
+    public GameObject zoomOutCamera;    
     public GameObject zoomInCamera;
+    private Vector3 zoomOutCameraOffset;
+    private Vector3 zoomInCameraOffset;
 
     [Header("Lighting")]
     public GameObject lighting;
-    public GameObject lightSource_1;
-    public GameObject lightSource_2;
+    public GameObject lightSource_Collect;
+    public GameObject lightSource_Deliver;
 
     [Header("Player")]
     public GameObject playerController;
@@ -35,10 +38,12 @@ public class GameStateManager : MonoBehaviour
         cameras = GameObject.Find("Cameras");
         zoomOutCamera = cameras.transform.Find("ZoomOutCamera").gameObject;
         zoomInCamera = cameras.transform.Find("ZoomInCamera").gameObject;
+        zoomOutCameraOffset = new Vector3(15f, 15f, 0f);
+        zoomInCameraOffset = new Vector3(12f, 12f, 0f);
 
         lighting = GameObject.Find("Lighting");
-        lightSource_1 = lighting.transform.Find("LightSource_1").gameObject;
-        lightSource_2 = lighting.transform.Find("LightSource_2").gameObject;
+        lightSource_Collect = lighting.transform.Find("LightSource_Collect").gameObject;
+        lightSource_Deliver = lighting.transform.Find("LightSource_Deliver").gameObject;
 
         playerController = GameObject.Find("PlayerController");
         colorAction = playerController.GetComponent<ColorAction>();
@@ -73,16 +78,21 @@ public class GameStateManager : MonoBehaviour
             zoomInCamera.SetActive(false);
         }
         zoomOutCamera.SetActive(true);
+        zoomOutCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomOutCameraOffset;
 
         // ライティング
-        if (lightSource_2.activeInHierarchy)
+        if (lightSource_Deliver.activeInHierarchy)
         {
-            lightSource_2.SetActive(false);
+            lightSource_Deliver.SetActive(false);
         }
-        lightSource_1.SetActive(true);
+        lightSource_Collect.SetActive(true);
 
         ghostCatch.ReSetCatch();
-        colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Null);
+
+        if (colorAction.CheckCurrentGimmick() != ColorAction.ColorGimmick.gimmick_Null)
+        {
+            colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Null);
+        }
 
         enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
     }
@@ -97,13 +107,14 @@ public class GameStateManager : MonoBehaviour
             zoomOutCamera.SetActive(false);
         }
         zoomInCamera.SetActive(true);
+        zoomInCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomInCameraOffset;
 
         // ライティング
-        if (lightSource_1.activeInHierarchy)
+        if (lightSource_Collect.activeInHierarchy)
         {
-            lightSource_1.SetActive(false);
+            lightSource_Collect.SetActive(false);
         }
-        lightSource_2.SetActive(true);
+        lightSource_Deliver.SetActive(true);
 
         enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Offensive;
     }

@@ -8,8 +8,10 @@ public class EnemyBehaviour : MonoBehaviour
     public static Transform player;
     public EnemiesManager enemiesManager;
     public GameObject enemy;
+    public GameObject enemyBody;
     public EnemySight enemySight;
     public NavMeshAgent agent;
+    public Animator enemyAnimator;
 
     [Header("当たり判定")]
     public float patrolRange = 10f;
@@ -36,8 +38,8 @@ public class EnemyBehaviour : MonoBehaviour
     private bool chasing;
     private float chaseRange = 1f;
 
-    [Header("Attack")]
-    public bool attackAction;
+    [Header("Gimmick")]
+    public bool gimmickAction;
 
     [Header("Editor View")]
     public bool enableGizmos;
@@ -47,6 +49,7 @@ public class EnemyBehaviour : MonoBehaviour
         player = GameObject.Find("PlayerController").transform;
         enemiesManager = transform.parent.GetComponent<EnemiesManager>();
         enemy = this.gameObject;
+        enemyBody = enemy.transform.Find("EnemyBody").gameObject;
         enemySight = GetComponent<EnemySight>();
 
         agent = GetComponent<NavMeshAgent>();
@@ -58,10 +61,12 @@ public class EnemyBehaviour : MonoBehaviour
         sightRange = enemiesManager.sightRange;
         attackRange = enemiesManager.attackRange;
 
+        enemyAnimator = enemyBody.GetComponent<Animator>();
+
         enemyState = EnemyState.Patrol;
         patrolSet = false;
         moveAway = false;
-        attackAction = false;
+        gimmickAction = false;
 
         //enableGizmos = true;
     }
@@ -75,9 +80,9 @@ public class EnemyBehaviour : MonoBehaviour
         // 攻撃判定
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
-        if (attackAction)
+        if (gimmickAction)
         {
-
+            Gimmick_Update();
         }
         else if (moveAway)
         {
@@ -301,6 +306,65 @@ public class EnemyBehaviour : MonoBehaviour
         agent.Move(awayDirection * agent.speed * 2f * Time.deltaTime);
         transform.rotation = Quaternion.LookRotation(awayDirection, transform.up);
     }
+
+    #endregion
+
+    #region 色ギミック
+
+    public void Gimmick_Update()
+    {
+
+    }
+
+    #region Dark Red
+    public void Gimmick_DarkRed()
+    {
+        gimmickAction = true;
+        agent.isStopped = true;
+        if (DarkRedCoroutine != null)
+        {
+            StopCoroutine(DarkRedCoroutine);
+        }
+        DarkRedCoroutine = StartCoroutine(OnDarkRed());
+
+        enemyAnimator.SetBool("Surprised", true);
+    }
+    Coroutine DarkRedCoroutine;
+    IEnumerator OnDarkRed()
+    {
+        yield return new WaitForSeconds(3f);
+        gimmickAction = false;
+        agent.isStopped = false;
+    }
+    #endregion
+
+    #region Dark Blue
+    public void Gimmick_DarkBlue()
+    {
+        gimmickAction = true;
+        agent.isStopped = true;
+        if (DarkBlueCoroutine != null)
+        {
+            StopCoroutine(DarkBlueCoroutine);
+        }
+        DarkBlueCoroutine = StartCoroutine(OnDarkBlue());
+    }
+    Coroutine DarkBlueCoroutine;
+    IEnumerator OnDarkBlue()
+    {
+        float timer = 0f;
+        float timeLimit = 2f;
+        SetAwayDirection();
+        while (timer < timeLimit)
+        {
+            timer += Time.deltaTime;
+            MoveAway();
+            yield return null;
+        }
+        gimmickAction = false;
+        agent.isStopped = false;
+    }
+    #endregion
 
     #endregion
 

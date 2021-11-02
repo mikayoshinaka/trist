@@ -1,0 +1,32 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ColorAct_Null : ColorActState
+{
+    // 入る処理
+    public override void EnterState(ColorAction colorAct)
+    {
+        Debug.Log(this);
+
+        // GimmickObject Reset
+        GameObject gimmickObjects = colorAct.transform.Find("GimmickObjects").gameObject;
+        for (int i = 0; i < gimmickObjects.transform.childCount; i++)
+        {
+            gimmickObjects.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        gimmickObjects.SetActive(false);
+    }
+
+    // Update 処理
+    public override void UpdateState(ColorAction colorAct)
+    {
+        
+    }
+
+    // Gizmos 処理
+    public override void DrawGizmosState(ColorAction colorAct)
+    {   
+
+    }
+}
