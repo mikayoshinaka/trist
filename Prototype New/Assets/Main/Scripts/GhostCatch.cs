@@ -31,14 +31,26 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private Material ghostYellowMaterial;
     [SerializeField] private Transform dollInstancePos;
     bool grab;
+    bool zoom;
+    bool disclose;
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject presentBox;
+    [SerializeField] private GameObject playerController;
+    [SerializeField] public GameObject presentBox;
     [SerializeField] private GameObject image;
     [SerializeField] private GameObject image2;
+    [SerializeField] private Transparent transparent;
     public GameObject doll = null;
+    [SerializeField] private GameObject dollInstanceZoom1;
+    [SerializeField] private GameObject dollInstanceZoom2;
+    [SerializeField] private float discloseHeight = 1.0f;
+    [SerializeField] private float discloseSpeed = 1.0f;
     private float notCatchTime;
     private float canGrabTime;
     private float maxGrabTime;
+    private float dollInstanceTime;
+    [SerializeField] private float dollZoom2Time = 2.0f;
+    [SerializeField] private float dollInstanceMaxTime = 10.0f;
+    private float discloseTime;
     //[SerializeField] private int partition = 20;
     private List<float> time = new List<float>();
     public enum Mode
@@ -58,10 +70,14 @@ public class GhostCatch : MonoBehaviour
     void Start()
     {
         grab = false;
+        zoom = false;
+        disclose = false;
         notCatchTime = 0.0f;
         canGrabTime = 3.0f;
         maxGrabTime = canGrabTime;
-        image.SetActive(false); 
+        dollInstanceTime = 0.0f;
+        discloseTime = 0.0f;
+        image.SetActive(false);
         image2.SetActive(false);
 
         // アスビ用
@@ -75,6 +91,7 @@ public class GhostCatch : MonoBehaviour
         switch (mode)
         {
             case Mode.CanGrab:
+                transparent.catchEnemy = false;
                 GhostGrab();
                 break;
             case Mode.Fusion:
@@ -84,6 +101,7 @@ public class GhostCatch : MonoBehaviour
                 DollInstance();
                 break;
             case Mode.Carry:
+                transparent.catchEnemy = true;
                 DollCarry();
                 break;
             case Mode.CannotGrab:
@@ -192,11 +210,36 @@ public class GhostCatch : MonoBehaviour
     // 人形を作る
     private void DollInstance()
     {
+        if (dollInstanceTime == 0.0f)
+        {
+            dollInstanceZoom1.SetActive(true);
+            playerController.GetComponent<CharacterMovementScript>().enabled = false;
+        }
+        else if (dollInstanceTime >= dollZoom2Time && zoom == false)
+        {
+            dollInstanceZoom2.SetActive(true);
+            DollCombination(caughtObj);
+            zoom = true;
+        }
+        else if (dollInstanceTime >= dollZoom2Time && zoom == true)
+        {
+            dollDisclose(caughtObj);
+        }
+        dollInstanceTime += Time.deltaTime;
+        if (dollInstanceTime < dollInstanceMaxTime)
+        {
+            return;
+        }
+        playerController.GetComponent<CharacterMovementScript>().enabled = true;
+        dollInstanceZoom1.SetActive(false);
+        dollInstanceZoom2.SetActive(false);
+        dollInstanceTime = 0.0f;
+        discloseTime = 0.0f;
+        zoom = false;
+        disclose = false;
+        mode = Mode.Carry;
         // アスビ用
         gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
-
-        DollCombination(caughtObj);
-        mode = Mode.Carry;
     }
 
     // 人形を運ぶ
@@ -327,7 +370,7 @@ public class GhostCatch : MonoBehaviour
         p2 = new Vector3(0.0f, 6.0f, 0.0f);
     }
 
-    private void SuckedIntoBox(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, int i)
+    public void SuckedIntoBox(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, int i)
     {
 
         Vector3 b0 = Vector3.zero;
@@ -442,11 +485,26 @@ public class GhostCatch : MonoBehaviour
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Orange);
             }
         }
-        doll.transform.localScale = new Vector3(1.0f + (ghost.Count - 1) * 0.3f, 1.0f + (ghost.Count - 1) * 0.3f, 1.0f + (ghost.Count - 1) * 0.3f);
-        doll.transform.parent = player.transform;
+        doll.transform.parent = playerController.transform;
+        doll.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
-
+    private void dollDisclose(List<GameObject> ghost)
+    {
+        if (discloseTime < 1.0f)
+        {
+            float phase = Time.time * 2 * Mathf.PI;
+            discloseTime += (Time.deltaTime/* + Mathf.Sin(phase)*/) * discloseSpeed;
+            doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + (discloseTime * discloseHeight), dollInstancePos.position.z);
+            doll.transform.localScale = new Vector3((1.0f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.0f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.0f + (ghost.Count - 1) * 0.3f) * discloseTime);
+        }
+        else if (disclose == false)
+        {
+            disclose = true;
+            doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + discloseHeight, dollInstancePos.position.z);
+            doll.transform.localScale = new Vector3((1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f));
+        }
+    }
     private void CaughtObjStop()
     {
         for (int i = 0; i < caughtObj.Count; i++)

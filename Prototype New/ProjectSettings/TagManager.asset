@@ -11,6 +11,7 @@ TagManager:
   - RedEnemyBody
   - YellowEnemyBody
   - PlayerBody
+  - Book
   layers:
   - Default
   - TransparentFX
@@ -21,8 +22,8 @@ TagManager:
   - Stages
   - Synthesis
   - Enemy
-  - 
-  - 
+  - Disappear
+  - Book
   - 
   - 
   - 
