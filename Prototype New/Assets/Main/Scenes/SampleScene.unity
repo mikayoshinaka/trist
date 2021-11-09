@@ -5234,8 +5234,8 @@ MonoBehaviour:
   gameStateManager: {fileID: 0}
   playerController: {fileID: 0}
   enemyMode: 0
-  speed: 0
-  chaseSpeed: 0
+  speed: 4
+  chaseSpeed: 6
   patrolRange: 10
   sightRange: 8
   attackRange: 1.5
