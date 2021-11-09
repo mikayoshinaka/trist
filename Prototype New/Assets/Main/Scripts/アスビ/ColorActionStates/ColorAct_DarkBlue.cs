@@ -16,8 +16,8 @@ public class ColorAct_DarkBlue : ColorActState
         barrierPlaying = false;
 
         // カメラ設定
-        GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
-        currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
+        //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
+        //currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
 
         // バリアー
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
@@ -27,7 +27,7 @@ public class ColorAct_DarkBlue : ColorActState
 
     public override void UpdateState(ColorAction colorAct)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             if (!barrierPlaying)
             {

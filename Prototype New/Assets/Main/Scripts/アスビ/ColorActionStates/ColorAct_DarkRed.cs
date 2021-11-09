@@ -13,8 +13,8 @@ public class ColorAct_DarkRed : ColorActState
         Debug.Log(this);
 
         // カメラ設定
-        GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
-        currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
+        //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
+        //currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
 
         // ライト
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
@@ -28,7 +28,7 @@ public class ColorAct_DarkRed : ColorActState
 
     public override void UpdateState(ColorAction colorAct)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             enemyList.Clear();
             Gimmick_DarkRed(colorAct);

@@ -21,7 +21,7 @@ public class EnemyBehaviour : MonoBehaviour
     public LayerMask stageMask;
     public bool playerInSightRange, playerInAttackRange;
 
-    //[SerializeField] GhostCatch ghostCatch;
+    // [SerializeField] GhostCatch ghostCatch;
     private enum EnemyState
     {
         Patrol,
@@ -265,7 +265,7 @@ public class EnemyBehaviour : MonoBehaviour
         //{
         //    ghostCatch.SuckedIntoBox(ghostCatch.presentBox.transform.position, new Vector3(0.0f, 6.0f, 0.0f), new Vector3(0.0f, 6.0f, 0.0f), transform.TransformPoint(ghostCatch.caughtObjPos[i]), i);
         //}
-            // ここにスポーン処理を呼ぶ //
+        // ここにスポーン処理を呼ぶ //
         // 
 
         enemiesManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
@@ -366,6 +366,79 @@ public class EnemyBehaviour : MonoBehaviour
             MoveAway();
             yield return null;
         }
+        gimmickAction = false;
+        agent.isStopped = false;
+    }
+    #endregion
+
+    #region DarkYellow
+    public void Gimmick_DarkYellow()
+    {
+        gimmickAction = true;
+        agent.isStopped = true;
+        if (DarkYellowCoroutine != null)
+        {
+            StopCoroutine(DarkYellowCoroutine);
+        }
+        DarkYellowCoroutine = StartCoroutine(OnDarkYellow());
+
+        enemyAnimator.SetBool("Surprised", true);
+    }
+    Coroutine DarkYellowCoroutine;
+    IEnumerator OnDarkYellow()
+    {
+        yield return new WaitForSeconds(1.5f);
+        gimmickAction = false;
+        agent.isStopped = false;
+    }
+
+    #endregion
+
+    #region Purple
+    public void Gimmick_Purple()
+    {
+        gimmickAction = true;
+        agent.isStopped = true;
+        if (PurpleCoroutine != null)
+        {
+            StopCoroutine(PurpleCoroutine);
+        }
+        PurpleCoroutine = StartCoroutine(onPurple());
+    }
+    Coroutine PurpleCoroutine;
+    IEnumerator onPurple()
+    {
+        float timer = 0f;
+        float timeLimit = 2f;
+        SetAwayDirection();
+        while (timer < timeLimit)
+        {
+            timer += Time.deltaTime;
+            MoveAway();
+            yield return null;
+        }
+        gimmickAction = false;
+        agent.isStopped = false;
+    }
+    #endregion
+
+    #region Orange
+    public void Gimmick_Orange()
+    {
+        gimmickAction = true;
+        agent.isStopped = true;
+        if (OrangeCoroutine != null)
+        {
+            StopCoroutine(OrangeCoroutine);
+        }
+        OrangeCoroutine = StartCoroutine(OnOrange());
+
+        enemyAnimator.SetBool("Surprised", true);
+    }
+    Coroutine OrangeCoroutine;
+    IEnumerator OnOrange()
+    {
+        yield return new WaitForSeconds(3f);
         gimmickAction = false;
         agent.isStopped = false;
     }

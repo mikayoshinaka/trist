@@ -19,11 +19,11 @@ public class EnemiesManager : MonoBehaviour
     public EnemyMode enemyMode;
 
     [Header("Enemy Properties")]
-    public float speed = 3.5f;
+    public float speed = 4f;
     public float chaseSpeed = 6f;
     public float patrolRange = 10f;
     public float sightRange = 8f;
-    public float attackRange = 2f;
+    public float attackRange = 1.5f;
 
     #region 現状利用しない
 

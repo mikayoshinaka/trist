@@ -116,7 +116,7 @@ public class GhostCatch : MonoBehaviour
     //  敵を掴む
     private void GhostGrab()
     {
-        if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && enemy.Count > 0)
+        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && enemy.Count > 0)
         {
             if (enemy.Count > 1)
             {
@@ -144,7 +144,7 @@ public class GhostCatch : MonoBehaviour
                 GrabbingTime();
             }
         }
-        else if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && grab == true)
+        else if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && grab == true)
         {
             if (enemy.Count > 1)
             {
@@ -238,7 +238,9 @@ public class GhostCatch : MonoBehaviour
         zoom = false;
         disclose = false;
         mode = Mode.Carry;
-        // アスビ用
+
+
+        // アスビ用         バグ可能？
         gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
     }
 

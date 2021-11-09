@@ -39,7 +39,7 @@ public class GameStateManager : MonoBehaviour
         zoomOutCamera = cameras.transform.Find("ZoomOutCamera").gameObject;
         zoomInCamera = cameras.transform.Find("ZoomInCamera").gameObject;
         zoomOutCameraOffset = new Vector3(15f, 15f, 0f);
-        zoomInCameraOffset = new Vector3(12f, 12f, 0f);
+        zoomInCameraOffset = new Vector3(12.5f, 12.5f, 0f);
 
         lighting = GameObject.Find("Lighting");
         lightSource_Collect = lighting.transform.Find("LightSource_Collect").gameObject;
