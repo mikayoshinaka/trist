@@ -20,6 +20,9 @@ public class ColorAct_Purple : ColorActState
     bool shooting;
     float colliderSize = 5f;
 
+    // 透明化用
+    SphereCollider transparentCollider;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -27,6 +30,9 @@ public class ColorAct_Purple : ColorActState
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
         //currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
+
+        // 透明化用
+        transparentCollider = GameObject.Find("SearchArea").GetComponent<SphereCollider>();
 
         colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
@@ -63,9 +69,32 @@ public class ColorAct_Purple : ColorActState
     {
         float horizontal = Input.GetAxisRaw("RHorizontal");
         float vertical = Input.GetAxisRaw("RVertical");
-        Vector3 direction = new Vector3(vertical, 0f, horizontal).normalized;
 
-        targetPoint.transform.position += direction * moveSpeed * Time.deltaTime;
+        targetPoint.transform.RotateAround(colorAct.transform.position, Vector3.up, horizontal * 90 * Time.deltaTime);
+        Vector3 direction = (targetPoint.transform.position - colorAct.transform.position).normalized;
+        float distance = Vector3.Distance(colorAct.transform.position, targetPoint.transform.position);
+        float saveDistance = distance;
+        distance -= vertical * moveSpeed * Time.deltaTime;
+        if (distance < 3 || distance > 24f)
+        {
+            distance = saveDistance;
+        }
+        targetPoint.transform.position = colorAct.transform.position + direction * distance;
+
+        // 透明化用
+
+        // REMAP
+        // min + (input - inputmin) * (max - min) / (inputmax - inputmin)
+        transparentCollider.radius = 3 + (distance - 9) * (8 - 3) / (24 - 9);
+        transparentCollider.radius += 0.5f; // Offset
+        if (transparentCollider.radius < 3)
+        {
+            transparentCollider.radius = 3f;
+        }
+        if (transparentCollider.radius > 10)
+        {
+            transparentCollider.radius = 10f;
+        }
     }
 
     // 操作のビジュアル

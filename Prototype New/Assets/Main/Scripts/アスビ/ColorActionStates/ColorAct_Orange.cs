@@ -22,6 +22,9 @@ public class ColorAct_Orange : ColorActState
     int maxLeap;
     bool zapping;
 
+    // 透明化用
+    SphereCollider transparentCollider;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -29,6 +32,10 @@ public class ColorAct_Orange : ColorActState
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
         //currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
+
+        // 透明化用
+        transparentCollider = GameObject.Find("SearchArea").GetComponent<SphereCollider>();
+        transparentCollider.radius = 5f;
 
         colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;

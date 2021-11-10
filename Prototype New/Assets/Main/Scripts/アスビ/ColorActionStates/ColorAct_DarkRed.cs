@@ -8,6 +8,9 @@ public class ColorAct_DarkRed : ColorActState
     float distance = 20f;
     float angle = 30f;
 
+    // 透明化用
+    SphereCollider transparentCollider;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -15,6 +18,10 @@ public class ColorAct_DarkRed : ColorActState
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
         //currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
+
+        // 透明化用
+        transparentCollider = GameObject.Find("SearchArea").GetComponent<SphereCollider>();
+        transparentCollider.radius = 5f;
 
         // ライト
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;

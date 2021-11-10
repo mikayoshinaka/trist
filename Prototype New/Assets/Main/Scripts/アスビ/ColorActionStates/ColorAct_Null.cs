@@ -16,6 +16,10 @@ public class ColorAct_Null : ColorActState
             gimmickObjects.transform.GetChild(i).gameObject.SetActive(false);
         }
         gimmickObjects.SetActive(false);
+
+        // 透明化用
+        SphereCollider transparentCollider = GameObject.Find("SearchArea").GetComponent<SphereCollider>();
+        transparentCollider.radius = 3f;
     }
 
     // Update 処理
