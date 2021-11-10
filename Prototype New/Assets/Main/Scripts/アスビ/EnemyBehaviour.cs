@@ -12,6 +12,7 @@ public class EnemyBehaviour : MonoBehaviour
     public EnemySight enemySight;
     public NavMeshAgent agent;
     public Animator enemyAnimator;
+    public GameObject enemyCanvas;
 
     [Header("当たり判定")]
     public float patrolRange = 10f;
@@ -63,6 +64,7 @@ public class EnemyBehaviour : MonoBehaviour
         attackRange = enemiesManager.attackRange;
 
         enemyAnimator = enemyBody.GetComponent<Animator>();
+        enemyCanvas = enemy.transform.Find("EnemyCanvas").gameObject;
 
         enemyState = EnemyState.Patrol;
         patrolSet = false;
@@ -134,6 +136,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 enemyState = EnemyState.Patrol;
                 ActionAdjustment();
+                enemyAnimator.SetBool("Running", false);
             }
 
             if (!patrolSet)
@@ -219,9 +222,28 @@ public class EnemyBehaviour : MonoBehaviour
         if (!chasing)
         {
             ActionAdjustment();
+            if (SurprisedFinding != null)
+            {
+                StopCoroutine(SurprisedFinding);
+            }
+            SurprisedFinding = StartCoroutine(SurprisedOnFound());
         }
 
         agent.SetDestination(player.position);
+    }
+
+    Coroutine SurprisedFinding;
+    IEnumerator SurprisedOnFound()
+    {
+        agent.isStopped = true;
+        enemyCanvas.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        agent.isStopped = false;
+        enemyCanvas.SetActive(false);
+
+        enemyAnimator.SetBool("Running", true);
     }
 
     #endregion
@@ -292,10 +314,12 @@ public class EnemyBehaviour : MonoBehaviour
     Coroutine runningAway;
     IEnumerator RunningAway()
     {
+        enemyAnimator.SetBool("Running", true);
         agent.isStopped = true;
         SetAwayDirection();
         moveAway = true;
         yield return new WaitForSeconds(3f);
+        enemyAnimator.SetBool("Running", false);
         agent.isStopped = false;
         moveAway = false;
     }
