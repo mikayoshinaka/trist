@@ -87,7 +87,7 @@ public class GameStateManager : MonoBehaviour
         }
         lightSource_Collect.SetActive(true);
 
-        ghostCatch.ReSetCatch();
+        //ghostCatch.ReSetCatch();
 
         if (colorAction.CheckCurrentGimmick() != ColorAction.ColorGimmick.gimmick_Null)
         {

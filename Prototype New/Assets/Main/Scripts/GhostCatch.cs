@@ -30,7 +30,8 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private Material ghostBlueMaterial;
     [SerializeField] private Material ghostYellowMaterial;
     [SerializeField] private Transform dollInstancePos;
-    bool grab;
+    [SerializeField] Possess possessScript;
+    public bool grab;
     bool zoom;
     bool disclose;
     [SerializeField] private GameObject player;
@@ -59,7 +60,9 @@ public class GhostCatch : MonoBehaviour
         Fusion,
         Instance,
         Carry,
-        CannotGrab
+        Shoot,
+        CannotGrab,
+        Attacked
     }
     public Mode mode;
 
@@ -104,11 +107,18 @@ public class GhostCatch : MonoBehaviour
                 transparent.catchEnemy = true;
                 DollCarry();
                 break;
+            case Mode.Shoot:
+                DollShoot();
+                break;
             case Mode.CannotGrab:
                 CannotCatch();
                 break;
+            case Mode.Attacked:
+                transparent.catchEnemy = false;
+                EnemyAttacked();
+                break;
         }
-        if (mode != Mode.CanGrab)
+        if (mode != Mode.CanGrab|| mode != Mode.Attacked)
         {
             CaughtObjStop();
         }
@@ -116,7 +126,7 @@ public class GhostCatch : MonoBehaviour
     //  敵を掴む
     private void GhostGrab()
     {
-        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && enemy.Count > 0)
+        if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && enemy.Count > 0&&possessScript.possess==false)
         {
             if (enemy.Count > 1)
             {
@@ -126,7 +136,8 @@ public class GhostCatch : MonoBehaviour
             {
                 grab = true;
             }
-            if (image.activeSelf==false) {
+            if (image.activeSelf == false)
+            {
                 image.SetActive(true);
                 image2.SetActive(true);
             }
@@ -144,7 +155,7 @@ public class GhostCatch : MonoBehaviour
                 GrabbingTime();
             }
         }
-        else if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && grab == true)
+        else if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && grab == true && possessScript.possess == false)
         {
             if (enemy.Count > 1)
             {
@@ -161,7 +172,7 @@ public class GhostCatch : MonoBehaviour
             }
             GrabbingTime();
         }
-        else if (grab == true&&mode==Mode.CanGrab)
+        else if (grab == true && mode == Mode.CanGrab)
         {
             grab = false;
             for (int i = 0; i < caughtObj.Count; i++)
@@ -190,9 +201,14 @@ public class GhostCatch : MonoBehaviour
             }
         }
         bool fusionComplete = false;
-        for (int i = 0; i < time.Count; i++) {
+        for (int i = 0; i < time.Count; i++)
+        {
             if (time[i] > 1.0f)
             {
+                if (caughtObj[i].activeSelf == true)
+                {
+                    caughtObj[i].SetActive(false);
+                }
                 fusionComplete = true;
             }
             else
@@ -223,7 +239,7 @@ public class GhostCatch : MonoBehaviour
         }
         else if (dollInstanceTime >= dollZoom2Time && zoom == true)
         {
-            dollDisclose(caughtObj);
+            DollDisclose(caughtObj);
         }
         dollInstanceTime += Time.deltaTime;
         if (dollInstanceTime < dollInstanceMaxTime)
@@ -238,16 +254,14 @@ public class GhostCatch : MonoBehaviour
         zoom = false;
         disclose = false;
         mode = Mode.Carry;
-
-
-        // アスビ用         バグ可能？
+        // アスビ用
         gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
     }
 
     // 人形を運ぶ
     private void DollCarry()
     {
-        if (doll == null&&!(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
+        if (doll == null && !(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
         {
             mode = Mode.CanGrab;
 
@@ -255,11 +269,16 @@ public class GhostCatch : MonoBehaviour
             gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
         }
     }
+    //人形を箱に入れる
+    private void DollShoot()
+    {
+
+    }
     // 捕まえることができない
     private void CannotCatch()
     {
         notCatchTime += Time.deltaTime;
-        if (notCatchTime>2.0f&& !(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
+        if (notCatchTime > 2.0f && !(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
         {
             ReSetCatch();
             notCatchTime = 0.0f;
@@ -268,6 +287,49 @@ public class GhostCatch : MonoBehaviour
 
             // アスビ用
             gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+        }
+    }
+    private void EnemyAttacked()
+    {
+        if (doll != null)
+        {
+            doll.SetActive(false);
+            doll = null;
+        }
+        for (int i = 0; i < caughtObj.Count; i++)
+        {
+            if (caughtObj[i].activeSelf == false)
+            {
+                caughtObj[i].SetActive(true);
+                time[i] = 0.0f;
+
+            }
+            if (caughtObj[i].activeSelf == true)
+            {
+                Vector3 p1Pos = Vector3.zero;
+                Vector3 p2Pos = Vector3.zero;
+                BezierCoordinate(presentBox.transform.position, ref p1Pos, ref p2Pos, transform.TransformPoint(caughtObjPos[i]));
+                SuckedIntoBox(presentBox.transform.position, p1Pos, p2Pos, transform.TransformPoint(caughtObjPos[i]), i);
+            }
+        }
+        bool enemyFleeComplete = false;
+        for (int i = 0; i < time.Count; i++)
+        {
+            if (time[i] > 1.0f)
+            {
+                enemyFleeComplete = true;
+                CaughtObjMoveable(caughtObj[i]);
+            }
+            else
+            {
+                enemyFleeComplete = false;
+                break;
+            }
+        }
+        if (enemyFleeComplete == true)
+        {
+            ReSetCatch();
+            mode = Mode.CannotGrab;
         }
     }
 
@@ -335,7 +397,8 @@ public class GhostCatch : MonoBehaviour
     private void GrabbingTime()
     {
         canGrabTime -= Time.deltaTime;
-        if (canGrabTime / maxGrabTime>0) {
+        if (canGrabTime / maxGrabTime > 0)
+        {
             CaughtObjStop();
             image.GetComponent<Image>().fillAmount = canGrabTime / maxGrabTime;
         }
@@ -345,10 +408,9 @@ public class GhostCatch : MonoBehaviour
             image.SetActive(false);
             image2.SetActive(false);
             canGrabTime = 3.0f;
-            for (int i = 0; i < caughtObj.Count; i++) {
-                caughtObj[i].GetComponent<EnemyBehaviour>().enabled = true;
-               caughtObj[i].GetComponent<NavMeshAgent>().isStopped = false;
-                caughtObj[i].transform.parent = null;
+            for (int i = 0; i < caughtObj.Count; i++)
+            {
+                CaughtObjMoveable(caughtObj[i]);
             }
             caughtObj.Clear();
             enemy.Clear();
@@ -386,11 +448,6 @@ public class GhostCatch : MonoBehaviour
                                    ref p0, ref p1, ref p2, ref p3, ref b0, ref b1, ref b2, ref b3);
         caughtObj[i].transform.position = vec;
         time[i] += Time.deltaTime;
-        if (time[i] > 1.0f)
-        {
-            caughtObj[i].SetActive(false);
-        }
-
     }
 
     private Vector3 GetPointAtTime(float t, ref float ax, ref float ay, ref float az, ref float bx, ref float by, ref float bz, ref float cx, ref float cy, ref float cz,
@@ -477,7 +534,7 @@ public class GhostCatch : MonoBehaviour
             else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
                   || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody"))
             {
-                doll = Instantiate(greenDoll, dollInstancePos.position, Quaternion.identity);;
+                doll = Instantiate(greenDoll, dollInstancePos.position, Quaternion.identity); ;
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Green);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
@@ -491,7 +548,7 @@ public class GhostCatch : MonoBehaviour
         doll.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
     }
 
-    private void dollDisclose(List<GameObject> ghost)
+    private void DollDisclose(List<GameObject> ghost)
     {
         if (discloseTime < 1.0f)
         {
@@ -511,15 +568,23 @@ public class GhostCatch : MonoBehaviour
     {
         for (int i = 0; i < caughtObj.Count; i++)
         {
-            if (caughtObj[i].GetComponent<NavMeshAgent>().isActiveAndEnabled) {
+            if (caughtObj[i].GetComponent<NavMeshAgent>().isActiveAndEnabled)
+            {
                 caughtObj[i].GetComponent<NavMeshAgent>().isStopped = true;
             }
         }
     }
-
-    public void ReSetCatch ()
+    public void CaughtObjMoveable(GameObject enemy)
     {
-        if (doll!=null) {
+        enemy.GetComponent<EnemyBehaviour>().enabled = true;
+        enemy.GetComponent<NavMeshAgent>().isStopped = false;
+        enemy.transform.parent = null;
+    }
+
+    public void ReSetCatch()
+    {
+        if (doll != null)
+        {
             doll.SetActive(false);
             doll = null;
         }
@@ -528,6 +593,10 @@ public class GhostCatch : MonoBehaviour
         caughtObjPos.Clear();
         time.Clear();
         canGrabTime = 3.0f;
+    }
+    public void SetState(Mode temp)
+    {
+        mode = temp;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -538,11 +607,11 @@ public class GhostCatch : MonoBehaviour
             if (!enemy.Contains(other.gameObject))
             {
                 enemy.Add(other.gameObject);
-     
+
             }
         }
-       
-        
+
+
     }
 
 
@@ -553,7 +622,7 @@ public class GhostCatch : MonoBehaviour
             if (enemy.Contains(other.gameObject))
             {
                 enemy.Remove(other.gameObject);
-               
+
             }
         }
     }

@@ -8,6 +8,7 @@ public class Possess : MonoBehaviour
     public GameObject PlayerController;
     public GameObject[] PlayerBody;
     public GameObject possessObject;
+    public GhostCatch ghostCatch;
     public bool possess;
     public List<GameObject> searchObject = new List<GameObject>();
     public List<GameObject> cooltimeObject = new List<GameObject>();
@@ -57,7 +58,7 @@ public class Possess : MonoBehaviour
     void Update()
     {
 
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false)
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false&&ghostCatch.grab==false)
         {
             transparentScript.bookShelfPossess = true;
             InputAndCanPossess();

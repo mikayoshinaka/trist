@@ -22,7 +22,7 @@ public class EnemyBehaviour : MonoBehaviour
     public LayerMask stageMask;
     public bool playerInSightRange, playerInAttackRange;
 
-    // [SerializeField] GhostCatch ghostCatch;
+    public GhostCatch ghostCatch;
     private enum EnemyState
     {
         Patrol,
@@ -70,7 +70,6 @@ public class EnemyBehaviour : MonoBehaviour
         patrolSet = false;
         moveAway = false;
         gimmickAction = false;
-
         //enableGizmos = true;
     }
 
@@ -283,10 +282,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         //
         // プレイヤーと当たった時 //
-        //for (int i = 0; i < ghostCatch.caughtObj.Count; i++)
-        //{
-        //    ghostCatch.SuckedIntoBox(ghostCatch.presentBox.transform.position, new Vector3(0.0f, 6.0f, 0.0f), new Vector3(0.0f, 6.0f, 0.0f), transform.TransformPoint(ghostCatch.caughtObjPos[i]), i);
-        //}
+        ghostCatch.SetState(GhostCatch.Mode.Attacked);
         // ここにスポーン処理を呼ぶ //
         // 
 

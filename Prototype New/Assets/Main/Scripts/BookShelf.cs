@@ -16,9 +16,13 @@ public class BookShelf : MonoBehaviour
     private float upperVerticalAngleLimit = 10.0f;
     private float HorizontalAngleLimit = 90.0f;
     public List<GameObject> enterObject = new List<GameObject>();
+    [SerializeField] private float coefficient;
+    [SerializeField] private float explosionSpeed;
+    public bool fly;
     // Start is called before the first frame update
     void Start()
     {
+        fly = false;
         horizontalAngle = this.gameObject.transform.localEulerAngles.y;
         //y = this.gameObject.transform.localPosition.y;
     }
@@ -48,6 +52,11 @@ public class BookShelf : MonoBehaviour
         }
 
         LimitAngle();
+        if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && fly ==false)
+        {
+            fly = true;
+            FlyBook();
+        }
         //    x = ( Mathf.Sin((horizontalAngle) * Mathf.Deg2Rad));
         //    z = ( Mathf.Cos((horizontalAngle) * Mathf.Deg2Rad));
         //this.transform.localPosition = new Vector3(x, y, z);
@@ -84,13 +93,42 @@ public class BookShelf : MonoBehaviour
         }
     }
 
-    //private void DefCamera()
-    //{
+    private void FlyBook()
+    {
+        Vector3[] velocity = new Vector3[enterObject.Count];
+        for (int i = 0; i < enterObject.Count; i++)
+        {
+            velocity[i] = explosionSpeed * transform.forward;
+            enterObject[i].GetComponent<Rigidbody>().isKinematic = false;
+            enterObject[i].GetComponent<Rigidbody>().AddForce(coefficient * velocity[i]);
+        }
+    }
 
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Book")
+        {
+            Debug.Log("hit");
+            if (!enterObject.Contains(other.gameObject))
+            {
+                enterObject.Add(other.gameObject);
 
-    //private void BookAttack()
-    //{
+            }
+        }
 
-    //}
+
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Book")
+        {
+            if (enterObject.Contains(other.gameObject))
+            {
+                enterObject.Remove(other.gameObject);
+
+            }
+        }
+    }
 }

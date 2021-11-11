@@ -37,3 +37,16 @@ DollInstance()			// アスビ用
 						enum ColorGimmick {gimmick Red ~ Orange} (全体の色)
 
 DollCombination()		colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Red);
+
+
+
+============	2021.11.11	================
+
+変更内容：
+EnemyBehaviour
+追加
+ public GhostCatch ghostCatch;
+  ghostCatch.SetState(GhostCatch.Mode.Attacked);
+GameStateManager
+変更
+ //ghostCatch.ReSetCatch();
