@@ -126,7 +126,7 @@ public class GhostCatch : MonoBehaviour
     //  敵を掴む
     private void GhostGrab()
     {
-        if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && enemy.Count > 0&&possessScript.possess==false)
+        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && enemy.Count > 0&&possessScript.possess==false)
         {
             if (enemy.Count > 1)
             {
@@ -155,7 +155,7 @@ public class GhostCatch : MonoBehaviour
                 GrabbingTime();
             }
         }
-        else if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && grab == true && possessScript.possess == false)
+        else if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && grab == true && possessScript.possess == false)
         {
             if (enemy.Count > 1)
             {
@@ -261,7 +261,7 @@ public class GhostCatch : MonoBehaviour
     // 人形を運ぶ
     private void DollCarry()
     {
-        if (doll == null && !(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
+        if (doll == null && !(Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)))
         {
             mode = Mode.CanGrab;
 
@@ -278,7 +278,7 @@ public class GhostCatch : MonoBehaviour
     private void CannotCatch()
     {
         notCatchTime += Time.deltaTime;
-        if (notCatchTime > 2.0f && !(Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)))
+        if (notCatchTime > 2.0f && !(Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)))
         {
             ReSetCatch();
             notCatchTime = 0.0f;
