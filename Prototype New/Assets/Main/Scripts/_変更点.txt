@@ -50,3 +50,16 @@ EnemyBehaviour
 GameStateManager
 変更
  //ghostCatch.ReSetCatch();
+
+
+
+ ============	2021.11.14	================
+ 
+ 変更内容：
+ 
+ Possess スクリプト　行169 と　行321
+
+ 追加 :
+
+// EnemyBehaviour プレイヤー判定用
+PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("PlayerTrigger");

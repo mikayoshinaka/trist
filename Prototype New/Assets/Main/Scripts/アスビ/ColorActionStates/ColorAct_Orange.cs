@@ -47,6 +47,7 @@ public class ColorAct_Orange : ColorActState
 
         instantiatedObjects = GameObject.Find("InstantiatedObjects");
 
+        power = 2f;
         leapCount = 0;
         maxLeap = 5;
         energyZapLeap = new GameObject[maxLeap];
@@ -98,6 +99,7 @@ public class ColorAct_Orange : ColorActState
         Vector3 offset = new Vector3(0, 1f, 0);
         Vector3 origin = colorAct.transform.position + offset;
         Vector3 direction = origin + colorAct.transform.forward * power;
+
         lineRenderer.SetPosition(0, origin);
         lineRenderer.SetPosition(1, direction);
     }

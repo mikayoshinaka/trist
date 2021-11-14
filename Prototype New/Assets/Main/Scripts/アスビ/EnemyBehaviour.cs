@@ -55,7 +55,7 @@ public class EnemyBehaviour : MonoBehaviour
         enemySight = GetComponent<EnemySight>();
 
         agent = GetComponent<NavMeshAgent>();
-        playerMask = LayerMask.GetMask("Player");
+        playerMask = LayerMask.GetMask("PlayerTrigger");
         stageMask = LayerMask.GetMask("Stages");
 
         agent.speed = enemiesManager.speed;

@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,7 +58,7 @@ public class Possess : MonoBehaviour
     void Update()
     {
 
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false&&ghostCatch.grab==false)
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false)
         {
             transparentScript.bookShelfPossess = true;
             InputAndCanPossess();
@@ -97,7 +97,7 @@ public class Possess : MonoBehaviour
             FromTransparent();
         }
     }
-    //‚Æ‚è‚Â‚­“®‚«
+    //ã¨ã‚Šã¤ãå‹•ã
     private void ToPossess(Vector3 toPos)
     {
         float dis = Vector3.Distance(PlayerController.transform.position, toPos);
@@ -106,7 +106,7 @@ public class Possess : MonoBehaviour
         {
             cameraSpeed += Time.deltaTime * cameraAccelerate;
         }
-        //‰Á‘¬“x
+        //åŠ é€Ÿåº¦
         float a = MagneticAccelerate(dis);
         relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, toPos, Time.deltaTime * ((cameraSpeed * cameraSpeed) + cameraFirstSpeed));
         PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, toPos, Time.deltaTime * speed * a);
@@ -128,18 +128,18 @@ public class Possess : MonoBehaviour
 
     private float MagneticAccelerate(float dis)
     {
-        //”ä—á’è”
+        //æ¯”ä¾‹å®šæ•°
         float k = 6.33f * 10f * 10f * 10f * 10f;
         float F;
         int m = 100;
-        //“_“d‰×
+        //ç‚¹é›»è·
         float Q = 0.25f;
         F = k * Q / (dis * dis);
-        //‰Á‘¬“x
+        //åŠ é€Ÿåº¦
         float a = F / m;
         return a;
     }
-    //—£‚ê‚é“®‚«
+    //é›¢ã‚Œã‚‹å‹•ã
     private void FromPossess()
     {
         float dis;
@@ -165,6 +165,10 @@ public class Possess : MonoBehaviour
         {
             PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
             PlayerController.layer = LayerMask.NameToLayer("Player");
+
+            // EnemyBehaviour ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆ¤å®šç”¨
+            PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("PlayerTrigger");
+
             if (possessObject.tag == "Box")
             {
                 transparentScript.bookShelfPossess = false;
@@ -181,7 +185,7 @@ public class Possess : MonoBehaviour
         }
 
     }
-    //‚Æ‚è‚Â‚­ŠÔ
+    //ã¨ã‚Šã¤ãæ™‚é–“
     private void GhostChangeTime()
     {
         possessTime += Time.deltaTime;
@@ -190,7 +194,7 @@ public class Possess : MonoBehaviour
             GhostLeaveFromPossessObject();
         }
     }
-    //æ‚è•t‚¯‚éÒ‚Ì”ÍˆÍ“à‹——£ƒ\[ƒg
+    //å–ã‚Šä»˜ã‘ã‚‹è€…ã®ç¯„å›²å†…è·é›¢ã‚½ãƒ¼ãƒˆ
     private void Sort()
     {
         GameObject temp;
@@ -209,7 +213,7 @@ public class Possess : MonoBehaviour
 
         }
     }
-    //‚Æ‚è‚Â‚¢‚½‚à‚Ì‚ÌŸ‚Éæ‚è•t‚¯‚é‚Ü‚Å‚ÌŠÔŒv‘ª
+    //ã¨ã‚Šã¤ã„ãŸã‚‚ã®ã®æ¬¡ã«å–ã‚Šä»˜ã‘ã‚‹ã¾ã§ã®æ™‚é–“è¨ˆæ¸¬
     private void TimeCount()
     {
         for (int i = 0; i < cool.Count; i++)
@@ -222,8 +226,8 @@ public class Possess : MonoBehaviour
             }
         }
     }
-  
-    //“§–¾‚É‚È‚é
+
+    //é€æ˜ã«ãªã‚‹
     private void ToTransparent()
     {
         bool becameTransparent = false;
@@ -267,7 +271,7 @@ public class Possess : MonoBehaviour
             transparent = false;
         }
     }
-    //“§–¾‚©‚çŒ³‚É–ß‚é
+    //é€æ˜ã‹ã‚‰å…ƒã«æˆ»ã‚‹
     private void FromTransparent()
     {
         bool def = false;
@@ -309,10 +313,13 @@ public class Possess : MonoBehaviour
             normal = false;
         }
     }
-    //‚Æ‚è‚Â‚­‚Æ‚«
+    //ã¨ã‚Šã¤ãã¨ã
     private void InputAndCanPossess()
     {
         PlayerController.layer = LayerMask.NameToLayer("Disappear");
+
+        // EnemyBehaviour ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆ¤å®šç”¨
+        PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("Default");
 
         PlayerController.GetComponent<CharacterMovementScript>().enabled = false;
         possessObject = searchObject[0];
@@ -334,7 +341,7 @@ public class Possess : MonoBehaviour
         canPossess = true;
         transparent = true;
     }
-    //‚Æ‚è‚Â‚¢‚½‚à‚Ì‚©‚ç—£‚ê‚é‚Æ‚«
+    //ã¨ã‚Šã¤ã„ãŸã‚‚ã®ã‹ã‚‰é›¢ã‚Œã‚‹ã¨ã
     private void GhostLeaveFromPossessObject()
     {
         leave = true;
@@ -345,12 +352,12 @@ public class Possess : MonoBehaviour
         changeTime = false;
     }
 
-   
+
 
 
     public void OnTriggerEnter(Collider other)
     {
-        if ( other.tag == "Box")
+        if (other.tag == "Box")
         {
 
             if (!searchObject.Contains(other.gameObject))
@@ -370,7 +377,7 @@ public class Possess : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if ( other.tag == "Box")
+        if (other.tag == "Box")
         {
 
             if (searchObject.Contains(other.gameObject))
