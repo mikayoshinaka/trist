@@ -12,6 +12,7 @@ TagManager:
   - YellowEnemyBody
   - PlayerBody
   - Book
+  - AttackBook
   layers:
   - Default
   - TransparentFX

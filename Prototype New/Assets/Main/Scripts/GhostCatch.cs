@@ -8,6 +8,7 @@ public class GhostCatch : MonoBehaviour
     public List<GameObject> enemy = new List<GameObject>();
     public List<GameObject> caughtObj = new List<GameObject>();
     public List<Vector3> caughtObjPos = new List<Vector3>();
+    [SerializeField] private DollSave dollSave;
     [SerializeField] private GameObject redDoll;
     [SerializeField] private GameObject blueDoll;
     [SerializeField] private GameObject yellowDoll;
@@ -30,10 +31,14 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private Material ghostBlueMaterial;
     [SerializeField] private Material ghostYellowMaterial;
     [SerializeField] private Transform dollInstancePos;
+    [SerializeField] private Transform shootPos;
+    [SerializeField] private Transform inhalePos;
     [SerializeField] Possess possessScript;
     public bool grab;
     bool zoom;
     bool disclose;
+    bool directionToggle;
+    bool vibrate;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject playerController;
     [SerializeField] public GameObject presentBox;
@@ -41,17 +46,29 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private GameObject image2;
     [SerializeField] private Transparent transparent;
     public GameObject doll = null;
+    [SerializeField] private GameObject mainCamera;
     [SerializeField] private GameObject dollInstanceZoom1;
     [SerializeField] private GameObject dollInstanceZoom2;
+    [SerializeField] private GameObject shootCamera;
     [SerializeField] private float discloseHeight = 1.0f;
     [SerializeField] private float discloseSpeed = 1.0f;
+    [SerializeField] private float inhaleSpeedMax = 5.0f;
+    [SerializeField] private float inhaleAccelerate = 1.2f;
+    [SerializeField] private float inhaleFirstSpeed = 1.0f;
+    [SerializeField] private float inhaleTime = 1.0f;
+    [SerializeField] private float vibrateTime = 1.0f;
+    private float inhaleSpeed;
     private float notCatchTime;
     private float canGrabTime;
     private float maxGrabTime;
     private float dollInstanceTime;
+    private float shootTime;
     [SerializeField] private float dollZoom2Time = 2.0f;
     [SerializeField] private float dollInstanceMaxTime = 10.0f;
     private float discloseTime;
+
+    [SerializeField] private float vibrateRange = 0.5f, vibrateSpeed = 10.0f;
+    float initPosition,newPosition,minPosition ,maxPosition;
     //[SerializeField] private int partition = 20;
     private List<float> time = new List<float>();
     public enum Mode
@@ -75,10 +92,13 @@ public class GhostCatch : MonoBehaviour
         grab = false;
         zoom = false;
         disclose = false;
+        directionToggle = false;
+        vibrate = false;
         notCatchTime = 0.0f;
         canGrabTime = 3.0f;
         maxGrabTime = canGrabTime;
         dollInstanceTime = 0.0f;
+        shootTime = 0.0f;
         discloseTime = 0.0f;
         image.SetActive(false);
         image2.SetActive(false);
@@ -272,6 +292,33 @@ public class GhostCatch : MonoBehaviour
     //人形を箱に入れる
     private void DollShoot()
     {
+        if (shootTime==0.0f) {
+            playerController.transform.position = new Vector3(shootPos.position.x, playerController.transform.position.y, shootPos.position.z);
+            playerController.transform.LookAt(inhalePos);
+            playerController.GetComponent<CharacterMovementScript>().enabled = false;
+            mainCamera.SetActive(false);
+            shootCamera.SetActive(true);
+        }
+        shootTime += Time.deltaTime;
+        if(shootTime>0.0f&&shootTime<vibrateTime)
+        {
+            DollVibrate();
+        }
+        else if(shootTime>=vibrateTime&&shootTime<vibrateTime+inhaleTime)
+        {
+            vibrate = false;
+            directionToggle = false;
+            DollInhale();
+        }
+        else
+        {
+            playerController.GetComponent<CharacterMovementScript>().enabled = true;
+            shootTime = 0.0f;
+            mainCamera.SetActive(true);
+            shootCamera.SetActive(false);
+            ReSetCatch();
+            mode = Mode.CanGrab;
+        }
 
     }
     // 捕まえることができない
@@ -562,6 +609,53 @@ public class GhostCatch : MonoBehaviour
             disclose = true;
             doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + discloseHeight, dollInstancePos.position.z);
             doll.transform.localScale = new Vector3((1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f));
+        }
+    }
+    private void DollVibrate()
+    {
+        if (vibrate == false)
+        {
+            vibrate = true;
+            initPosition = doll.transform.position.y;
+            newPosition = initPosition;
+            minPosition = initPosition - vibrateRange;
+            maxPosition = initPosition + vibrateRange;
+        }
+        Vibrate();
+
+    }
+    private void Vibrate()
+    {
+        if (newPosition<=minPosition||maxPosition<=newPosition)
+        {
+            directionToggle = !directionToggle;
+        }
+
+        newPosition = directionToggle ? newPosition + (vibrateSpeed * Time.deltaTime) : newPosition - (vibrateSpeed * Time.deltaTime);
+        newPosition = Mathf.Clamp(newPosition, minPosition, maxPosition);
+        //doll.transform.localPosition = new Vector3(doll.transform.position.x, doll.transform.position.y+newPosition, doll.transform.position.z);
+        doll.transform.localPosition = new Vector3(0, newPosition,0);
+    }
+    private void DollInhale()
+    {
+        if (doll != null)
+        {
+            float inhaleDis = Vector3.Distance(doll.transform.position, inhalePos.position);
+            if (inhaleSpeed < inhaleSpeedMax)
+            {
+                inhaleSpeed += Time.deltaTime * inhaleAccelerate;
+            }
+            if (inhaleDis < 0.03f)
+            {
+                inhaleSpeed = 0.0f;
+                dollSave.dolls.Add(doll);
+                doll.SetActive(false);
+                doll = null;
+            }
+            else
+            {
+                doll.transform.position = Vector3.MoveTowards(doll.transform.position, inhalePos.position, Time.deltaTime * ((inhaleSpeed * inhaleSpeed) + inhaleFirstSpeed));
+            }
         }
     }
     private void CaughtObjStop()

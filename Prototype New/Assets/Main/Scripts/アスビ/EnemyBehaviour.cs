@@ -282,7 +282,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         //
         // プレイヤーと当たった時 //
-        ghostCatch.SetState(GhostCatch.Mode.Attacked);
+        if (ghostCatch.mode==GhostCatch.Mode.Carry) {
+            ghostCatch.SetState(GhostCatch.Mode.Attacked);
+        }
         // ここにスポーン処理を呼ぶ //
         // 
 

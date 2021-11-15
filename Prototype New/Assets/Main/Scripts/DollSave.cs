@@ -16,10 +16,9 @@ public class DollSave : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && within ==true&&catchArea.GetComponent<GhostCatch>().doll!=null)
+        if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && within ==true&&catchArea.GetComponent<GhostCatch>().mode==GhostCatch.Mode.Carry)
         {
-            dolls.Add(catchArea.GetComponent<GhostCatch>().doll);
-            catchArea.GetComponent<GhostCatch>().ReSetCatch();
+            catchArea.GetComponent<GhostCatch>().mode = GhostCatch.Mode.Shoot;
         }
     }
     private void OnTriggerEnter(Collider other)

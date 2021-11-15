@@ -4,29 +4,39 @@ using UnityEngine;
 using UnityEngine.AI;
 public class ParalysisEnemy : MonoBehaviour
 {
-    public List<GameObject> paralysisObj = new List<GameObject>();
+    private float time;
+    private float timeMax = 3.0f;
+    bool paralysis;
     // Start is called before the first frame update
     void Start()
     {
-        
+        time = 0.0f;
+        paralysis = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (paralysisObj.GetComponent<NavMeshAgent>().isActiveAndEnabled)
-        //{
-        //    paralysisObj.GetComponent<EnemyBehaviour>().enabled = false;
-        //    paralysisObj.GetComponent<NavMeshAgent>().isStopped = true;
-        //}
+       if(paralysis==true && time < timeMax)
+       {
+            time += Time.deltaTime;
+            this.gameObject.GetComponent<EnemyBehaviour>().enabled = false;
+            this.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+       }
+       else if(paralysis == true && time >= timeMax)
+       {
+            paralysis = false;
+            time = 0.0f;
+            this.gameObject.GetComponent<EnemyBehaviour>().enabled = true;
+            this.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
+       }
     }
 
-    public void Paralysis(GameObject enemy)
+    private void OnTriggerEnter(Collider other)
     {
-        if(!paralysisObj.Contains(enemy))
+        if (other.tag == "AttackBook")
         {
-            paralysisObj.Add(enemy);
+            paralysis = true;
         }
-        
     }
 }
