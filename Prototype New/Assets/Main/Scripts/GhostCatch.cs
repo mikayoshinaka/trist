@@ -318,6 +318,9 @@ public class GhostCatch : MonoBehaviour
             shootCamera.SetActive(false);
             ReSetCatch();
             mode = Mode.CanGrab;
+
+            // アスビ用
+            gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
         }
 
     }

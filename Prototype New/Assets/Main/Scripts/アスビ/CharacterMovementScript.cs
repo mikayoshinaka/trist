@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CharacterMovementScript : MonoBehaviour
 {
-    public CharacterController controller;   
+    // public CharacterController controller;
+    public NavMeshAgent agent;
     public Transform playerCamera;
 
     bool move, fly;
@@ -22,7 +24,8 @@ public class CharacterMovementScript : MonoBehaviour
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
+        // controller = GetComponent<CharacterController>();
+        agent = GetComponent<NavMeshAgent>();
         playerCamera = GameObject.Find("Cameras").transform.Find("Main Camera");
         playerInterupt = false;
     }
@@ -56,22 +59,23 @@ public class CharacterMovementScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                controller.Move(moveDir * speed * Time.deltaTime);
+                // controller.Move(moveDir * speed * Time.deltaTime);
+                agent.Move(moveDir * speed * Time.deltaTime);
             }
 
             // 上下移動
-            if (fly && !move)
-            {
-                Vector3 flying = new Vector3(0, flySpeed * 2, 0);
-                if (Input.GetKey(KeyCode.Space))
-                {
-                    controller.Move(flying * Time.deltaTime);
-                }
-                else if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    controller.Move(-flying * Time.deltaTime);
-                }
-            }
+            //if (fly && !move)
+            //{
+            //    Vector3 flying = new Vector3(0, flySpeed * 2, 0);
+            //    if (Input.GetKey(KeyCode.Space))
+            //    {
+            //        controller.Move(flying * Time.deltaTime);
+            //    }
+            //    else if (Input.GetKey(KeyCode.LeftShift))
+            //    {
+            //        controller.Move(-flying * Time.deltaTime);
+            //    }
+            //}
         }
     }
 
