@@ -13,6 +13,8 @@ TagManager:
   - PlayerBody
   - Book
   - AttackBook
+  - Laser
+  - FireBall
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - Disappear
   - Book
   - PlayerTrigger
-  - 
+  - FireBall
   - 
   - 
   - 
