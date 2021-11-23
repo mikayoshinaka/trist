@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 public class BossEnemy : MonoBehaviour
 {
-    public bool hitPlayer;
+    [SerializeField] float hitPlayerDis=3.0f;
+
     [SerializeField] float changeTimerMax = 1.0f;
     public float changeTimer = 0.0f;
 
@@ -43,7 +44,6 @@ public class BossEnemy : MonoBehaviour
     void Start()
     {
         mode = Mode.change;
-        hitPlayer = false;
         rotateAngle = 0.0f;
         fire = 0;
         fireAttackCount = 0;
@@ -233,6 +233,7 @@ public class BossEnemy : MonoBehaviour
 
     void ModeChange()
     {
+        bool hitPlayer= InArea(); ;
         if (changeTimer <= changeTimerMax) {
             changeTimer += Time.deltaTime;
         }
@@ -265,18 +266,15 @@ public class BossEnemy : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
+
+    bool InArea()
     {
-        if (other.tag == "PlayerBody")
-        {
-            hitPlayer = true;
+        float dis = Vector3.Distance(player.transform.position,this.transform.position);
+        if (dis<hitPlayerDis) {
+                return true;  
         }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "PlayerBody")
-        {
-            hitPlayer = false;
+        else {
+            return false;
         }
     }
 }

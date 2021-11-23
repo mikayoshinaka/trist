@@ -17772,7 +17772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605315481219241073, guid: cdcbff97776886c44b9259f21c8fa149, type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2605315481219241074, guid: cdcbff97776886c44b9259f21c8fa149, type: 3}
       propertyPath: m_RootOrder
@@ -17892,10 +17892,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 2.5
+  m_Radius: 0.7
   m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!114 &2034037464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17908,7 +17908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf2865c4d15d4f4bb71298db45d23c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPlayer: 0
+  hitPlayerDis: 10
   changeTimerMax: 1
   changeTimer: 0
   radius: 2
