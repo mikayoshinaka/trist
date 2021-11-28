@@ -1,0 +1,65 @@
+﻿
+// 変更点 //
+
+============	2021.11.1	================
+
+変更内容：
+
+- 統合作業 GhostCatch スクリプト
+
+
+メソッド					スクリプト
+
+初期化					// アスビ用
+						private GameStateManager gameStateManager;
+						private ColorAction colorAction;
+
+Start()					// アスビ用
+						gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
+						colorAction = GameObject.Find("PlayerController").GetComponent<ColorAction>();
+
+
+======================= STEP 1 に戻る処理 =======================
+
+DollCarry()				// アスビ用
+CannotCatch()			gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+GrabbingTime()
+
+
+======================= STEP 4 に入る処理 =======================
+
+DollInstance()			// アスビ用
+						gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
+
+
+======================= 組み合わせギミック =======================
+
+						enum ColorGimmick {gimmick Red ~ Orange} (全体の色)
+
+DollCombination()		colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Red);
+
+
+
+============	2021.11.11	================
+
+変更内容：
+EnemyBehaviour
+追加
+ public GhostCatch ghostCatch;
+  ghostCatch.SetState(GhostCatch.Mode.Attacked);
+GameStateManager
+変更
+ //ghostCatch.ReSetCatch();
+
+
+
+ ============	2021.11.14	================
+ 
+ 変更内容：
+ 
+ Possess スクリプト　行169 と　行321
+
+ 追加 :
+
+// EnemyBehaviour プレイヤー判定用
+PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("PlayerTrigger");

@@ -1,0 +1,399 @@
+﻿// 変更点 //	
+		
+============	2021.7.29	================
+
+MonkeyDollのスクリプトをまだいじってないので、コントローラーの操作、変更の作業をお願いします
+
+	// GhostChangeScript //
+
+	変更内容
+-	MainCamera オブジェクトの変更
+-	PlayerScript　を　CharacterMovementScript　に変更
+-	GameObject Player を　PlayerController　に変更 
+-	GameObject PlayerParent の追加　（transform.parent用）
+-	GameObject PlayerBody　の追加 (プレイヤーのメッシュ、GetComponent<Renderer>()用)
+-	Input.GetKeyDown(KeyCode.F) のインプットを　(Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))に変更　（コントローラーの　B ボタン）
+
+
+行		スクリプト
+
+37		defColor = Player.GetComponent<Renderer>().material.color;
+		=> defColor = PlayerBody.GetComponent<Renderer>().material.color;
+
+46		Player.layer = LayerMask.NameToLayer("Disappear");
+		=> PlayerController.layer = LayerMask.NameToLayer("Disappear");
+
+48		Player.GetComponent<PlayerScript>().enabled = false;
+		=>	PlayerController.GetComponent<CharacterMovementScript>().enabled = false;
+
+93		float dis = Vector3.Distance(Player.transform.position, toPos);
+		=> float dis = Vector3.Distance(PlayerController.transform.position, toPos);
+
+97		Player.transform.position = Vector3.MoveTowards(Player.transform.position, toPos, Time.deltaTime * speed*a);
+		=> PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, toPos, Time.deltaTime * speed*a);
+
+102		Player.transform.parent = possessObject.gameObject.transform;
+		=> PlayerController.transform.parent = possessObject.gameObject.transform;
+
+118		Player.GetComponent<PlayerScript>().enabled = true;
+		=> PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
+
+127		Player.transform.parent = null;
+		=> PlayerController.transform.parent = PlayerParent.transform;
+
+140		Player.GetComponent<PlayerScript>().enabled = true;
+		=> PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
+
+149		Player.transform.parent = null;
+		=> PlayerController.transform.parent = PlayerParent.transform;
+
+165-166 if (Vector3.Distance(Player.transform.position, searchObject[j-1].transform.position)
+                    > Vector3.Distance(Player.transform.position, searchObject[j].transform.position)) {
+		=> if (Vector3.Distance(PlayerController.transform.position, searchObject[j-1].transform.position)
+                    > Vector3.Distance(PlayerController.transform.position, searchObject[j].transform.position)) {
+
+189 ~ 229
+		Player を　PlayerBodyに変更
+
+	ボタン変更
+43-60	(Input.GetKeyDown(KeyCode.F)
+		=> (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))
+
+
+
+============	2021.7.31	================
+
+	// EnemySearchScript //
+　　　　変更内容
+-	透明化のため、状態の変化によるcolorの変更
+
+
+行		スクリプト
+
+174             if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != Color.blue)
+                =>if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
+
+176             this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.blue;
+                =>this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+
+199             if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != Color.yellow)
+                =>if (this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color != new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a))
+        
+201             this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.yellow;
+                =>this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.92f, 0.016f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+
+
+208             this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
+                =>this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, this.gameObject.transform.GetChild(0).GetComponent<Renderer>().material.color.a);
+
+
+
+============	2021.8.11	================
+
+	// EnemySearchScript //
+
+　　　　変更内容
+-       人形が音を鳴らしたとき、目指すように変更
+
+
+
+行		スクリプト
+
+72~76            // PATROLLING
+                 SetPatrol();
+
+                 // CHASING
+                  SetChase();
+
+                 => //人形用
+            if (monkeyChase)
+            {
+                Chasing();
+                MonkeyTime();
+            }
+            else
+            {
+                // PATROLLING
+                SetPatrol();
+
+                // CHASING
+                SetChase();
+            }
+
+229~238 
+            //人形用追加
+            void MonkeyTime()
+            {
+                time += Time.deltaTime;
+                if (time > monkeyChaseTime)
+                {
+                    time = 0.0f;
+                    monkeyChase = false;
+                }   
+            }
+
+
+
+
+============	2021.8.17	================
+
+        // DoorOpenScript //
+
+        変更内容
+
+-   ドアスクリプトの調整
+    
+    オブジェクトの変更、　
+    
+    Door Gimmick　(ギミックの親オブジェクト) > Doors（ドアの親オブジェクト） > Animation （ドアのアニメーション） >　Door x (ドアのオブジェクト、判定等)
+    
+    仮に作ったんで、何かがあったら教えてください。
+     
+
+
+
+
+
+============	2021.8.23	================
+
+       //EnemySearchScript//
+
+　変更内容
+-       プレイヤーHP用に追加
+
+行	　　　スクリプト
+
+
+　　　　　　　//プレイヤーHP用
+42~44   　　　[SerializeField] ManagementScript managementScript;
+              private int playerHP;
+
+100~105       SceneManagerScript.gameOver = true;
+              =>managementScript.PlayerMinusHP();
+                playerHP = ManagementScript.GetPlayerHP();
+                if (playerHP <= 0)
+                {
+                    SceneManagerScript.gameOver = true;
+                }
+
+      //SceneManagerScript//
+
+変更内容
+-       移動先変更
+
+43      SceneManager.LoadScene("Stage 1");
+        =>SceneManager.LoadScene("Result");
+
+
+
+
+
+============	2021.8.25	================
+
+           //GhostChange//
+
+        変更内容
+
+-       public に変更
+
+
+行       スクリプト
+12      private bool possess = false;
+        => public bool possess = false;
+
+
+============	2021.8.30	================
+
+	//LiquidGhostScript //
+        
+　　　　変更内容
+-	透明化のため、状態の変化によるcolorの変更
+
+
+行       スクリプト
+51       enemyBody.GetComponent<Renderer>().material.color = Color.red;
+        => enemyBody.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 0.0f, enemyBody.GetComponent<Renderer>().material.color.a);
+
+
+57       enemyBody.GetComponent<Renderer>().material.color = Color.blue;
+        =>enemyBody.GetComponent<Renderer>().material.color = new Color(0.0f, 0.0f, 1.0f, enemyBody.GetComponent<Renderer>().material.color.a);
+
+
+
+============	2021.9.4	================
+
+    // GhostChange //
+
+        変更内容
+-	possessObject を　Public　にする
+
+行       スクリプト
+
+11      private GameObject possessObject;
+        => public GameObject possessObject;
+
+
+
+
+
+============	2021.9.11	================
+
+        変更内容
+
+-   プレイヤーと追ってお化けの差し替えに対する設定をお願いします
+    一応オブジェクトの名前を変更しときます
+    新しいモデルは　PlayerBody と　EnemyBody, 古いモデルは　PlayerBodyOld と　EnemyBodyOld
+
+
+
+
+============	2021.9.14	================
+
+        変更内容
+
+    // KeyPickup//
+
+        変更内容
+-	アニメーション用追加
+
+
+行       スクリプト
+
+
+
+13    　　　//ドアのアニメーション用
+    　　　public KeyDoorScript keyDoorScript;
+
+61           //ドアのアニメーション用
+            keyDoorScript.KeyTouch();
+
+
+
+============	2021.9.21	================
+
+        変更内容
+-　Public化
+
+    // GhostChange //
+
+行       スクリプト
+
+21      private bool canPossess;
+        => public bool canPossess;
+
+22      private bool leave
+        => public bool leave;
+============	2021.9.24	================
+
+変更内容
+-　ゲームオーバー用に変更
+
+    //AISightScript//
+    //CharacterMovementScript//
+    //EnemySearchScript//
+    //KeyPickup//
+    //Keyrunner//
+    //LiquidGhostScript//
+    //LookInsideScript//
+    //MinimapScript//
+    //OpenSesameScript//
+    //PossessionModify//
+    //RaycastInvisibleScript//
+
+行       スクリプト
+
+updateの最初
+
+ 　　　　if (Mathf.Approximately(Time.timeScale, 0f))
+        　{
+            　　return;
+        　}
+
+　　//SceneManagerScript//
+
+13        [SerializeField] GameOverMigrate gameOverMigrate;
+
+49        gameOverMigrate.GameOver();
+
+
+
+============	2021.9.24	================
+
+
+変更内容
+-　鍵の透明変更
+
+    //KeyPickup//
+
+
+行       スクリプト
+
+
+
+17      public EnemySearch enemySearch;
+
+75      enemySearch.DestroyKeyClear(this.gameObject);
+
+
+============	2021.9.28	================
+
+        変更内容
+
+-　Public化
+
+    // GhostChange //
+
+行       スクリプト
+
+42       private float possessTime = 0.0f;
+        =>  public float possessTime = 0.0f;
+
+============	2021.10.4	================
+
+        変更内容
+
+-　シーン遷移用に追加
+
+    // SceneManagerScript //
+
+行       スクリプト
+
+14～15       //小野澤ゲームクリア判定用
+             [SerializeField] GameClearOverJugge gameClearOverJugge;
+
+32～33         //小野澤ゲームクリア判定用
+            if (gameClearOverJugge.gameClear==false) {
+
+   // OpenSesameScript //
+17～18        //小野澤ゲームクリア判定用
+             [SerializeField] GameClearOverJugge gameClearOverJugge;
+49～50       //小野澤ゲームクリア判定用
+               && gameClearOverJugge.gameOver==false)
+
+============	2021.10.10	================
+
+        変更内容
+
+-　攻撃時のenemyの可視化のため変更
+
+    // EnemySearchScript //
+
+行       スクリプト
+
+46～47     //小野澤　攻撃時に見える用
+            [SerializeField] private GameObject enemyBody;
+306～307        //  キャラが見えるようにする　小野澤用
+            ghostChange.AttackTransparent(enemyBody);
+317         ghostChange.AttackedTransparent(enemyBody);
+
+
+   // LiquidGhostScript //
+32～34     //小野澤　攻撃時に見える用
+           [SerializeField] private GameObject enemyLiquidBody;
+           public GhostChange ghostChange;
+50～51     //攻撃中透明度変化　小野澤用
+           ghostChange = GameObject.Find("Ghost").GetComponent<GhostChange>();
+107～108         //  キャラが見えるようにする　小野澤用
+            ghostChange.AttackTransparent(enemyLiquidBody);
+118      ghostChange.AttackedTransparent(enemyLiquidBody);
+
