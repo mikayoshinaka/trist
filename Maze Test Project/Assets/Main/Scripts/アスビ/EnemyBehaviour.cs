@@ -13,6 +13,7 @@ public class EnemyBehaviour : MonoBehaviour
     public NavMeshAgent agent;
     public Animator enemyAnimator;
     public GameObject enemyCanvas;
+    public GhostCatch ghostCatch;
 
     [Header("当たり判定")]
     public float patrolRange = 10f;
@@ -22,7 +23,6 @@ public class EnemyBehaviour : MonoBehaviour
     public LayerMask stageMask;
     public bool playerInSightRange, playerInAttackRange;
 
-    public GhostCatch ghostCatch;
     private enum EnemyState
     {
         Patrol,
@@ -66,6 +66,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         enemyAnimator = enemyBody.GetComponent<Animator>();
         enemyCanvas = enemy.transform.Find("EnemyCanvas").gameObject;
+        ghostCatch = player.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
 
         enemyState = EnemyState.Patrol;
         patrolSet = false;

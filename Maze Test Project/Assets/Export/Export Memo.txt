@@ -5,3 +5,5 @@ EnemiesManager
 EnemyBehaviour
 CharacterMovementScript
 GameStateManager
+
+ColorActionStates

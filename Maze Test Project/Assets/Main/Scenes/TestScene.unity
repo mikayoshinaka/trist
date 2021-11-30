@@ -21547,7 +21547,7 @@ MonoBehaviour:
   attackRange: 1.5
   respawnAmount: 20
   enemySpawner: {fileID: 1968261141}
-  enableGizmos: 1
+  enableGizmos: 0
   enemyRedPrefab: {fileID: 6649389007839900821, guid: 957426d898e35c24bbe078618fde2240, type: 3}
   enemyBluePrefab: {fileID: 9221184643311702125, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
   enemyYellowPrefab: {fileID: 5414003289935293904, guid: 97a8d694e8561624a925cae982f493c2, type: 3}
