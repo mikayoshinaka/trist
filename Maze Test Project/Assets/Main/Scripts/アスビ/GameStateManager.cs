@@ -102,6 +102,7 @@ public class GameStateManager : MonoBehaviour
         }
 
         // 敵
+        enemiesManager.RespawnEnemy();
         enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
 
         // 迷路

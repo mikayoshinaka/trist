@@ -26,6 +26,7 @@ public class CollectBoxPost : MonoBehaviour
         player = GameObject.Find("PlayerController").transform;
     }
 
+    // ハコの配置を決める処理
     public void SwitchBox()
     {
         int exclude = ExcludeNearest();
@@ -34,6 +35,7 @@ public class CollectBoxPost : MonoBehaviour
         saveBoxAnchor = spots;
     }
 
+    // プレイヤーから一番近いハコを除く
     int ExcludeNearest()
     {
         int nearestPos = 0;

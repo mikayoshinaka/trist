@@ -111,6 +111,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    // 敵のパラメーター調整
     void ActionAdjustment()
     {
         // ノーマルスピード
@@ -499,6 +500,7 @@ public class EnemyBehaviour : MonoBehaviour
     float throwRange;
     List<Vector3> trajectory = new List<Vector3>();
 
+    // 迷路開始
     public void MazeGimmick(GameObject furniture, GameObject targetPos, LayerMask mask)
     {
         if (mask == LayerMask.GetMask("Bookstand"))
@@ -528,6 +530,7 @@ public class EnemyBehaviour : MonoBehaviour
         targetObj = targetPos;
     }
 
+    // 迷路のUpdate()
     void MazeUpdate()
     {
         // 迷路ギミック
@@ -549,6 +552,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    // 移動処理、家具を探すと持っている処理
     void MazeGimmick_Move(GameObject target)
     {
         float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -598,6 +602,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    // 家具を取る処理
     void MazeGimmick_Pickup()
     {
         Vector3 currentPos = targetFurniture.transform.position;
@@ -618,6 +623,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    // 家具を投げる弾道
     void ThrowTrajectory()
     {
         trajectory.Clear();
@@ -636,6 +642,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    // 投げる処理
     Coroutine GimmickThrow;
     IEnumerator MazeGimmick_Throw()
     {
@@ -654,14 +661,17 @@ public class EnemyBehaviour : MonoBehaviour
             yield return null;
         }
 
-        if (mazeFurnitureType == MazeFurnitureType.Chair)
+        if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
         {
-            bool hit = Physics.CheckSphere(trajectoryPoint[trajectoryPoint.Length - 1], 2f, playerMask);
-
-            if (hit && ghostCatch.mode == GhostCatch.Mode.Carry)
+            if (mazeFurnitureType == MazeFurnitureType.Chair)
             {
-                ghostCatch.SetState(GhostCatch.Mode.Attacked);
-                enemiesManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+                bool hit = Physics.CheckSphere(trajectoryPoint[trajectoryPoint.Length - 1], 2f, playerMask);
+
+                if (hit && ghostCatch.mode == GhostCatch.Mode.Carry)
+                {
+                    ghostCatch.SetState(GhostCatch.Mode.Attacked);
+                    enemiesManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+                }
             }
         }
 

@@ -40,6 +40,7 @@ public class MazeAssignment : MonoBehaviour
         enemyMask = LayerMask.GetMask("Enemy");
     }
 
+    // NavMesh 管理
     public void MazeNavmesh(bool flag)
     {
         // Navmesh
@@ -64,6 +65,7 @@ public class MazeAssignment : MonoBehaviour
         GameObject.Find("NavMeshPlayer").GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     
+    // 全ての家具を SetActive(true)
     public void FurnitureActive()
     {
         furnitures = GameObject.Find("Furnitures");
@@ -91,6 +93,7 @@ public class MazeAssignment : MonoBehaviour
         }
     }
 
+    // 迷路開始、パターンを決める処理
     public void MazeAssign()
     {
         AnchorSaveBox = collectBoxPost.BoxSpots[collectBoxPost.saveBoxAnchor];
@@ -103,8 +106,16 @@ public class MazeAssignment : MonoBehaviour
         int saveBoxPost = collectBoxPost.saveBoxAnchor;
         int playerPost = collectBoxPost.playerAnchor;
 
-        //int saveBoxPost = 0;
-        //int playerPost = 1;
+        // テスト用
+        //saveBoxPost = 9;
+        //playerPost = 9;
+
+        // テスト用パターン
+        if (saveBoxPost == 9 && playerPost == 9)
+        {
+            MazePattern("Post_TEST");
+            CleanRoad("Post_TEST");
+        }
 
         // パターン　1
         if (saveBoxPost == 0)
@@ -187,6 +198,7 @@ public class MazeAssignment : MonoBehaviour
         }
     }
 
+    // 決めたパターンにより、家具を設定する処理
     void MazePattern(string pattern)
     {
         // Bookstandオブジェクト
@@ -216,7 +228,8 @@ public class MazeAssignment : MonoBehaviour
 
         // CLEAN ROAD PROGRAM
     }
-
+    
+    // 家具とお化けの役割
     void AssignRole(List<GameObject> furnitureList, GameObject targetPos, LayerMask furnitureMask, float range)
     {
         // 家具
@@ -231,6 +244,7 @@ public class MazeAssignment : MonoBehaviour
         }
     }
 
+    // 役割用のコライダー
     GameObject ObjectCollider(List<GameObject> objList, GameObject targetPos, LayerMask mask, float range)
     {
         int maxColliders = 25;
@@ -253,6 +267,7 @@ public class MazeAssignment : MonoBehaviour
         return target;
     }
 
+    // RoadCleaner用
     void CleanRoad(string post)
     {
         transform.Find("RoadCleaner").Find(post).gameObject.SetActive(true);
