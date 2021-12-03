@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ColorAct_DarkYellow : ColorActState
 {
-    CharacterController controller;
+    NavMeshAgent agent;
     CharacterMovementScript characterMovementScript;
     GameObject dashBarrier;
     bool dashing;
@@ -17,7 +18,7 @@ public class ColorAct_DarkYellow : ColorActState
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
         //currentCamera.GetComponent<Cinemachine.CinemachineVirtualCamera>().GetCinemachineComponent<Cinemachine.CinemachineTransposer>().m_FollowOffset = new Vector3(15f, 15f, 0f);
 
-        controller = colorAct.GetComponent<CharacterController>();
+        agent = colorAct.GetComponent<NavMeshAgent>();
         characterMovementScript = colorAct.GetComponent<CharacterMovementScript>();
 
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
@@ -72,7 +73,7 @@ public class ColorAct_DarkYellow : ColorActState
         while (timer < timeLimit)
         {
             timer += Time.deltaTime;
-            controller.Move(colorAct.transform.forward * speed / timeLimit * Time.deltaTime);
+            agent.Move(colorAct.transform.forward * speed / timeLimit * Time.deltaTime);
             DashCollider(colorAct);
             yield return null;
         }

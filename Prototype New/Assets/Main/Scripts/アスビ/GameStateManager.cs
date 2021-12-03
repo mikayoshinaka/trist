@@ -9,8 +9,8 @@ public class GameStateManager : MonoBehaviour
     public GameObject cameras;
     public GameObject zoomOutCamera;    
     public GameObject zoomInCamera;
-    private Vector3 zoomOutCameraOffset;
-    private Vector3 zoomInCameraOffset;
+    [SerializeField] private Vector3 zoomOutCameraOffset;
+    [SerializeField] private Vector3 zoomInCameraOffset;
 
     [Header("Lighting")]
     public GameObject lighting;
@@ -25,6 +25,10 @@ public class GameStateManager : MonoBehaviour
     [Header("Enemies")]
     public EnemiesManager enemiesManager;
 
+    [Header("Maze")]
+    public CollectBoxPost collectBoxPost;
+    public MazeAssignment mazeAssignment;
+
     public enum GameState
     {
         gameState_Collect,
@@ -38,8 +42,8 @@ public class GameStateManager : MonoBehaviour
         cameras = GameObject.Find("Cameras");
         zoomOutCamera = cameras.transform.Find("ZoomOutCamera").gameObject;
         zoomInCamera = cameras.transform.Find("ZoomInCamera").gameObject;
-        zoomOutCameraOffset = new Vector3(15f, 15f, 0f);
-        zoomInCameraOffset = new Vector3(12.5f, 12.5f, 0f);
+        //zoomOutCameraOffset = new Vector3(15f, 15f, 0f);
+        //zoomInCameraOffset = new Vector3(12.5f, 12.5f, 0f);
 
         lighting = GameObject.Find("Lighting");
         lightSource_Collect = lighting.transform.Find("LightSource_Collect").gameObject;
@@ -50,6 +54,9 @@ public class GameStateManager : MonoBehaviour
         ghostCatch = playerController.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
 
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
+
+        collectBoxPost = GameObject.Find("Maze").transform.Find("SaveBox").GetComponent<CollectBoxPost>();
+        mazeAssignment = GameObject.Find("Maze").GetComponent<MazeAssignment>();
 
         StartState_Collecting();
     }
@@ -94,7 +101,13 @@ public class GameStateManager : MonoBehaviour
             colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Null);
         }
 
+        // 敵
+        enemiesManager.RespawnEnemy();
         enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
+
+        // 迷路
+        mazeAssignment.FurnitureActive();
+        mazeAssignment.MazeNavmesh(false);
     }
 
     void StartState_Delivering()
@@ -116,7 +129,13 @@ public class GameStateManager : MonoBehaviour
         }
         lightSource_Deliver.SetActive(true);
 
+        // 敵
         enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Offensive;
+
+        // 迷路
+        collectBoxPost.SwitchBox();
+        mazeAssignment.MazeAssign();
+        mazeAssignment.MazeNavmesh(true);
     }
 
     #endregion

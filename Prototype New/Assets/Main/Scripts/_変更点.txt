@@ -63,3 +63,11 @@ GameStateManager
 
 // EnemyBehaviour プレイヤー判定用
 PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("PlayerTrigger");
+
+
+============	2021.11.14	================
+
+変更内容：
+
+BossEnemyレイヤー追加
+BossEnemyのレイヤーに設定
