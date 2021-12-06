@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: -334000983
+  m_AgentTypeID: -1372625422
   m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -625,7 +625,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 86868f4ffc5666248b5bceea04599bf1, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 0338f1f7ac4011846a4784f9bf9e1a15, type: 2}
 --- !u!4 &29412165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 253218575718422839, guid: cc3267b94162dd94da492177f0b90460, type: 3}
@@ -21082,7 +21082,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: a16f07a5b70cf5e4d9304c26e8f73500, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 96e8e87f4ef57d949bd78654bc10f37c, type: 2}
 --- !u!1 &1709035068
 GameObject:
   m_ObjectHideFlags: 0
@@ -21159,6 +21159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: []
+  bossEnemy: []
   caughtObj: []
   caughtObjPos: []
   dollSave: {fileID: 1693540390}
@@ -21188,6 +21189,7 @@ MonoBehaviour:
   inhalePos: {fileID: 1854217750}
   possessScript: {fileID: 1709035073}
   grab: 0
+  bossGrab: 0
   player: {fileID: 1571241477}
   playerController: {fileID: 1161104586488154374}
   presentBox: {fileID: 1571241477}
