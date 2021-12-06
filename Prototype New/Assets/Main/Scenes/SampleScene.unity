@@ -4542,6 +4542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: []
+  bossEnemy: []
   caughtObj: []
   caughtObjPos: []
   dollSave: {fileID: 1693540390}
@@ -4571,6 +4572,7 @@ MonoBehaviour:
   inhalePos: {fileID: 1854217750}
   possessScript: {fileID: 1709035073}
   grab: 0
+  bossGrab: 0
   player: {fileID: 1749395065}
   playerController: {fileID: 1161104586488154374}
   presentBox: {fileID: 1749395065}
@@ -4676,6 +4678,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!54 &1749395069
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749395065}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1791421255
 GameObject:
   m_ObjectHideFlags: 0
@@ -5299,7 +5317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2605315481219241073, guid: cdcbff97776886c44b9259f21c8fa149, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: BossEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 2605315481219241074, guid: cdcbff97776886c44b9259f21c8fa149, type: 3}
       propertyPath: m_RootOrder
@@ -5371,7 +5389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5499243682387706918, guid: cdcbff97776886c44b9259f21c8fa149, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: BossEnemyBody
       objectReference: {fileID: 0}
     - target: {fileID: 7521617129239998759, guid: cdcbff97776886c44b9259f21c8fa149, type: 3}
       propertyPath: m_TagString
@@ -5435,11 +5453,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf2865c4d15d4f4bb71298db45d23c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossHPMax: 3
+  bossHP: 0
+  hpDown: 0
   hitPlayerDis: 10
   changeTimerMax: 1
   changeTimer: 0
   radius: 2
   fireBall: {fileID: 4681290431100342593, guid: fe4ba20ba66e6534386585682f76f11e, type: 3}
+  effect: {fileID: 8417246339840839804, guid: ede3265da5e94ea46904f4d6119d2c79, type: 3}
   player: {fileID: 1161104586488154374}
   fireBallCount: 8
   y: 1
@@ -5449,11 +5471,15 @@ MonoBehaviour:
   fireTimer: 0
   fireBalls: []
   laser: {fileID: 2113129155}
-  laserTimerMax: 2
+  laserTimerMax: 5
   laserTimer: 0
-  laserSpeed: 2
+  laserSpeed: 20
   laserMaxAngle: 30
+  sourcePos: {x: 0, y: 0, z: 0}
+  agent: {fileID: 0}
+  reSet: 0
   mode: 0
+  migration: 0
 --- !u!4 &2045857943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7334841394832520863, guid: 9359fe868885e6748870196053059d44, type: 3}

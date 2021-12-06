@@ -17,6 +17,8 @@ TagManager:
   - FireBall
   - Chair
   - Desk
+  - BossEnemy
+  - BossEnemyBody
   layers:
   - Default
   - TransparentFX
