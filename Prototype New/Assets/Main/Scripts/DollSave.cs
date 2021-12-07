@@ -19,6 +19,7 @@ public class DollSave : MonoBehaviour
         if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && within ==true&&catchArea.GetComponent<GhostCatch>().mode==GhostCatch.Mode.Carry)
         {
             catchArea.GetComponent<GhostCatch>().mode = GhostCatch.Mode.Shoot;
+            GameObject.Find("Enemies").GetComponent<EnemiesManager>().enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
         }
     }
     private void OnTriggerEnter(Collider other)

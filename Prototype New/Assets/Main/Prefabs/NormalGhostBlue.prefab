@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 9221184643311702131}
   - component: {fileID: 5863032809167418743}
   - component: {fileID: 5863032809167418742}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: NormalGhostBlue
   m_TagString: Enemy
   m_Icon: {fileID: 0}

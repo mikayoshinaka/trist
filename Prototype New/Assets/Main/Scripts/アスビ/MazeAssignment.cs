@@ -229,9 +229,6 @@ public class MazeAssignment : MonoBehaviour
         {
             AssignRole(chairList, AnchorSaveBox.gameObject, chairMask, 100f);
         }
-
-
-        // CLEAN ROAD PROGRAM
     }
     
     // 家具とお化けの役割

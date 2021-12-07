@@ -621,6 +621,13 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 targetObj = player.gameObject;   
             }
+
+            if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
+            {
+                targetFurniture.transform.Find("Navmesh").gameObject.SetActive(true);
+                NavMeshSurface surface = GameObject.Find("NavMeshPlayer").GetComponent<NavMeshSurface>();
+                surface.BuildNavMesh();
+            }
         }
     }
 
