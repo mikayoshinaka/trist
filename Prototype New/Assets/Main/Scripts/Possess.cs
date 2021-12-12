@@ -60,7 +60,6 @@ public class Possess : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false)
         {
-            transparentScript.bookShelfPossess = true;
             InputAndCanPossess();
         }
         else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == true && canPossess == false && transparent == false && away == false)
@@ -169,10 +168,7 @@ public class Possess : MonoBehaviour
             // EnemyBehaviour プレイヤー判定用
             PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("PlayerTrigger");
 
-            if (possessObject.tag == "Box")
-            {
-                transparentScript.bookShelfPossess = false;
-            }
+           
             PlayerController.transform.parent = PlayerParent.transform;
             possess = false;
             leave = false;

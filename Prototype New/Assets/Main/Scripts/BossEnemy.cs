@@ -6,6 +6,7 @@ using UnityEngine.VFX;
 
 public class BossEnemy : MonoBehaviour
 {
+    Vector3 firstBossSize;
     [SerializeField] private int bossHPMax = 3;
     public int bossHP;
     public bool hpDown;
@@ -43,13 +44,25 @@ public class BossEnemy : MonoBehaviour
     private float horizontalAngle = 0.0f;
     private float horizontalAngleLimit = 45.0f;
     bool laserStart;
-    public Vector3 sourcePos;
-    Vector3 targetDir;
-    public NavMeshAgent agent;
 
     public bool reSet;
     private float grabbedDownTime = 0.0f;
     private float grabbedDownTimeMax = 3.0f;
+
+    public List<Vector3> sourcePos = new List<Vector3>();
+    private float randomMoveTimer;
+    [SerializeField] float randomMoveTimerMax = 1.0f;
+    [SerializeField] float randomMoveRange = 3.0f;
+    public NavMeshAgent agent;
+    [SerializeField] float chaseDis = 5.0f;
+    //移動
+
+    private Vector3 beforePlayerPos;
+    private Vector3 playerAmountOfMovement;
+    private float playerMovementTimer;
+    private Vector3 beforeBossPos;
+    private Vector3 bossAmountOfMovement;
+    private float bossMovementTimer;
     public enum Mode
     {
         fire,
@@ -57,18 +70,16 @@ public class BossEnemy : MonoBehaviour
         earthquake,
         change,
         down,
-        grabbed
+        grabbed,
+        randomMove,
+        chase
     }
-    public enum Migration
-    {
-        chase,
-        ambush
-    }
+   
     public Mode mode;
-    public Migration migration;
     // Start is called before the first frame update
     void Start()
     {
+        firstBossSize = new Vector3(this.transform.GetChild(0).localScale.x, this.transform.GetChild(0).localScale.y, this.transform.GetChild(0).localScale.z);
         reSet = false;
         bossHP = bossHPMax;
         hpDown = false;
@@ -82,8 +93,11 @@ public class BossEnemy : MonoBehaviour
 
         lr = laser.GetComponent<LineRenderer>();
         laserStart = false;
-        targetDir = Vector3.Slerp(transform.forward, transform.right, 0.5f);
         agent = GetComponent<NavMeshAgent>();
+
+        beforePlayerPos = player.transform.position;
+        beforeBossPos = this.transform.position;
+        playerMovementTimer = 0.0f;
     }
 
     // Update is called once per frame
@@ -110,20 +124,29 @@ public class BossEnemy : MonoBehaviour
             case Mode.grabbed:
                 BossGrabbed();
                 break;
+            case Mode.randomMove:
+                BossMoveRandom();
+                break;
+            case Mode.chase:
+                BossMoveChase();
+                break;
         }
-        LookFor();
+        CalculateAmountOfMovement(ref  playerMovementTimer, ref playerAmountOfMovement, ref  beforePlayerPos,  player.transform.position);
+        CalculateAmountOfMovement(ref bossMovementTimer, ref bossAmountOfMovement, ref beforeBossPos, this.gameObject.transform.position);
     }
     //サイズ変更
     void SizeDown()
     {
         if (bossSize > 0.0f)
         {
-            bossSize -= Time.deltaTime * 0.2f;
-            this.transform.GetChild(0).localScale = new Vector3((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize), (float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize), (float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize));
+            bossSize -= Time.deltaTime /** 0.2f*/;
+            this.transform.GetChild(0).localScale = new Vector3(firstBossSize.x / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)), firstBossSize.y / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)), firstBossSize.z / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)));
+            //this.transform.GetChild(0).localScale -= new Vector3(0.01f,0.01f,0.01f)*Time.deltaTime;
         }
         else if (bossSize <= 0.0f)
         {
-            this.transform.GetChild(0).localScale = new Vector3((float)(bossHP + 1 / bossHPMax + 1), (float)(bossHP + 1 / bossHPMax + 1), (float)(bossHP + 1 / bossHPMax + 1));
+            this.transform.GetChild(0).localScale = new Vector3(firstBossSize.x / (bossHPMax + 1) * (float)(bossHP + 1 / bossHPMax + 1), firstBossSize.y / (bossHPMax + 1) * (float)(bossHP + 1 / bossHPMax + 1), firstBossSize.z / (bossHPMax + 1) * (float)(bossHP + 1 / bossHPMax + 1));
+
             bossSize = 1.0f;
             hpDown = false;
         }
@@ -340,12 +363,17 @@ public class BossEnemy : MonoBehaviour
             if (hit.collider.tag == "PlayerBody")
             {
                 hit.collider.GetComponent<ParalysisPlayer>().paralysis = true;
-                lr.SetPosition(1, laser.transform.forward * 500);
+                lr.SetPosition(1, hit.point+laser.transform.forward * 1);
+            }
+            else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("UpStages") || hit.collider.gameObject.layer == LayerMask.NameToLayer("Stages"))
+            {
+                lr.SetPosition(1, hit.point);
             }
             else
             {
                 lr.SetPosition(1, laser.transform.forward * 500);
             }
+            
         }
         else
         {
@@ -370,8 +398,8 @@ public class BossEnemy : MonoBehaviour
     //モード変更
     void ModeChange()
     {
-        bool hitPlayer = InArea();
-        if (changeTimer <= changeTimerMax)
+        bool hitPlayer = InArea(hitPlayerDis);
+        if (changeTimer < changeTimerMax)
         {
             changeTimer += Time.deltaTime;
         }
@@ -392,7 +420,6 @@ public class BossEnemy : MonoBehaviour
                 if (GetComponent<NavMeshAgent>().isActiveAndEnabled == true)
                 {
                     GetComponent<NavMeshAgent>().isStopped = true;
-                    GetComponent<EnemyBehaviour>().enabled = false;
                 }
                 changeTimer = 0.0f;
             }
@@ -400,16 +427,15 @@ public class BossEnemy : MonoBehaviour
             {
                 changeTimer = 0.0f;
                 GetComponent<NavMeshAgent>().isStopped = false;
-                GetComponent<EnemyBehaviour>().enabled = true;
-
+                mode = Mode.randomMove;
             }
         }
     }
     //エリア内にプレイヤーがいるかどうか
-    bool InArea()
+    bool InArea(float hitDis)
     {
         float dis = Vector3.Distance(player.transform.position, this.transform.position);
-        if (dis < hitPlayerDis)
+        if (dis < hitDis)
         {
             return true;
         }
@@ -471,15 +497,19 @@ public class BossEnemy : MonoBehaviour
         }
         fireBalls.Clear();
     }
-    //boss移動用　プレイヤーの方向とy座標は分かっている 試し　作成中
-    void LookFor()
+    //ランダム移動
+    void BossMoveRandom()
     {
-        float angleDiff = (360.0f / 8.0f);
-        if (Input.GetKeyDown(KeyCode.E))
+        randomMoveTimer += Time.deltaTime;
+        if (randomMoveTimer > randomMoveTimerMax)
         {
+            randomMoveTimer = 0.0f;
+
+            float angleDiff = (360.0f / 8.0f);
+
             for (int i = 0; i < 8; i++)
             {
-                NavMeshHit hit;
+                RaycastHit hit;
                 Vector3 rayPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
                 float angle = (90.0f - ((angleDiff * i + transform.localEulerAngles.y) + angleDiff / 2.0f)) * Mathf.Deg2Rad;
                 rayPos.x += 10f * Mathf.Cos(angle);
@@ -487,14 +517,93 @@ public class BossEnemy : MonoBehaviour
                 rayPos.z += 10f * Mathf.Sin(angle);
                 Vector3 overhead = new Vector3(this.transform.position.x, this.transform.position.y + 10.0f, this.transform.position.z);
                 Vector3 heading = (rayPos - overhead).normalized;
-                if (NavMesh.Raycast(overhead, heading/**3.0f*/, out hit, NavMesh.AllAreas))
+                if (Physics.Raycast(overhead, heading * 15.0f, out hit))
                 {
-                    sourcePos = hit.position;
-                    Instantiate(fireBall, sourcePos, fireBall.transform.rotation);
+                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("UpStages"))
+                    {
+                        sourcePos.Add(new Vector3(hit.point.x, hit.point.y, hit.point.z));
+                    }
+
                 }
 
-                Debug.DrawRay(overhead, heading * 3, Color.red, 5, false);
+                Debug.DrawRay(overhead, heading * 15, Color.red, 5, false);
+            }
+            if (sourcePos.Count > 0)
+            {
+                int pos = Random.Range(0, sourcePos.Count - 1);
+                agent.SetDestination(sourcePos[pos]);
+            }
+            else
+            {
+                float posX = Random.Range(-randomMoveRange, randomMoveRange);
+                float posZ = Random.Range(-randomMoveRange, randomMoveRange);
+                Vector3 pos = this.transform.position;
+                pos.x += posX;
+                pos.z += posZ;
+
+                agent.SetDestination(pos);
+
+            }
+            sourcePos.Clear();
+        }
+        bool approachPlayer = InArea(chaseDis);
+        if(approachPlayer)
+        {
+            randomMoveTimer = 0.0f;
+            mode = Mode.chase;
+        }
+    }
+    //追いかける
+    void BossMoveChase()
+    {
+        Vector3 bossMovePos = lookAhead();
+        agent.SetDestination(bossMovePos);
+        bool approachPlayer = InArea(chaseDis);
+        if (approachPlayer==false)
+        {
+            mode = Mode.randomMove;
+        }
+        bool hitPlayer = InArea(hitPlayerDis);
+        if (hitPlayer)
+        {
+            int modeChange;
+            modeChange = Random.Range(0, 2);
+            if (modeChange == 0)
+            {
+                mode = Mode.fire;
+            }
+            else if (modeChange == 1)
+            {
+                mode = Mode.beam;
+            }
+            if (GetComponent<NavMeshAgent>().isActiveAndEnabled == true)
+            {
+                GetComponent<NavMeshAgent>().isStopped = true;
             }
         }
     }
+    //boss移動用　プレイヤーの方向とy座標は分かっている 試し　作成中
+    
+
+    Vector3 lookAhead()
+    {
+        Vector3 Vr,Sr;
+        float Tc;
+        Vr=playerAmountOfMovement.normalized - bossAmountOfMovement.normalized;
+        Sr = player.transform.position - this.transform.position;
+        Tc = Mathf.Abs(Mathf.Sqrt(Sr.x*Sr.x+ Sr.y * Sr.y + Sr.z * Sr.z)) / Mathf.Abs(Mathf.Sqrt(Vr.x * Vr.x + Vr.y * Vr.y + Vr.z * Vr.z));
+        return player.transform.position+playerAmountOfMovement.normalized*Tc;
+    }
+    //移動量計算
+    void CalculateAmountOfMovement(ref float movementTimer,ref Vector3 amountOfMovement, ref Vector3 beforePos,  Vector3 moveObj)
+    {
+        movementTimer += Time.deltaTime;
+        if(movementTimer>=0.5f)
+        {
+            amountOfMovement = moveObj - beforePos;
+            beforePos = player.transform.position;
+            movementTimer = 0.0f;
+        }
+    }
+        
 }

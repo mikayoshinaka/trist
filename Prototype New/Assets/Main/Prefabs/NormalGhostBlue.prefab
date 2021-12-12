@@ -120,6 +120,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59b57f9453cccd4ca3a3c4f36a12831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5834140711519678319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697565472158924858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d500c2eb2e8c8b64ba51fe0886d24587, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySearchAreaTransparent: {fileID: 0}
+  possessScript: {fileID: 0}
+  ghostCatch: {fileID: 0}
 --- !u!1 &3263762020834399699
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +595,7 @@ MonoBehaviour:
   patrolSet: 0
   moveAway: 0
   gimmickAction: 0
+  mazeGimmick: 0
   enableGizmos: 0
   mazeGimmickState: 0
 --- !u!114 &9221184643311702131

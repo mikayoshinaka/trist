@@ -71,3 +71,7 @@ PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.l
 
 BossEnemyレイヤー追加
 BossEnemyのレイヤーに設定
+============	2021.12.12	================
+変更内容：
+
+UpStageレイヤー追加

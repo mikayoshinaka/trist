@@ -118,7 +118,6 @@ public class GhostCatch : MonoBehaviour
         switch (mode)
         {
             case Mode.CanGrab:
-                transparent.catchEnemy = false;
                 GhostGrab();
                 break;
             case Mode.Fusion:
@@ -128,7 +127,6 @@ public class GhostCatch : MonoBehaviour
                 DollInstance();
                 break;
             case Mode.Carry:
-                transparent.catchEnemy = true;
                 DollCarry();
                 break;
             case Mode.Shoot:
@@ -138,7 +136,6 @@ public class GhostCatch : MonoBehaviour
                 CannotCatch();
                 break;
             case Mode.Attacked:
-                transparent.catchEnemy = false;
                 EnemyAttacked();
                 break;
         }
@@ -166,7 +163,6 @@ public class GhostCatch : MonoBehaviour
             {
                 if (!caughtObj.Contains(bossEnemy[i]))
                 {
-                    bossEnemy[i].GetComponent<EnemyBehaviour>().enabled = false;
                     if (bossEnemy[i].GetComponent<BossEnemy>().bossHP == 0)
                     {
                         bossEnemy[i].transform.parent = player.transform;
@@ -185,7 +181,6 @@ public class GhostCatch : MonoBehaviour
             {
                 if (!caughtObj.Contains(enemy[i]))
                 {
-                    bossEnemy[i].GetComponent<EnemyBehaviour>().enabled = false;
                     if (bossEnemy[i].GetComponent<BossEnemy>().bossHP == 0)
                     {
                         bossEnemy[i].transform.parent = player.transform;
@@ -783,8 +778,6 @@ public class GhostCatch : MonoBehaviour
         else if (enemy.tag == "BossEnemy")
         {
             enemy.GetComponent<BossEnemy>().reSet = false;
-
-            enemy.GetComponent<EnemyBehaviour>().enabled = true;
             enemy.GetComponent<NavMeshAgent>().isStopped = false;
             enemy.transform.parent = null;
         }
