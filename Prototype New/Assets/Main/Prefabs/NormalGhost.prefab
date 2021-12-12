@@ -192,6 +192,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   enemyAnimator: {fileID: 0}
   enemyCanvas: {fileID: 0}
+  ghostCatch: {fileID: 0}
   patrolRange: 10
   playerMask:
     serializedVersion: 2
@@ -205,7 +206,9 @@ MonoBehaviour:
   patrolSet: 0
   moveAway: 0
   gimmickAction: 0
+  mazeGimmick: 0
   enableGizmos: 0
+  mazeGimmickState: 0
 --- !u!114 &2605315481219241071
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -42,10 +42,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     [Header("Gimmick")]
     public bool gimmickAction;
-    bool mazeGimmick;
+    public bool mazeGimmick;
 
     [Header("Editor View")]
-    public bool enableGizmos;
+    [SerializeField] bool enableGizmos;
 
     void Start()
     {
@@ -471,6 +471,56 @@ public class EnemyBehaviour : MonoBehaviour
         gimmickAction = false;
         agent.isStopped = false;
     }
+    #endregion
+
+    #region Green
+
+    public void Gimmick_Green(bool flag, GameObject target)
+    {
+        if (!flag)
+        {
+            gimmickAction = true;
+        }
+        else
+        {
+            if (GreenCoroutine != null)
+            {
+                StopCoroutine(GreenCoroutine);
+            }
+            GreenCoroutine = StartCoroutine(OnGreen(target));
+        }
+    }
+    Coroutine GreenCoroutine;
+    IEnumerator OnGreen(GameObject target)
+    {
+        float timer = 0f;
+        float timeLimit = 5f;
+        agent.speed = enemiesManager.chaseSpeed * 2f;
+        while (timer < timeLimit)
+        {
+            float distance = Vector3.Distance(transform.position, target.transform.position);
+            if (distance > 3f)
+            {
+                agent.SetDestination(target.transform.position);
+            }
+            else
+            {
+                // Temporary
+                enemyAnimator.SetBool("Surprised", true);
+                agent.speed = enemiesManager.speed;
+                agent.isStopped = true;
+                target.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+                break;
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(1f);
+        gimmickAction = false;
+        agent.isStopped = false;
+    }
+
     #endregion
 
     #endregion

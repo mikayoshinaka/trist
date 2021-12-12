@@ -6,28 +6,28 @@ using Cinemachine;
 public class GameStateManager : MonoBehaviour
 {
     [Header("Cameras")]
-    public GameObject cameras;
-    public GameObject zoomOutCamera;    
-    public GameObject zoomInCamera;
+    [SerializeField] private GameObject cameras;
+    [SerializeField] private GameObject zoomOutCamera;
+    [SerializeField] private GameObject zoomInCamera;
     [SerializeField] private Vector3 zoomOutCameraOffset;
     [SerializeField] private Vector3 zoomInCameraOffset;
 
     [Header("Lighting")]
-    public GameObject lighting;
-    public GameObject lightSource_Collect;
-    public GameObject lightSource_Deliver;
+    [SerializeField] private GameObject lighting;
+    [SerializeField] private GameObject lightSource_Collect;
+    [SerializeField] private GameObject lightSource_Deliver;
 
     [Header("Player")]
-    public GameObject playerController;
-    public ColorAction colorAction;
-    public GhostCatch ghostCatch;
-
+    [SerializeField] private GameObject playerController;
+    [SerializeField] private ColorAction colorAction;
+    [SerializeField] private GhostCatch ghostCatch;
+   
     [Header("Enemies")]
-    public EnemiesManager enemiesManager;
+    [SerializeField] private EnemiesManager enemiesManager;
 
     [Header("Maze")]
-    public CollectBoxPost collectBoxPost;
-    public MazeAssignment mazeAssignment;
+    [SerializeField] private CollectBoxPost collectBoxPost;
+    [SerializeField] private MazeAssignment mazeAssignment;
 
     public enum GameState
     {
@@ -52,7 +52,7 @@ public class GameStateManager : MonoBehaviour
         playerController = GameObject.Find("PlayerController");
         colorAction = playerController.GetComponent<ColorAction>();
         ghostCatch = playerController.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
-
+       
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
 
         collectBoxPost = GameObject.Find("Maze").transform.Find("SaveBox").GetComponent<CollectBoxPost>();
@@ -86,7 +86,7 @@ public class GameStateManager : MonoBehaviour
         }
         zoomOutCamera.SetActive(true);
         zoomOutCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomOutCameraOffset;
-
+        
         // ライティング
         if (lightSource_Deliver.activeInHierarchy)
         {
@@ -121,7 +121,7 @@ public class GameStateManager : MonoBehaviour
         }
         zoomInCamera.SetActive(true);
         zoomInCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomInCameraOffset;
-
+        
         // ライティング
         if (lightSource_Collect.activeInHierarchy)
         {

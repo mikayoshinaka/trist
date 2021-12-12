@@ -37,23 +37,11 @@ public class EnemiesManager : MonoBehaviour
     public GameObject enemyBluePrefab;
     public GameObject enemyYellowPrefab;
 
-    #region 現状利用しない
-
-    [HideInInspector]
-    public bool attacking;
-    [HideInInspector]
-    public float attackCooldown = 3f;
-    [HideInInspector]
-    public float worldStopTimer = 2f;
-    
-    #endregion
-
     private void Start()
     {
         gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
         playerController = GameObject.Find("PlayerController");
         enemySpawner = GameObject.Find("EnemySpawner");
-        attacking = false;
         enableGizmos = false;
     }
 

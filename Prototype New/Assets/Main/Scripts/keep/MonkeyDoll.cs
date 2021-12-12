@@ -51,7 +51,6 @@ public class MonkeyDoll : MonoBehaviour
                 openDoor.GetComponent<DoorAnimation>().open = true;
             }
             Sort();
-            enemy[0].GetComponent<EnemySearchScript>().monkeyChase = true;
         }
         Vector3 cameraForward = Vector3.Scale(Camera.transform.forward, new Vector3(1, 0, 1)).normalized;
         Vector3 moveForward = cameraForward * inputVertical + Camera.transform.right * inputHorizontal;

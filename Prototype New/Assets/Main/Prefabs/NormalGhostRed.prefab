@@ -307,7 +307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5826704102859573042
 Transform:
   m_ObjectHideFlags: 0
@@ -465,6 +465,7 @@ MonoBehaviour:
   patrolSet: 0
   moveAway: 0
   gimmickAction: 0
+  mazeGimmick: 0
   enableGizmos: 0
   mazeGimmickState: 0
 --- !u!114 &6649389007839900811
