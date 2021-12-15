@@ -45,6 +45,23 @@ public class EnemiesManager : MonoBehaviour
         enableGizmos = false;
     }
 
+    public void SetMode(EnemyMode mode)
+    {
+        enemyMode = mode;
+
+        if (enemyMode == EnemyMode.Mode_Defensive)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Transform child = transform.GetChild(i);
+                if (child.GetComponent<EnemyBehaviour>().gimmickAction)
+                {
+                    child.GetComponent<EnemyBehaviour>().gimmickAction = false;
+                }
+            }
+        }
+    }
+
     // 敵をスポーンする処理
     public void RespawnEnemy()
     {

@@ -103,7 +103,7 @@ public class GameStateManager : MonoBehaviour
 
         // 敵
         enemiesManager.RespawnEnemy();
-        enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
+        enemiesManager.SetMode(EnemiesManager.EnemyMode.Mode_Defensive);
 
         // 迷路
         mazeAssignment.FurnitureActive();
@@ -130,7 +130,7 @@ public class GameStateManager : MonoBehaviour
         lightSource_Deliver.SetActive(true);
 
         // 敵
-        enemiesManager.enemyMode = EnemiesManager.EnemyMode.Mode_Offensive;
+        enemiesManager.SetMode(EnemiesManager.EnemyMode.Mode_Offensive);
 
         // 迷路
         collectBoxPost.SwitchBox();
