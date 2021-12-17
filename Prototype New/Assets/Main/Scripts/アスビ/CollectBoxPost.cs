@@ -71,4 +71,16 @@ public class CollectBoxPost : MonoBehaviour
         playerAnchor = nearestPos;
         return nearestPos;
     }
+
+    public void HideBox(bool flag)
+    {
+        if (!flag)
+        {
+            SaveBox.SetActive(true);
+        }
+        else
+        {
+            SaveBox.SetActive(false);
+        }
+    }
 }

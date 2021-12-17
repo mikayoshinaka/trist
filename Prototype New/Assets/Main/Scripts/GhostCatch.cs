@@ -350,7 +350,7 @@ public class GhostCatch : MonoBehaviour
         disclose = false;
         mode = Mode.Carry;
         // アスビ用
-        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
+        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Maze);
     }
 
     // 人形を運ぶ

@@ -8,6 +8,7 @@ public class GameStateManager : MonoBehaviour
     [Header("Cameras")]
     [SerializeField] private GameObject cameras;
     [SerializeField] private GameObject zoomOutCamera;
+    [SerializeField] private GameObject zoomMazeCamera;
     [SerializeField] private GameObject zoomInCamera;
     [SerializeField] private Vector3 zoomOutCameraOffset;
     [SerializeField] private Vector3 zoomInCameraOffset;
@@ -32,6 +33,7 @@ public class GameStateManager : MonoBehaviour
     public enum GameState
     {
         gameState_Collect,
+        gameState_Maze,
         gameState_Deliver
     }
     [Header("Game State")]
@@ -41,6 +43,7 @@ public class GameStateManager : MonoBehaviour
     {
         cameras = GameObject.Find("Cameras");
         zoomOutCamera = cameras.transform.Find("ZoomOutCamera").gameObject;
+        zoomMazeCamera = cameras.transform.Find("ZoomMazeCamera").gameObject;
         zoomInCamera = cameras.transform.Find("ZoomInCamera").gameObject;
         //zoomOutCameraOffset = new Vector3(15f, 15f, 0f);
         //zoomInCameraOffset = new Vector3(12.5f, 12.5f, 0f);
@@ -69,20 +72,26 @@ public class GameStateManager : MonoBehaviour
         {
             StartState_Collecting();
         }
+        else if (newState == GameState.gameState_Maze)
+        {
+            StartState_Maze();
+        }
         else if (newState == GameState.gameState_Deliver)
         {
             StartState_Delivering();
         }
     }
 
+
     void StartState_Collecting()
     {
         gameState = GameState.gameState_Collect;
 
         // カメラ
-        if (zoomInCamera.activeInHierarchy)
+        if (zoomInCamera.activeInHierarchy || zoomMazeCamera.activeInHierarchy)
         {
             zoomInCamera.SetActive(false);
+            zoomMazeCamera.SetActive(false);
         }
         zoomOutCamera.SetActive(true);
         zoomOutCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomOutCameraOffset;
@@ -110,14 +119,54 @@ public class GameStateManager : MonoBehaviour
         mazeAssignment.MazeNavmesh(false);
     }
 
+
+    void StartState_Maze()
+    {
+        gameState = GameState.gameState_Maze;
+
+        // カメラ
+        if (zoomOutCamera.activeInHierarchy || zoomInCamera.activeInHierarchy)
+        {
+            zoomOutCamera.SetActive(false);
+            zoomInCamera.SetActive(false);
+        }
+        zoomMazeCamera.SetActive(true);
+
+        // 迷路
+        collectBoxPost.SwitchBox();
+        mazeAssignment.MazeAssign();
+
+        if (MazeProgress != null)
+        {
+            StopCoroutine(MazeProgress);
+        }
+        MazeProgress = StartCoroutine(StartMaze());
+    }
+    Coroutine MazeProgress;
+    IEnumerator StartMaze()
+    {
+        playerController.GetComponent<CharacterMovementScript>().enabled = false;
+        collectBoxPost.HideBox(true);
+
+        yield return new WaitForSeconds(4f);
+        
+        playerController.GetComponent<CharacterMovementScript>().enabled = true;
+        collectBoxPost.HideBox(false);
+
+        mazeAssignment.MazeNavmesh(true);
+        ChangeGameState(GameState.gameState_Deliver);
+    }
+
+
     void StartState_Delivering()
     {
         gameState = GameState.gameState_Deliver;
 
         // カメラ
-        if (zoomOutCamera.activeInHierarchy)
+        if (zoomOutCamera.activeInHierarchy || zoomMazeCamera.activeInHierarchy)
         {
             zoomOutCamera.SetActive(false);
+            zoomMazeCamera.SetActive(false);
         }
         zoomInCamera.SetActive(true);
         zoomInCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomInCameraOffset;
@@ -131,11 +180,6 @@ public class GameStateManager : MonoBehaviour
 
         // 敵
         enemiesManager.SetMode(EnemiesManager.EnemyMode.Mode_Offensive);
-
-        // 迷路
-        collectBoxPost.SwitchBox();
-        mazeAssignment.MazeAssign();
-        mazeAssignment.MazeNavmesh(true);
     }
 
     #endregion

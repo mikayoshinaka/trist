@@ -6,21 +6,22 @@ using UnityEngine.AI;
 public class EnemyBehaviour : MonoBehaviour
 {
     public static Transform player;
-    public EnemiesManager enemiesManager;
-    public GameObject enemy;
-    public GameObject enemyBody;
-    public EnemySight enemySight;
+    [SerializeField] EnemiesManager enemiesManager;
+    [SerializeField] GameObject enemy;
+    [SerializeField] GameObject enemyBody;
+    [SerializeField] EnemySight enemySight;
     public NavMeshAgent agent;
-    public Animator enemyAnimator;
-    public GameObject enemyCanvas;
-    public GhostCatch ghostCatch;
+    [SerializeField] Animator enemyAnimator;
+    [SerializeField] GameObject enemyCanvas;
+    [SerializeField] GhostCatch ghostCatch;
 
     [Header("当たり判定")]
-    public float patrolRange = 10f;
+    [SerializeField] float patrolRange = 10f;
     public static float sightRange = 7.5f;
     public static float attackRange = 1.5f;
-    public LayerMask playerMask;
-    public LayerMask stageMask;
+    [SerializeField] LayerMask playerMask;
+    [SerializeField] LayerMask stageMask;
+    [SerializeField] LayerMask upstageMask;
     public bool playerInSightRange, playerInAttackRange;
 
     private enum EnemyState
@@ -32,11 +33,11 @@ public class EnemyBehaviour : MonoBehaviour
     private EnemyState enemyState;
 
     [Header("Patrol")]
-    public Vector3 patrolPoint;
-    public bool patrolSet;
+    [SerializeField] Vector3 patrolPoint;
+    [SerializeField] bool patrolSet;
 
     [Header("Locate")]
-    public bool moveAway;
+    [SerializeField] bool moveAway;
     private bool chasing;
     private float chaseRange = 1f;
 
@@ -58,6 +59,7 @@ public class EnemyBehaviour : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         playerMask = LayerMask.GetMask("PlayerTrigger");
         stageMask = LayerMask.GetMask("Stages");
+        upstageMask = LayerMask.GetMask("UpStages");
 
         agent.speed = enemiesManager.speed;
         patrolRange = enemiesManager.patrolRange;
@@ -170,7 +172,7 @@ public class EnemyBehaviour : MonoBehaviour
         float pointZ = Random.Range(-patrolRange, patrolRange);
         patrolPoint = new Vector3(transform.position.x + pointX, transform.position.y, transform.position.z + pointZ);
 
-        if (Physics.Raycast(patrolPoint, -transform.up, 10f, stageMask))
+        if (Physics.Raycast(patrolPoint, -transform.up, 10f, stageMask + upstageMask))
         {
             agent.SetDestination(patrolPoint);
             patrolSet = true;
@@ -210,7 +212,7 @@ public class EnemyBehaviour : MonoBehaviour
 
                 if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
                 {
-                    Runaway();
+                    Runaway(3f);
                 }
                 else if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
                 {
@@ -285,7 +287,7 @@ public class EnemyBehaviour : MonoBehaviour
     // プレイヤーと当たった時に逃げる
     void Defense()
     {
-        Runaway();
+        Runaway(3f);
     }
 
     // プレイヤーを攻撃するギミック
@@ -308,7 +310,7 @@ public class EnemyBehaviour : MonoBehaviour
     #region 離れる行動
 
     // プレイヤーから逃げる
-    void Runaway()
+    void Runaway(float time)
     {
         if (!moveAway)
         {
@@ -316,19 +318,19 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 StopCoroutine(runningAway);
             }
-            runningAway = StartCoroutine(RunningAway());
+            runningAway = StartCoroutine(RunningAway(time));
         }
     }
 
     // 逃げるタイマー
     Coroutine runningAway;
-    IEnumerator RunningAway()
+    IEnumerator RunningAway(float time)
     {
         enemyAnimator.SetBool("Running", true);
         agent.isStopped = true;
         SetAwayDirection();
         moveAway = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(time);
         enemyAnimator.SetBool("Running", false);
         agent.isStopped = false;
         moveAway = false;
@@ -752,6 +754,9 @@ public class EnemyBehaviour : MonoBehaviour
         targetFurniture = null;
         targetObj = null;
         trajectory.Clear();
+
+        // 仮バグ修正
+        patrolSet = false;
     }
 
     #endregion
