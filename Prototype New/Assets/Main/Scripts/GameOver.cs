@@ -62,7 +62,7 @@ public class GameOver : MonoBehaviour
         else if (around == 2 && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B)))
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Title");
         }
        
         

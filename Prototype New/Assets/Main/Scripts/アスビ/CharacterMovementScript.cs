@@ -52,7 +52,15 @@ public class CharacterMovementScript : MonoBehaviour
 
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                //ボス掴み用　小野澤
+                if (GameObject.Find("CatchArea").GetComponent<GhostCatch>().bossGrab == true && GameObject.Find("BossEnemy").GetComponent<BossEnemy>().bossHP > 0)
+                {
+                    transform.LookAt(new Vector3(GameObject.Find("BossEnemy").transform.position.x, this.transform.position.y, GameObject.Find("BossEnemy").transform.position.z));
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                }
 
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 agent.Move(moveDir * speed * Time.deltaTime);

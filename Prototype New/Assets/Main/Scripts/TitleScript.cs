@@ -16,7 +16,7 @@ public class TitleScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1))
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("MazeScene");
         }
      }
 }

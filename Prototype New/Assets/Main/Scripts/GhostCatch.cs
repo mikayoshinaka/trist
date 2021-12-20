@@ -33,6 +33,7 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private Material ghostBlueMaterial;
     [SerializeField] private Material ghostYellowMaterial;
     [SerializeField] private Transform dollInstancePos;
+    [SerializeField] private Transform dollInstancePos2;
     [SerializeField] private Transform shootPos;
     [SerializeField] private Transform inhalePos;
     [SerializeField] Possess possessScript;
@@ -325,6 +326,7 @@ public class GhostCatch : MonoBehaviour
         {
             dollInstanceZoom1.SetActive(true);
             playerController.GetComponent<CharacterMovementScript>().enabled = false;
+            playerController.transform.LookAt(new Vector3(mainCamera.transform.position.x, playerController.transform.position.y, mainCamera.transform.position.z));
         }
         else if (dollInstanceTime >= dollZoom2Time && zoom == false)
         {
@@ -341,6 +343,7 @@ public class GhostCatch : MonoBehaviour
         {
             return;
         }
+        doll.transform.position = dollInstancePos2.position;
         playerController.GetComponent<CharacterMovementScript>().enabled = true;
         dollInstanceZoom1.SetActive(false);
         dollInstanceZoom2.SetActive(false);
@@ -350,7 +353,7 @@ public class GhostCatch : MonoBehaviour
         disclose = false;
         mode = Mode.Carry;
         // アスビ用
-        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Maze);
+        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
     }
 
     // 人形を運ぶ
@@ -374,6 +377,7 @@ public class GhostCatch : MonoBehaviour
             playerController.GetComponent<CharacterMovementScript>().enabled = false;
             mainCamera.SetActive(false);
             shootCamera.SetActive(true);
+            dollSave.AnimStart();
         }
         shootTime += Time.deltaTime;
         if (shootTime > 0.0f && shootTime < vibrateTime)
@@ -535,6 +539,8 @@ public class GhostCatch : MonoBehaviour
             image.GetComponent<Image>().fillAmount = 0;
             image.SetActive(false);
             image2.SetActive(false);
+            bossGrab = false;
+            grab = false;
             canGrabTime = 3.0f;
             for (int i = 0; i < caughtObj.Count; i++)
             {
@@ -703,7 +709,7 @@ public class GhostCatch : MonoBehaviour
         if (vibrate == false)
         {
             vibrate = true;
-            initPosition = doll.transform.position.y;
+            initPosition = 6.0f;
             newPosition = initPosition;
             minPosition = initPosition - vibrateRange;
             maxPosition = initPosition + vibrateRange;
@@ -735,7 +741,8 @@ public class GhostCatch : MonoBehaviour
             if (inhaleDis < 0.03f)
             {
                 inhaleSpeed = 0.0f;
-                dollSave.dolls.Add(doll);
+                dollSave.DollAdd(doll, caughtObj.Count);
+
                 doll.SetActive(false);
                 doll = null;
             }
@@ -845,5 +852,4 @@ public class GhostCatch : MonoBehaviour
             }
         }
     }
-
 }

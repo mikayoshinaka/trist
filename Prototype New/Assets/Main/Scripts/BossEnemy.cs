@@ -63,6 +63,9 @@ public class BossEnemy : MonoBehaviour
     private Vector3 beforeBossPos;
     private Vector3 bossAmountOfMovement;
     private float bossMovementTimer;
+
+    [SerializeField] private Transform[] mig_Point;
+    private int point = 0;
     public enum Mode
     {
         fire,
@@ -74,7 +77,7 @@ public class BossEnemy : MonoBehaviour
         randomMove,
         chase
     }
-   
+
     public Mode mode;
     // Start is called before the first frame update
     void Start()
@@ -131,7 +134,7 @@ public class BossEnemy : MonoBehaviour
                 BossMoveChase();
                 break;
         }
-        CalculateAmountOfMovement(ref  playerMovementTimer, ref playerAmountOfMovement, ref  beforePlayerPos,  player.transform.position);
+        CalculateAmountOfMovement(ref playerMovementTimer, ref playerAmountOfMovement, ref beforePlayerPos, player.transform.position);
         CalculateAmountOfMovement(ref bossMovementTimer, ref bossAmountOfMovement, ref beforeBossPos, this.gameObject.transform.position);
     }
     //サイズ変更
@@ -332,7 +335,8 @@ public class BossEnemy : MonoBehaviour
     //レーザーを打つ
     void LaserShoot()
     {
-        if (laserStart==false) {
+        if (laserStart == false)
+        {
             laserStart = true;
             transform.LookAt(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
         }
@@ -363,7 +367,7 @@ public class BossEnemy : MonoBehaviour
             if (hit.collider.tag == "PlayerBody")
             {
                 hit.collider.GetComponent<ParalysisPlayer>().paralysis = true;
-                lr.SetPosition(1, hit.point+laser.transform.forward * 1);
+                lr.SetPosition(1, hit.point + laser.transform.forward * 1);
             }
             else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("UpStages") || hit.collider.gameObject.layer == LayerMask.NameToLayer("Stages"))
             {
@@ -373,7 +377,7 @@ public class BossEnemy : MonoBehaviour
             {
                 lr.SetPosition(1, laser.transform.forward * 500);
             }
-            
+
         }
         else
         {
@@ -452,6 +456,10 @@ public class BossEnemy : MonoBehaviour
     //掴まれた
     void BossGrabbed()
     {
+        if (bossHP > 0)
+        {
+            this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
+        }
         if (reSet == true)
         {
             ResetMode();
@@ -547,7 +555,7 @@ public class BossEnemy : MonoBehaviour
             sourcePos.Clear();
         }
         bool approachPlayer = InArea(chaseDis);
-        if(approachPlayer)
+        if (approachPlayer)
         {
             randomMoveTimer = 0.0f;
             mode = Mode.chase;
@@ -559,7 +567,7 @@ public class BossEnemy : MonoBehaviour
         Vector3 bossMovePos = lookAhead();
         agent.SetDestination(bossMovePos);
         bool approachPlayer = InArea(chaseDis);
-        if (approachPlayer==false)
+        if (approachPlayer == false)
         {
             mode = Mode.randomMove;
         }
@@ -583,27 +591,35 @@ public class BossEnemy : MonoBehaviour
         }
     }
     //boss移動用　プレイヤーの方向とy座標は分かっている 試し　作成中
-    
+    void BossMoveSetPosition()
+    {
+        Vector3 pos = mig_Point[point].position;
+        if (Vector3.Distance(agent.transform.position, pos) < 2.0f)
+        {
+            point = (point < mig_Point.Length - 1) ? point + 1 : 0;
+
+        }
+    }
 
     Vector3 lookAhead()
     {
-        Vector3 Vr,Sr;
+        Vector3 Vr, Sr;
         float Tc;
-        Vr=playerAmountOfMovement.normalized - bossAmountOfMovement.normalized;
+        Vr = playerAmountOfMovement.normalized - bossAmountOfMovement.normalized;
         Sr = player.transform.position - this.transform.position;
-        Tc = Mathf.Abs(Mathf.Sqrt(Sr.x*Sr.x+ Sr.y * Sr.y + Sr.z * Sr.z)) / Mathf.Abs(Mathf.Sqrt(Vr.x * Vr.x + Vr.y * Vr.y + Vr.z * Vr.z));
-        return player.transform.position+playerAmountOfMovement.normalized*Tc;
+        Tc = Mathf.Abs(Mathf.Sqrt(Sr.x * Sr.x + Sr.y * Sr.y + Sr.z * Sr.z)) / Mathf.Abs(Mathf.Sqrt(Vr.x * Vr.x + Vr.y * Vr.y + Vr.z * Vr.z));
+        return player.transform.position + playerAmountOfMovement.normalized * Tc;
     }
     //移動量計算
-    void CalculateAmountOfMovement(ref float movementTimer,ref Vector3 amountOfMovement, ref Vector3 beforePos,  Vector3 moveObj)
+    void CalculateAmountOfMovement(ref float movementTimer, ref Vector3 amountOfMovement, ref Vector3 beforePos, Vector3 moveObj)
     {
         movementTimer += Time.deltaTime;
-        if(movementTimer>=0.5f)
+        if (movementTimer >= 0.5f)
         {
             amountOfMovement = moveObj - beforePos;
             beforePos = player.transform.position;
             movementTimer = 0.0f;
         }
     }
-        
+
 }
