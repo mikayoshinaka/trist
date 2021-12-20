@@ -54,6 +54,7 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private GameObject dollInstanceZoom1;
     [SerializeField] private GameObject dollInstanceZoom2;
     [SerializeField] private GameObject shootCamera;
+    [SerializeField] private float dollRotateSpeed = 20.0f;
     [SerializeField] private float discloseHeight = 1.0f;
     [SerializeField] private float discloseSpeed = 1.0f;
     [SerializeField] private float inhaleSpeedMax = 5.0f;
@@ -337,12 +338,14 @@ public class GhostCatch : MonoBehaviour
         else if (dollInstanceTime >= dollZoom2Time && zoom == true)
         {
             DollDisclose(caughtObj);
+            doll.transform.Rotate(new Vector3(0,dollRotateSpeed,0));
         }
         dollInstanceTime += Time.deltaTime;
         if (dollInstanceTime < dollInstanceMaxTime)
         {
             return;
         }
+        doll.transform.rotation =new Quaternion(0,0,0,0);
         doll.transform.position = dollInstancePos2.position;
         playerController.GetComponent<CharacterMovementScript>().enabled = true;
         dollInstanceZoom1.SetActive(false);

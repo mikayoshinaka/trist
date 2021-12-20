@@ -26178,6 +26178,7 @@ MonoBehaviour:
   dollInstanceZoom1: {fileID: 1188425472}
   dollInstanceZoom2: {fileID: 1990240498}
   shootCamera: {fileID: 2137722693}
+  dollRotateSpeed: 10
   discloseHeight: 1
   discloseSpeed: 1
   inhaleSpeedMax: 25
