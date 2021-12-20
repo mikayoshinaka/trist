@@ -590,7 +590,7 @@ public class BossEnemy : MonoBehaviour
             }
         }
     }
-    //boss移動用　プレイヤーの方向とy座標は分かっている 試し　作成中
+    //決まった場所に移動
     void BossMoveSetPosition()
     {
         Vector3 pos = mig_Point[point].position;
@@ -599,6 +599,7 @@ public class BossEnemy : MonoBehaviour
             point = (point < mig_Point.Length - 1) ? point + 1 : 0;
 
         }
+        agent.SetDestination(pos);
     }
 
     Vector3 lookAhead()
