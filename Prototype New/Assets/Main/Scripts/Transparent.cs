@@ -21,25 +21,68 @@ public class Transparent : MonoBehaviour
     {
         if (possessScript.GetComponent<Possess>().possess ==true)
         {
-                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);          
+            if (this.gameObject.tag=="BossEnemyBody")
+            {
+                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(1).gameObject);
+                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(2).gameObject);
+                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(4).gameObject);
+                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(5).gameObject);
+            }
+            else
+            {
+                EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+            }        
         }
         else {
             if (ghostCatch.GetComponent<GhostCatch>().mode==GhostCatch.Mode.Carry|| ghostCatch.GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot)
             {
                 
                     if (enemySearchAreaTransparent.GetComponent<EnemySearchAreaTransparent>().areaEnemy.Contains(this.gameObject)) {
+                    if (this.gameObject.tag == "BossEnemyBody")
+                    {
                         EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+                        EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(1).gameObject);
+                        EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(2).gameObject);
+                        EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(4).gameObject);
+                        EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(5).gameObject);
+                    }
+                    else
+                    {
+                        EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+                    }
+                    }
+                    else
+                    {
+                    if (this.gameObject.tag == "BossEnemyBody")
+                    {
+                        EnemyInvisible(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+                        EnemyInvisible(this.gameObject.GetComponent<Transform>().transform.GetChild(1).gameObject);
+                        EnemyInvisible(this.gameObject.GetComponent<Transform>().transform.GetChild(2).gameObject);
+                        EnemyInvisible(this.gameObject.GetComponent<Transform>().transform.GetChild(4).gameObject);
+                        EnemyInvisible(this.gameObject.GetComponent<Transform>().transform.GetChild(5).gameObject);
                     }
                     else
                     {
                         EnemyInvisible(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
                     }
+                    }
                 
             }
             else
             {
-               
+                if (this.gameObject.tag == "BossEnemyBody")
+                {
                     EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+                    EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(1).gameObject);
+                    EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(2).gameObject);
+                    EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(4).gameObject);
+                    EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(5).gameObject);
+                }
+                else
+                {
+                    EnemySeem(this.gameObject.GetComponent<Transform>().transform.GetChild(0).gameObject);
+                }
                 
             }
         }

@@ -356,7 +356,7 @@ public class GhostCatch : MonoBehaviour
         disclose = false;
         mode = Mode.Carry;
         // アスビ用
-        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Deliver);
+        gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Maze);
     }
 
     // 人形を運ぶ
@@ -712,7 +712,7 @@ public class GhostCatch : MonoBehaviour
         if (vibrate == false)
         {
             vibrate = true;
-            initPosition = 6.0f;
+            initPosition = dollInstancePos2.position.y;
             newPosition = initPosition;
             minPosition = initPosition - vibrateRange;
             maxPosition = initPosition + vibrateRange;
@@ -730,7 +730,7 @@ public class GhostCatch : MonoBehaviour
         newPosition = directionToggle ? newPosition + (vibrateSpeed * Time.deltaTime) : newPosition - (vibrateSpeed * Time.deltaTime);
         newPosition = Mathf.Clamp(newPosition, minPosition, maxPosition);
         //doll.transform.localPosition = new Vector3(doll.transform.position.x, doll.transform.position.y+newPosition, doll.transform.position.z);
-        doll.transform.localPosition = new Vector3(0, newPosition, 0);
+        doll.transform.position = new Vector3(dollInstancePos2.position.x, newPosition, dollInstancePos2.position.z);
     }
     private void DollInhale()
     {
