@@ -148,7 +148,7 @@ public class GameStateManager : MonoBehaviour
         playerController.GetComponent<CharacterMovementScript>().enabled = false;
         collectBoxPost.HideBox(true);
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(6f);
         
         playerController.GetComponent<CharacterMovementScript>().enabled = true;
         collectBoxPost.HideBox(false);

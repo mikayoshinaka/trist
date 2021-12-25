@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: teki1 blue
+  m_Name: teki1 red
   m_Shader: {fileID: -6465566751694194690, guid: 8183f7705a753cc46a56377077707360, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,15 +20,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_47ee62be3efd488cb479d2b1855a1015:
-        m_Texture: {fileID: 2800000, guid: 2c05427ff653bf846a3ea35a6b2cb88e, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _BASE_COLOR_MAP:
-        m_Texture: {fileID: 2800000, guid: 2c05427ff653bf846a3ea35a6b2cb88e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0cfb1a5c9d74dc349856f01a7b171a17, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: ad2314566f429734f95f253c3324abaf, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -47,27 +43,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EMISSION_COLOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _METALNESS_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ad2314566f429734f95f253c3324abaf, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NORMAL_MAP:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -76,18 +60,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SPECULAR_COLOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SPECULAR_IOR_MAP:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SPECULAR_ROUGHNESS_MAP:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -109,8 +81,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_0c40b144296447f1ba2083be2ec3c18b: 4
-    - Vector1_1e416c0c70f04995aa5ac0350cf120c7: 1.8
-    - Vector1_2bc6e074d636424691cf8a1823dceeb1: 1.18
+    - Vector1_2bc6e074d636424691cf8a1823dceeb1: 1.35
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -122,40 +93,31 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _GlossMapScale: 1
+    - _GlossMapScale: 0
     - _Glossiness: 0
-    - _GlossyReflections: 1
-    - _METALNESS: 0
+    - _GlossyReflections: 0
     - _Metallic: 0
-    - _Mode: 0
     - _OcclusionStrength: 1
-    - _Parallax: 0.02
+    - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SPECULAR_IOR: 1.5
-    - _SPECULAR_ROUGHNESS: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _UVSec: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_0562329da1fc40f687aa93d3a8963b80: {r: 0, g: 0.42352942, b: 1.9764706, a: 0.003921569}
-    - Color_34c2c5c145024350be153c7c00846ac5: {r: 0.96244055, g: 0.504717, b: 1, a: 1}
-    - Color_c475b9476814465ba5a09b1b15a1b5bd: {r: 0.268693, g: 1.9395528, b: 5.1784463, a: 0}
+    - Color_34c2c5c145024350be153c7c00846ac5: {r: 1, g: 0.7311321, b: 0.9432404, a: 1}
+    - Color_c475b9476814465ba5a09b1b15a1b5bd: {r: 7.3772106, g: 1.3904691, b: 1.3904691, a: 0}
     - Vector3_0dd7732f330d49bd88506abf20d239b8: {r: 0, g: 0, b: -0.16, a: 0}
-    - _BASE_COLOR: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
-    - _EMISSION_COLOR: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SPECULAR_COLOR: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &9100748827406409472
+--- !u!114 &3534147334962939168
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

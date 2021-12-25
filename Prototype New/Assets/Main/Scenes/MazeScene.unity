@@ -34935,6 +34935,10 @@ PrefabInstance:
       propertyPath: enemySearchAreaTransparent
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8494674968277322453, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0516
+      objectReference: {fileID: 0}
     - target: {fileID: 9221184643311702124, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: ghostCatch
       value: 
