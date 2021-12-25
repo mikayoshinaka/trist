@@ -29,6 +29,7 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private GameObject purpleDoll2;
     [SerializeField] private GameObject greenDoll2;
     [SerializeField] private GameObject orangeDoll2;
+    [SerializeField] private GameObject bossDoll;
     [SerializeField] private Material ghostRedMaterial;
     [SerializeField] private Material ghostBlueMaterial;
     [SerializeField] private Material ghostYellowMaterial;
@@ -117,6 +118,10 @@ public class GhostCatch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        //{
+        //    return;
+        //}
         switch (mode)
         {
             case Mode.CanGrab:
@@ -626,10 +631,12 @@ public class GhostCatch : MonoBehaviour
             b3 = p3;
         }
     }
+    //捕獲したもののの組み合わせによる人形の変更
     private void DollCombination(List<GameObject> ghost)
     {
         if (ghost.Count == 1)
         {
+            //リス
             if (ghost[0].transform.GetChild(0).tag == "RedEnemyBody")
             {
                 doll = Instantiate(redDoll, dollInstancePos.position, Quaternion.identity);
@@ -645,45 +652,116 @@ public class GhostCatch : MonoBehaviour
                 doll = Instantiate(yellowDoll, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Yellow);
             }
-            else if (ghost[0].transform.GetChild(0).tag == "BossEnemyBody")
+            //猫
+            else if (ghost[0].transform.GetChild(0).tag == "RedEnemyBody2")
             {
-                doll = Instantiate(yellowDoll, dollInstancePos.position, Quaternion.identity);
+                doll = Instantiate(redDoll2, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Red);
+            }
+            else if (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2")
+            {
+                doll = Instantiate(blueDoll2, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Blue);
+            }
+            else if (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2")
+            {
+                doll = Instantiate(yellowDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Yellow);
             }
+            //ボス
+            else if (ghost[0].transform.GetChild(0).tag == "BossEnemyBody")
+            {
+                doll = Instantiate(bossDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Yellow);
+            }
+
         }
         else if (ghost.Count >= 2)
         {
-            if (ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody")
+            //リス
+            if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody")
+             || (ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2"))
             {
                 doll = Instantiate(darkRedDoll, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkRed);
             }
-            else if (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
+            else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2"))
             {
                 doll = Instantiate(darkBlueDoll, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkBlue);
             }
-            else if (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
+            else if ((ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2"))
             {
                 doll = Instantiate(darkYellowDoll, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkYellow);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
-                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2"))
             {
                 doll = Instantiate(purpleDoll, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Purple);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
-                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody"))
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2"))
             {
                 doll = Instantiate(greenDoll, dollInstancePos.position, Quaternion.identity); ;
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Green);
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
-                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "RedEnemyBody" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2"))
             {
                 doll = Instantiate(orangeDoll, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Orange);
+            }
+            //猫
+            else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
+            {
+                doll = Instantiate(darkRedDoll2, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkRed);
+            }
+            else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody"))
+            {
+                doll = Instantiate(darkBlueDoll2, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkBlue);
+            }
+            else if ((ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody"))
+            {
+                doll = Instantiate(darkYellowDoll2, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkYellow);
+            }
+            else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
+            {
+                doll = Instantiate(purpleDoll2, dollInstancePos.position, Quaternion.identity);
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Purple);
+            }
+            else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody"))
+            {
+                doll = Instantiate(greenDoll2, dollInstancePos.position, Quaternion.identity); ;
+                colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Green);
+            }
+            else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2")
+                  || (ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody")
+                  || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody"))
+            {
+                doll = Instantiate(orangeDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Orange);
             }
         }
@@ -745,7 +823,10 @@ public class GhostCatch : MonoBehaviour
             {
                 inhaleSpeed = 0.0f;
                 dollSave.DollAdd(doll, caughtObj.Count);
-
+                if(doll.tag=="BossDoll")
+                {
+                    dollSave.bossIn = true;
+                }
                 doll.SetActive(false);
                 doll = null;
             }

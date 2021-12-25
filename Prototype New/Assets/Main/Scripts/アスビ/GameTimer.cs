@@ -18,6 +18,11 @@ public class GameTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //小野澤　開始用
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        {
+            return;
+        }
         if (countdown >= 0)
         {
             countdown -= Time.deltaTime;

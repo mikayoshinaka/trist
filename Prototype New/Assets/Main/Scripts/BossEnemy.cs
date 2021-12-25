@@ -451,7 +451,7 @@ public class BossEnemy : MonoBehaviour
 
     void BossDown()
     {
-
+        agent.agentTypeID=0;
     }
     //�͂܂ꂽ
     void BossGrabbed()

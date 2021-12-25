@@ -17,7 +17,8 @@ public class CharacterMovementScript : MonoBehaviour
 
     [Header("Gameplay")]
     public bool playerInterupt;
-
+    //小野澤 終了用
+    [SerializeField] private DollSave dollSave;
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -28,6 +29,11 @@ public class CharacterMovementScript : MonoBehaviour
 
     void Update()
     {
+        //小野澤　開始用 終了用
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true|| dollSave.bossIn == true )
+        {
+            return;
+        }
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 

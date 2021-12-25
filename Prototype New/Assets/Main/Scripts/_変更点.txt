@@ -84,3 +84,21 @@ charactermovementscript
                 {
                     transform.LookAt(new Vector3(GameObject.Find("BossEnemy").transform.position.x, this.transform.position.y, GameObject.Find("BossEnemy").transform.position.z));
                 }
+
+============	2021.12.25	================
+変更内容：
+CharacterMovementScript
+ //小野澤 終了用
+    [SerializeField] private DollSave dollSave;
+ //小野澤　開始用 終了用
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true|| dollSave.bossIn == true )
+        {
+            return;
+        }
+GameTimer
+SeeThrough
+ //小野澤　開始用
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        {
+            return;
+        }

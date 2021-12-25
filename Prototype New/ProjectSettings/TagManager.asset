@@ -19,6 +19,10 @@ TagManager:
   - Desk
   - BossEnemy
   - BossEnemyBody
+  - BlueEnemyBody2
+  - RedEnemyBody2
+  - YellowEnemyBody2
+  - BossDoll
   layers:
   - Default
   - TransparentFX

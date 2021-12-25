@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class DollSave : MonoBehaviour
 {
     [SerializeField] private GameObject catchArea;
@@ -12,18 +12,26 @@ public class DollSave : MonoBehaviour
     [SerializeField] private GameObject endCamera;
     [SerializeField] private GameObject endScene;
     [SerializeField] private GameObject endUI;
+    [SerializeField] private GameObject playerController;
+    [SerializeField] private GameObject endPosition;
     public Text text;
     bool within;
     bool shoot;
+    public bool bossIn;
     int catchPoint;
     int i;
     [SerializeField] private float zoomTime = 2.0f;
     private float timer;
     private float time;
     private Animator anim;
+
+    public Image fadeImage;
+    [SerializeField] float fadeSpeed = 1.0f;
+    float red, green, blue, alfa;
     // Start is called before the first frame update
     void Start()
     {
+        bossIn = false;
         within = false;
         catchPoint = 0;
         timer = 0.0f;
@@ -31,6 +39,11 @@ public class DollSave : MonoBehaviour
         shoot = false;
         i = 0;
         anim = GameObject.Find("boxbig").GetComponent<Animator>();
+
+        red = fadeImage.color.r;
+        green = fadeImage.color.g;
+        blue = fadeImage.color.b;
+        alfa = fadeImage.color.a;
     }
 
     // Update is called once per frame
@@ -41,8 +54,10 @@ public class DollSave : MonoBehaviour
             catchArea.GetComponent<GhostCatch>().mode = GhostCatch.Mode.Shoot;
             GameObject.Find("Enemies").GetComponent<EnemiesManager>().enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
         }
-        if (GameObject.Find("Timer").GetComponent<GameTimer>().countdown <= 0)
+        if(bossIn&&!(GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode==GhostCatch.Mode.Shoot))
         {
+            playerController.transform.position =endPosition.transform.position;
+            playerController.transform.LookAt(this.transform.position);
             timer += Time.deltaTime;
             endCamera.SetActive(true);
             AnimStart();
@@ -71,8 +86,26 @@ public class DollSave : MonoBehaviour
                     endUI.SetActive(true);
                 }
             }
-
         }
+        else if (bossIn==false&&GameObject.Find("Timer").GetComponent<GameTimer>().countdown <= 0)
+        {
+            StartFadeOut();
+        }
+    }
+    void StartFadeOut()
+    {
+        fadeImage.enabled = true;
+        alfa += Time.deltaTime * fadeSpeed;
+        SetAlpha();
+        if (alfa >= 1)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+
+    }
+    void SetAlpha()
+    {
+        fadeImage.color = new Color(red, green, blue, alfa);
     }
     public void DollAdd(GameObject doll, int count)
     {

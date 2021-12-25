@@ -57,7 +57,10 @@ public class Possess : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        {
+            return;
+        }
         if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false)
         {
             InputAndCanPossess();

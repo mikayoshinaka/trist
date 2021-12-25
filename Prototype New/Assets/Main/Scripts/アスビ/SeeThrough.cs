@@ -25,6 +25,11 @@ public class SeeThrough : MonoBehaviour
 
     private void Update()
     {
+        //小野澤　開始用
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        {
+            return;
+        }
         Vector2 cutoutPos = mainCamera.WorldToViewportPoint(player.position);
         cutoutPos.y /= (Screen.width / Screen.height);
 
