@@ -8,6 +8,10 @@ public class ColorAct_DarkBlue : ColorActState
     float radius;
     bool barrierPlaying;
 
+    // Cooldown
+    GameObject cooldownBar;
+    ColorActionCooldown colorActionCooldown;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -23,15 +27,22 @@ public class ColorAct_DarkBlue : ColorActState
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
         gimmickObject.SetActive(true);
         barrier = gimmickObject.transform.Find("DarkBlue_Barrier").gameObject;
+
+        // Cooldown
+        cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
+        if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)))
         {
             if (!barrierPlaying)
             {
                 Gimmick_DarkBlue(colorAct);
+
+                cooldownBar.SetActive(true);
+                colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkblue);
             }
         }
     }

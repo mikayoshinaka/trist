@@ -25,6 +25,10 @@ public class ColorAct_Orange : ColorActState
     // 透明化用
     SphereCollider transparentCollider;
 
+    // Cooldown
+    GameObject cooldownBar;
+    ColorActionCooldown colorActionCooldown;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -54,6 +58,10 @@ public class ColorAct_Orange : ColorActState
 
         charging = false;
         zapping = false;
+
+        // Cooldown
+        cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
     }
 
     public override void UpdateState(ColorAction colorAct)
@@ -66,7 +74,7 @@ public class ColorAct_Orange : ColorActState
         if (!zapping)
         {
             // チャージ処理
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
+            if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)))
             {
                 energyLine.SetActive(true);
                 charging = true;
@@ -77,9 +85,12 @@ public class ColorAct_Orange : ColorActState
             }
 
             // 攻撃処理
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton5))
+            if (!colorActionCooldown.cooldown && (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton5)))
             {
                 FireEnergy(colorAct);
+
+                cooldownBar.SetActive(true);
+                colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.orange);
             }
         }
     }

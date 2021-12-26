@@ -22,6 +22,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameObject playerController;
     [SerializeField] private ColorAction colorAction;
     [SerializeField] private GhostCatch ghostCatch;
+    [SerializeField] private SeeThrough seeThrough;
    
     [Header("Enemies")]
     [SerializeField] private EnemiesManager enemiesManager;
@@ -56,6 +57,7 @@ public class GameStateManager : MonoBehaviour
         playerController = GameObject.Find("PlayerController");
         colorAction = playerController.GetComponent<ColorAction>();
         ghostCatch = playerController.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
+        seeThrough = playerController.GetComponent<SeeThrough>();
        
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
 
@@ -96,6 +98,7 @@ public class GameStateManager : MonoBehaviour
         }
         zoomOutCamera.SetActive(true);
         zoomOutCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomOutCameraOffset;
+        seeThrough.enabled = true;
         
         // ライティング
         if (lightSource_Deliver.activeInHierarchy)
@@ -132,6 +135,7 @@ public class GameStateManager : MonoBehaviour
             zoomInCamera.SetActive(false);
         }
         zoomMazeCamera.SetActive(true);
+        seeThrough.enabled = false;
 
         // 迷路
         collectBoxPost.SwitchBox();
@@ -171,6 +175,7 @@ public class GameStateManager : MonoBehaviour
         }
         zoomInCamera.SetActive(true);
         zoomInCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = zoomInCameraOffset;
+        seeThrough.enabled = true;
         
         // ライティング
         if (lightSource_Collect.activeInHierarchy)

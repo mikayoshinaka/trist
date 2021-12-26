@@ -11,6 +11,10 @@ public class ColorAct_Green : ColorActState
 
     List<GameObject> possessList = new List<GameObject>();
 
+    // Cooldown
+    GameObject cooldownBar;
+    ColorActionCooldown colorActionCooldown;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -22,13 +26,20 @@ public class ColorAct_Green : ColorActState
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
         gimmickObject.SetActive(true);
         possessZone = gimmickObject.transform.Find("Green_Zone").gameObject;
+
+        // Cooldown
+        cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
+        if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)))
         {
             Gimmick_Green(colorAct);
+
+            cooldownBar.SetActive(true);
+            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.green);
         }
 
         if (possessing)

@@ -23,6 +23,10 @@ public class ColorAct_Purple : ColorActState
     // 透明化用
     SphereCollider transparentCollider;
 
+    // Cooldown
+    GameObject cooldownBar;
+    ColorActionCooldown colorActionCooldown;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -45,6 +49,10 @@ public class ColorAct_Purple : ColorActState
 
         instantiatedObjects = GameObject.Find("InstantiatedObjects");
         shooting = false;
+
+        // Cooldown
+        cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
     }
 
     public override void UpdateState(ColorAction colorAct)
@@ -121,8 +129,11 @@ public class ColorAct_Purple : ColorActState
     // 攻撃処理
     private void Shoot(ColorAction colorAct)
     {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)) && !shooting)
+        if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)) && !shooting)
         {
+            cooldownBar.SetActive(true);
+            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.purple);
+
             cannonball = MonoBehaviour.Instantiate(colorActionObjects.cannonball, origin, colorAct.transform.rotation, instantiatedObjects.transform);
 
             cannonballPoint = new Vector3[vertex];

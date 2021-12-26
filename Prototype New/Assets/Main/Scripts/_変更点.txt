@@ -102,3 +102,14 @@ SeeThrough
         {
             return;
         }
+
+
+
+============	2021.12.27	================
+
+変更内容：
+GhostCatch 
+
+行 337 - DollInstance()
+// アスビ用
+playerController.GetComponent<SeeThrough>().enabled = false;

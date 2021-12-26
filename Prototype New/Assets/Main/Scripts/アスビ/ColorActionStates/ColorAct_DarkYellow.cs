@@ -10,6 +10,10 @@ public class ColorAct_DarkYellow : ColorActState
     GameObject dashBarrier;
     bool dashing;
 
+    // Cooldown
+    GameObject cooldownBar;
+    ColorActionCooldown colorActionCooldown;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -26,13 +30,20 @@ public class ColorAct_DarkYellow : ColorActState
 
         dashBarrier = gimmickObject.transform.Find("DarkYellow_Dash").gameObject;
         dashing = false;
+
+        // Cooldown
+        cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)) && !dashing)
+        if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)) && !dashing)
         {
             Gimmick_DarkYellow(colorAct);
+
+            cooldownBar.SetActive(true);
+            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkyellow);
         }
     }
 

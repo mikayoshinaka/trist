@@ -17,6 +17,12 @@ public class ColorAct_Null : ColorActState
         }
         gimmickObjects.SetActive(false);
 
+        // GimmickCanvas Reset
+        GameObject cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        cooldownBar.GetComponent<ColorActionCooldown>().ResetCooldown();
+        cooldownBar.SetActive(false);
+
+
         // 透明化用
         SphereCollider transparentCollider = GameObject.Find("SearchArea").GetComponent<SphereCollider>();
         transparentCollider.radius = 3f;

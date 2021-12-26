@@ -11,6 +11,10 @@ public class ColorAct_DarkRed : ColorActState
     // 透明化用
     SphereCollider transparentCollider;
 
+    // Cooldown
+    GameObject cooldownBar;
+    ColorActionCooldown colorActionCooldown;
+
     public override void EnterState(ColorAction colorAct)
     {
         Debug.Log(this);
@@ -29,16 +33,23 @@ public class ColorAct_DarkRed : ColorActState
         GameObject lightSource = gimmickObject.transform.Find("DarkRed_LightSource").gameObject;
         lightSource.SetActive(true);
 
+        // Cooldown
+        cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
+        colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
+
         enemyList.Clear();
         OnValidate();
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
+        if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)))
         {
             enemyList.Clear();
             Gimmick_DarkRed(colorAct);
+
+            cooldownBar.SetActive(true);
+            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkred);
         }
     }
 

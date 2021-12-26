@@ -333,6 +333,9 @@ public class GhostCatch : MonoBehaviour
             dollInstanceZoom1.SetActive(true);
             playerController.GetComponent<CharacterMovementScript>().enabled = false;
             playerController.transform.LookAt(new Vector3(mainCamera.transform.position.x, playerController.transform.position.y, mainCamera.transform.position.z));
+
+            // アスビ用
+            playerController.GetComponent<SeeThrough>().enabled = false;
         }
         else if (dollInstanceTime >= dollZoom2Time && zoom == false)
         {
@@ -360,6 +363,7 @@ public class GhostCatch : MonoBehaviour
         zoom = false;
         disclose = false;
         mode = Mode.Carry;
+        
         // アスビ用
         gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Maze);
     }
