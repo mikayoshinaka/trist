@@ -768,7 +768,7 @@ public class GhostCatch : MonoBehaviour
         doll.transform.parent = playerController.transform;
         doll.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
     }
-
+    //人形の出現
     private void DollDisclose(List<GameObject> ghost)
     {
         if (discloseTime < 1.0f)
@@ -785,6 +785,7 @@ public class GhostCatch : MonoBehaviour
             doll.transform.localScale = new Vector3((1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f));
         }
     }
+    //人形の振動
     private void DollVibrate()
     {
         if (vibrate == false)
@@ -836,6 +837,7 @@ public class GhostCatch : MonoBehaviour
             }
         }
     }
+    //捕まえたものを止める
     private void CaughtObjStop()
     {
         for (int i = 0; i < caughtObj.Count; i++)
@@ -858,6 +860,7 @@ public class GhostCatch : MonoBehaviour
             }
         }
     }
+    //捕まえたものを動けるようにする
     public void CaughtObjMoveable(GameObject enemy)
     {
         if (enemy.tag == "Enemy")
@@ -873,7 +876,7 @@ public class GhostCatch : MonoBehaviour
             enemy.transform.parent = null;
         }
     }
-
+    //リセットする
     public void ReSetCatch()
     {
         if (doll != null)
@@ -888,6 +891,7 @@ public class GhostCatch : MonoBehaviour
         time.Clear();
         canGrabTime = 3.0f;
     }
+    //モード変更
     public void SetState(Mode temp)
     {
         mode = temp;

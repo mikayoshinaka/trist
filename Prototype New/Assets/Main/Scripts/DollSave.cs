@@ -92,6 +92,7 @@ public class DollSave : MonoBehaviour
             StartFadeOut();
         }
     }
+    //à√Ç≠Ç∑ÇÈ
     void StartFadeOut()
     {
         fadeImage.enabled = true;
@@ -107,6 +108,7 @@ public class DollSave : MonoBehaviour
     {
         fadeImage.color = new Color(red, green, blue, alfa);
     }
+    //î†Ç…êlå`í«â¡
     public void DollAdd(GameObject doll, int count)
     {
         dolls.Add(doll);
@@ -118,7 +120,7 @@ public class DollSave : MonoBehaviour
     {
         anim.SetBool("open", true);
     }
-        private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PlayerBody")
         {

@@ -61,7 +61,8 @@ public class Possess : MonoBehaviour
         {
             return;
         }
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false)
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 
+            && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false && ghostCatch.bossGrab == false && ghostCatch.mode==GhostCatch.Mode.CanGrab)
         {
             InputAndCanPossess();
         }
@@ -127,7 +128,7 @@ public class Possess : MonoBehaviour
             canPossess = false;
         }
     }
-
+    //加速
     private float MagneticAccelerate(float dis)
     {
         //比例定数

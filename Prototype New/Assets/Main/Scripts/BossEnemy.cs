@@ -6,16 +6,17 @@ using UnityEngine.VFX;
 
 public class BossEnemy : MonoBehaviour
 {
+    //ボス自身
     Vector3 firstBossSize;
     [SerializeField] private int bossHPMax = 3;
     public int bossHP;
     public bool hpDown;
     private float bossSize = 1.0f;
-    [SerializeField] float hitPlayerDis = 3.0f;
-
+    //攻撃開始
     [SerializeField] float changeTimerMax = 2.0f;
     public float changeTimer = 0.0f;
-
+    [SerializeField] float hitPlayerDis = 3.0f;
+    //火球
     [SerializeField] float radius = 10;
     [SerializeField] GameObject fireBall;
     [SerializeField] VisualEffect effect;
@@ -34,7 +35,7 @@ public class BossEnemy : MonoBehaviour
     bool startFireInstance;
     bool fireInstance;
     Vector3 instantPlayerPos;
-
+    //レーザー
     [SerializeField] GameObject laser;
     private LineRenderer lr;
     [SerializeField] float laserTimerMax = 4.0f;
@@ -44,38 +45,36 @@ public class BossEnemy : MonoBehaviour
     private float horizontalAngle = 0.0f;
     private float horizontalAngleLimit = 45.0f;
     bool laserStart;
-
+    //リセット
     public bool reSet;
     private float grabbedDownTime = 0.0f;
     private float grabbedDownTimeMax = 3.0f;
-
+    //移動
     public List<Vector3> sourcePos = new List<Vector3>();
     private float randomMoveTimer;
     [SerializeField] float randomMoveTimerMax = 1.0f;
     [SerializeField] float randomMoveRange = 3.0f;
+    private int randomMoveCount;
     public NavMeshAgent agent;
     [SerializeField] float chaseDis = 5.0f;
-    //移動
-
     private Vector3 beforePlayerPos;
     private Vector3 playerAmountOfMovement;
     private float playerMovementTimer;
     private Vector3 beforeBossPos;
     private Vector3 bossAmountOfMovement;
     private float bossMovementTimer;
-
     [SerializeField] private Transform[] mig_Point;
     private int point = 0;
     public enum Mode
     {
         fire,
         beam,
-        earthquake,
         change,
         down,
         grabbed,
         randomMove,
-        chase
+        chase,
+        definePosMove
     }
 
     public Mode mode;
@@ -86,7 +85,6 @@ public class BossEnemy : MonoBehaviour
         reSet = false;
         bossHP = bossHPMax;
         hpDown = false;
-
         mode = Mode.change;
         rotateAngle = 0.0f;
         fire = 0;
@@ -101,6 +99,7 @@ public class BossEnemy : MonoBehaviour
         beforePlayerPos = player.transform.position;
         beforeBossPos = this.transform.position;
         playerMovementTimer = 0.0f;
+        randomMoveCount = 0;
     }
 
     // Update is called once per frame
@@ -132,6 +131,9 @@ public class BossEnemy : MonoBehaviour
                 break;
             case Mode.chase:
                 BossMoveChase();
+                break;
+            case Mode.definePosMove:
+                BossMoveSetPosition();
                 break;
         }
         CalculateAmountOfMovement(ref playerMovementTimer, ref playerAmountOfMovement, ref beforePlayerPos, player.transform.position);
@@ -188,24 +190,8 @@ public class BossEnemy : MonoBehaviour
             mode = Mode.change;
         }
     }
-    void InstanceFire(int fire)
-    {
-        float angleDiff = (360.0f / (float)fireBallCount);
-        for (int i = fire; i < fire + 2; i++)
-        {
-            if (fire >= fireBallCount)
-            {
-                break;
-            }
-            Vector3 firePos = new Vector3(transform.position.x, transform.position.y + y, transform.position.z);
-            float angle = (90.0f - ((angleDiff * i + transform.localEulerAngles.y) + angleDiff / 2.0f)) * Mathf.Deg2Rad;
-            firePos.x += radius * Mathf.Cos(angle);
-            firePos.z += radius * Mathf.Sin(angle);
-            fireBalls.Add(Instantiate(fireBall, firePos, Quaternion.identity));
-            fireBalls[i].transform.parent = this.gameObject.transform;
-        }
-    }
-
+    
+    //火球生成
     IEnumerator GenerateFire()
     {
         yield return new WaitForSeconds(0.5f);
@@ -234,6 +220,25 @@ public class BossEnemy : MonoBehaviour
         }
 
     }
+    void InstanceFire(int fire)
+    {
+        float angleDiff = (360.0f / (float)fireBallCount);
+        for (int i = fire; i < fire + 2; i++)
+        {
+            if (fire >= fireBallCount)
+            {
+                break;
+            }
+            Vector3 firePos = new Vector3(transform.position.x, transform.position.y + y, transform.position.z);
+            float angle = (90.0f - ((angleDiff * i + transform.localEulerAngles.y) + angleDiff / 2.0f)) * Mathf.Deg2Rad;
+            firePos.x += radius * Mathf.Cos(angle);
+            firePos.z += radius * Mathf.Sin(angle);
+            fireBalls.Add(Instantiate(fireBall, firePos, Quaternion.identity));
+            fireBalls[i].transform.parent = this.gameObject.transform;
+        }
+    }
+
+    //火球移動
     void FireAttack(Vector3 playerPos, GameObject fireBall1, GameObject fireBall2, Vector3 dir1, Vector3 dir2)
     {
 
@@ -268,6 +273,7 @@ public class BossEnemy : MonoBehaviour
             fireBall2.SetActive(false);
         }
     }
+    //火球の向かう方向
     Vector3 FireTerminus(Vector3 startPos, Vector3 endPos)
     {
         Vector3 heading = endPos - startPos;
@@ -275,6 +281,7 @@ public class BossEnemy : MonoBehaviour
         Vector3 direction = heading / distance;
         return direction;
     }
+    //火球攻撃　移動
     IEnumerator AttackingFire(Vector3 playerPos, GameObject fireBall1, GameObject fireBall2, Vector3 dir1, Vector3 dir2)
     {
         if (reSet == false)
@@ -303,6 +310,7 @@ public class BossEnemy : MonoBehaviour
         }
 
     }
+    //火球の出現場所
     void FireSet()
     {
         float angleDiff = 360.0f / (float)fireBallCount;
@@ -356,7 +364,7 @@ public class BossEnemy : MonoBehaviour
             }
         }
     }
-
+    //レーザーの移動
     void LaserMigration()
     {
         LaserRotation();
@@ -384,6 +392,7 @@ public class BossEnemy : MonoBehaviour
             lr.SetPosition(1, laser.transform.forward * 500);
         }
     }
+    //レーザーの回転
     void LaserRotation()
     {
         horizontalAngle += Time.deltaTime * laserSpeed;
@@ -448,7 +457,7 @@ public class BossEnemy : MonoBehaviour
             return false;
         }
     }
-
+    //ボスが倒れたとき
     void BossDown()
     {
         agent.agentTypeID=0;
@@ -481,6 +490,7 @@ public class BossEnemy : MonoBehaviour
         }
 
     }
+    //すべて元に戻す
     void ResetMode()
     {
         rotateAngle = 0.0f;
@@ -512,7 +522,7 @@ public class BossEnemy : MonoBehaviour
         if (randomMoveTimer > randomMoveTimerMax)
         {
             randomMoveTimer = 0.0f;
-
+            randomMoveCount++;
             float angleDiff = (360.0f / 8.0f);
 
             for (int i = 0; i < 8; i++)
@@ -554,9 +564,16 @@ public class BossEnemy : MonoBehaviour
             }
             sourcePos.Clear();
         }
+        if(randomMoveCount>=3)
+        {
+            randomMoveCount = 0;
+            randomMoveTimer = 0.0f;
+            mode = Mode.definePosMove;
+        }
         bool approachPlayer = InArea(chaseDis);
         if (approachPlayer)
         {
+            randomMoveCount = 0;
             randomMoveTimer = 0.0f;
             mode = Mode.chase;
         }
@@ -597,11 +614,18 @@ public class BossEnemy : MonoBehaviour
         if (Vector3.Distance(agent.transform.position, pos) < 2.0f)
         {
             point = (point < mig_Point.Length - 1) ? point + 1 : 0;
+            mode = Mode.randomMove;
 
         }
         agent.SetDestination(pos);
+        bool approachPlayer = InArea(chaseDis);
+        if (approachPlayer)
+        {
+            randomMoveTimer = 0.0f;
+            mode = Mode.chase;
+        }
     }
-
+    //先読みで向かう場所
     Vector3 lookAhead()
     {
         Vector3 Vr, Sr;
