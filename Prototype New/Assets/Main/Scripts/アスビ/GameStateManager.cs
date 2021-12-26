@@ -29,6 +29,7 @@ public class GameStateManager : MonoBehaviour
     [Header("Maze")]
     [SerializeField] private CollectBoxPost collectBoxPost;
     [SerializeField] private MazeAssignment mazeAssignment;
+    [SerializeField] private float mazeTimer = 4f;
 
     public enum GameState
     {
@@ -148,7 +149,7 @@ public class GameStateManager : MonoBehaviour
         playerController.GetComponent<CharacterMovementScript>().enabled = false;
         collectBoxPost.HideBox(true);
 
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(mazeTimer);
         
         playerController.GetComponent<CharacterMovementScript>().enabled = true;
         collectBoxPost.HideBox(false);

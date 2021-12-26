@@ -574,7 +574,7 @@ public class EnemyBehaviour : MonoBehaviour
             throwRange = 5f;
             agent.speed = enemiesManager.chaseSpeed * 5.5f;
         }
-        agent.angularSpeed = 360;
+        agent.angularSpeed = enemiesManager.angularSpeed * 2;
         agent.acceleration = 30;
 
         mazeGimmick = true;
