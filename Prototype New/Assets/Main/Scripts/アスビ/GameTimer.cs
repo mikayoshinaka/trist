@@ -8,7 +8,8 @@ public class GameTimer : MonoBehaviour
     Text text;
 
     public float countdown = 180f;
-
+    //小野澤 終了用
+    [SerializeField] private DollSave dollSave;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class GameTimer : MonoBehaviour
     void Update()
     {
         //小野澤　開始用
-        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true|| dollSave.isFadeOut == true)
         {
             return;
         }

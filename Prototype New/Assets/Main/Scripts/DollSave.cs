@@ -14,11 +14,12 @@ public class DollSave : MonoBehaviour
     [SerializeField] private GameObject endUI;
     [SerializeField] private GameObject playerController;
     [SerializeField] private GameObject endPosition;
+    [SerializeField] private Transform clearSaveBoxPos;
     public Text text;
     bool within;
     bool shoot;
     public bool bossIn;
-    int catchPoint;
+    //int catchPoint;
     int i;
     [SerializeField] private float zoomTime = 2.0f;
     private float timer;
@@ -28,12 +29,14 @@ public class DollSave : MonoBehaviour
     public Image fadeImage;
     [SerializeField] float fadeSpeed = 1.0f;
     float red, green, blue, alfa;
+    public bool isFadeOut = false;
+    bool  beginCount = false;
     // Start is called before the first frame update
     void Start()
     {
         bossIn = false;
         within = false;
-        catchPoint = 0;
+        //catchPoint = 0;
         timer = 0.0f;
         time = 0.0f;
         shoot = false;
@@ -56,34 +59,43 @@ public class DollSave : MonoBehaviour
         }
         if(bossIn&&!(GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode==GhostCatch.Mode.Shoot))
         {
-            playerController.transform.position =endPosition.transform.position;
-            playerController.transform.LookAt(this.transform.position);
-            timer += Time.deltaTime;
-            endCamera.SetActive(true);
-            AnimStart();
-            if (timer > zoomTime)
+            if (isFadeOut == false)
             {
-                //16è„å¿
-                if (i < dolls.Count)
+                StartFadeOut();
+            }
+            else if (isFadeOut == true && beginCount == false)
+            {
+                StartFadeIn();
+            }
+            else
+            {
+                timer += Time.deltaTime;
+                endCamera.SetActive(true);
+                AnimStart();
+                if (timer > zoomTime)
                 {
-                    dolls[i].SetActive(true);
-                    dolls[i].transform.parent = null;
-                    //dolls[i].transform.rotation = new Quaternion(0, 90, 0, 0);
-                    Vector3 p1Pos = Vector3.zero;
-                    Vector3 p2Pos = Vector3.zero;
-                    BezierCoordinate(this.transform.position, ref p1Pos, ref p2Pos, seePoint[i].transform.position);
-                    SuckedIntoBox(this.transform.position, p1Pos, p2Pos, seePoint[i].transform.position, i);
-                    if (shoot == true)
+                    //16è„å¿
+                    if (i < dolls.Count)
                     {
-                        i += 1;
-                        shoot = false;
-                        time = 0.0f;
+                        dolls[i].SetActive(true);
+                        dolls[i].transform.parent = null;
+                        //dolls[i].transform.rotation = new Quaternion(0, 90, 0, 0);
+                        Vector3 p1Pos = Vector3.zero;
+                        Vector3 p2Pos = Vector3.zero;
+                        BezierCoordinate(this.transform.position, ref p1Pos, ref p2Pos, seePoint[i].transform.position);
+                        SuckedIntoBox(this.transform.position, p1Pos, p2Pos, seePoint[i].transform.position, i);
+                        if (shoot == true)
+                        {
+                            i += 1;
+                            shoot = false;
+                            time = 0.0f;
+                        }
                     }
-                }
-                else
-                {
-                    endScene.SetActive(true);
-                    endUI.SetActive(true);
+                    else
+                    {
+                        endScene.SetActive(true);
+                        endUI.SetActive(true);
+                    }
                 }
             }
         }
@@ -100,7 +112,26 @@ public class DollSave : MonoBehaviour
         SetAlpha();
         if (alfa >= 1)
         {
+            if(bossIn)
+            {
+                isFadeOut = true;
+                this.gameObject.transform.position = clearSaveBoxPos.position;
+                playerController.transform.position = endPosition.transform.position;
+                playerController.transform.LookAt(this.transform.position);
+                GameObject.Find("ClearScene").GetComponent<ClearScene>().ClearScenePos();
+            }
+            else
             SceneManager.LoadScene("GameOver");
+        }
+
+    }
+    void StartFadeIn()
+    {
+        alfa -= Time.deltaTime * fadeSpeed;
+        SetAlpha();
+        if (alfa <= 0)
+        {
+            beginCount = true;
         }
 
     }
@@ -112,8 +143,8 @@ public class DollSave : MonoBehaviour
     public void DollAdd(GameObject doll, int count)
     {
         dolls.Add(doll);
-        catchPoint += count * 100 + (count - 1) * 60;
-        text.text = catchPoint + "Point";
+        //catchPoint += count * 100 + (count - 1) * 60;
+        //text.text = catchPoint + "Point";
         anim.SetBool("open",false);
     }
     public void AnimStart()

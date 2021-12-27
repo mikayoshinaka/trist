@@ -118,10 +118,10 @@ public class GhostCatch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
-        //{
-        //    return;
-        //}
+        if (GameObject.Find("BeforeBegin").GetComponent<BeforeBegin>().begin == true)
+        {
+            return;
+        }
         switch (mode)
         {
             case Mode.CanGrab:

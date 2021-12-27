@@ -113,3 +113,8 @@ GhostCatch
 行 337 - DollInstance()
 // アスビ用
 playerController.GetComponent<SeeThrough>().enabled = false;
+============	2021.12.27	================
+変更内容：
+ GameTimer
+23行
+|| dollSave.isFadeOut == true
