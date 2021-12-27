@@ -16,6 +16,11 @@ public class ColorAct_DarkYellow : ColorActState
 
     // エフェクト
     ColorActionObjects colorActionObjects;
+    
+    // UI
+    GameObject gimmickUI;
+    GameObject pressUI;
+    GameObject waitUI;
 
     public override void EnterState(ColorAction colorAct)
     {
@@ -40,16 +45,34 @@ public class ColorAct_DarkYellow : ColorActState
 
         // エフェクト
         colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
+
+        // UI
+        gimmickUI = GameObject.Find("Camera Canvas").transform.Find("GimmickUI").gameObject;
+        gimmickUI.SetActive(true);
+        pressUI = gimmickUI.transform.Find("Press").gameObject;
+        pressUI.SetActive(true);
+        waitUI = gimmickUI.transform.Find("Wait").gameObject;
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
+        // UI
+        if (!colorActionCooldown.cooldown && waitUI.activeInHierarchy)
+        {
+            waitUI.SetActive(false);
+            pressUI.SetActive(true);
+        }
+
         if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)) && !dashing)
         {
             Gimmick_DarkYellow(colorAct);
 
             cooldownBar.SetActive(true);
             colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkyellow);
+
+            // UI
+            pressUI.gameObject.SetActive(false);
+            waitUI.gameObject.SetActive(true);
         }
     }
 

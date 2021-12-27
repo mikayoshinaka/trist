@@ -513,6 +513,9 @@ public class EnemyBehaviour : MonoBehaviour
                 agent.isStopped = true;
                 target.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
                 player.GetComponent<ColorAction>().colorAct_Green.RemoveTarget(target);
+
+                Destroy(transform.Find("PossessAura(Clone)").gameObject);
+
                 break;
             }
 

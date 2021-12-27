@@ -29,6 +29,11 @@ public class ColorAct_Orange : ColorActState
     GameObject cooldownBar;
     ColorActionCooldown colorActionCooldown;
 
+    // UI
+    GameObject gimmickUI;
+    GameObject holdUI;
+    GameObject waitUI;
+
     public override void EnterState(ColorAction colorAct)
     {
         //Debug.Log(this);
@@ -63,10 +68,24 @@ public class ColorAct_Orange : ColorActState
         // Cooldown
         cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
         colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
+
+        // UI
+        gimmickUI = GameObject.Find("Camera Canvas").transform.Find("GimmickUI").gameObject;
+        gimmickUI.SetActive(true);
+        holdUI = gimmickUI.transform.Find("Hold").gameObject;
+        holdUI.SetActive(true);
+        waitUI = gimmickUI.transform.Find("Wait").gameObject;
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
+        // UI
+        if (!colorActionCooldown.cooldown && waitUI.activeInHierarchy)
+        {
+            waitUI.SetActive(false);
+            holdUI.SetActive(true);
+        }
+
         Gimmick_Orange(colorAct);
     }
 
@@ -89,6 +108,10 @@ public class ColorAct_Orange : ColorActState
             if (!colorActionCooldown.cooldown && charging && (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton5)))
             {
                 FireEnergy(colorAct);
+
+                // UI
+                holdUI.gameObject.SetActive(false);
+                waitUI.gameObject.SetActive(true);
             }
         }
     }

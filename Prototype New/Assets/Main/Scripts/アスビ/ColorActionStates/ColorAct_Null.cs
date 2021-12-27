@@ -18,6 +18,13 @@ public class ColorAct_Null : ColorActState
         gimmickObjects.SetActive(false);
 
         // GimmickCanvas Reset
+        GameObject gimmickUI = GameObject.Find("Camera Canvas").transform.Find("GimmickUI").gameObject;
+        for (int i = 0; i < gimmickUI.transform.childCount; i++)
+        {
+            gimmickUI.transform.GetChild(i).gameObject.SetActive(false);
+        }
+        gimmickUI.SetActive(false);
+
         GameObject cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
         cooldownBar.GetComponent<ColorActionCooldown>().ResetCooldown();
         cooldownBar.SetActive(false);

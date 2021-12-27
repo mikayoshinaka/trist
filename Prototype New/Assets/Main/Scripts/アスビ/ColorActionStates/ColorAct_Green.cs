@@ -19,6 +19,11 @@ public class ColorAct_Green : ColorActState
     // エフェクト
     ColorActionObjects colorActionObjects;
 
+    // UI
+    GameObject gimmickUI;
+    GameObject pressUI;
+    GameObject waitUI;
+
     public override void EnterState(ColorAction colorAct)
     {
         //Debug.Log(this);
@@ -39,16 +44,34 @@ public class ColorAct_Green : ColorActState
 
         // エフェクト
         colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
+
+        // UI
+        gimmickUI = GameObject.Find("Camera Canvas").transform.Find("GimmickUI").gameObject;
+        gimmickUI.SetActive(true);
+        pressUI = gimmickUI.transform.Find("Press").gameObject;
+        pressUI.SetActive(true);
+        waitUI = gimmickUI.transform.Find("Wait").gameObject;
     }
 
     public override void UpdateState(ColorAction colorAct)
     {
+        // UI
+        if (!colorActionCooldown.cooldown && waitUI.activeInHierarchy)
+        {
+            waitUI.SetActive(false);
+            pressUI.SetActive(true);
+        }
+
         if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)))
         {
             Gimmick_Green(colorAct);
 
             cooldownBar.SetActive(true);
             colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.green);
+
+            // UI
+            pressUI.gameObject.SetActive(false);
+            waitUI.gameObject.SetActive(true);
         }
 
         if (possessing)
@@ -78,6 +101,9 @@ public class ColorAct_Green : ColorActState
             {
                 enemy.GetComponent<EnemyBehaviour>().Gimmick_Green(false, null);
                 possessList.Add(enemy);
+
+                // エフェクト
+                MonoBehaviour.Instantiate(colorActionObjects.possessAura, enemy.transform.position, enemy.transform.rotation, enemy.transform);
             }            
         }        
     }
@@ -134,6 +160,10 @@ public class ColorAct_Green : ColorActState
     public void RemoveTarget(GameObject target)
     {
         targetList.Remove(target);
+        
+        // エフェクト
+        GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, target.transform.position, target.transform.rotation, target.transform);
+        effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.green));
     }
 
     public override void DrawGizmosState(ColorAction colorAct)
