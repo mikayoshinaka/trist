@@ -89,6 +89,8 @@ public class EnemiesManager : MonoBehaviour
             Transform zone = enemySpawner.transform.GetChild(zoneRange);
 
             Instantiate(enemy, zone.position, zone.rotation, this.transform);
+            //小野澤　クリア用
+            GameObject.Find("ClearScene").GetComponent<ClearScene>().enemy.Add(enemy);
         }
     }
 

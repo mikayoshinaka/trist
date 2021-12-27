@@ -31,7 +31,7 @@ public class BookAttack : MonoBehaviour
         else if(time>=timeMax&& attack==false)
         {
             attack = true;
-            for (int i = 0; i < this.gameObject.transform.childCount; i++)
+            for (int i = 0; i < ChildObj.Length; i++)
             {
                 if (ChildObj[i].tag == "AttackBook") {
                     ChildObj[i].tag = "Book";

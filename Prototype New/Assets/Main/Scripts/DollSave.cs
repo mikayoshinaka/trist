@@ -79,11 +79,11 @@ public class DollSave : MonoBehaviour
                     {
                         dolls[i].SetActive(true);
                         dolls[i].transform.parent = null;
-                        //dolls[i].transform.rotation = new Quaternion(0, 90, 0, 0);
                         Vector3 p1Pos = Vector3.zero;
                         Vector3 p2Pos = Vector3.zero;
                         BezierCoordinate(this.transform.position, ref p1Pos, ref p2Pos, seePoint[i].transform.position);
                         SuckedIntoBox(this.transform.position, p1Pos, p2Pos, seePoint[i].transform.position, i);
+                        dolls[i].transform.eulerAngles = new Vector3(0, 90, 0);
                         if (shoot == true)
                         {
                             i += 1;

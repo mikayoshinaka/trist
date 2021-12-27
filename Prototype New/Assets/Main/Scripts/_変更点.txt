@@ -118,3 +118,7 @@ playerController.GetComponent<SeeThrough>().enabled = false;
  GameTimer
 23行
 || dollSave.isFadeOut == true
+EnemiesManager
+93行
+ //小野澤　クリア用
+            GameObject.Find("ClearScene").GetComponent<ClearScene>().enemy.Add(enemy);
