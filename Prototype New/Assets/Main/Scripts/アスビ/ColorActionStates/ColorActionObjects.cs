@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColorActionObjects : MonoBehaviour
 {
+    public GameObject colorHitEffect;
     public GameObject cannonball;
     public GameObject energyZap;
 }

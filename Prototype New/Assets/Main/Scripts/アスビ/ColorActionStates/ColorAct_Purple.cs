@@ -29,7 +29,7 @@ public class ColorAct_Purple : ColorActState
 
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
@@ -181,6 +181,12 @@ public class ColorAct_Purple : ColorActState
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
             enemy.GetComponent<EnemyBehaviour>().Gimmick_Purple();
+
+            // エフェクト
+            GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+            effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.purple));
+
+            MonoBehaviour.Destroy(effect, 2f);
         }
     }
 

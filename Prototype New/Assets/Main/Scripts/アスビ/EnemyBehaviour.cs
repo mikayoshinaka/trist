@@ -512,6 +512,7 @@ public class EnemyBehaviour : MonoBehaviour
                 agent.speed = enemiesManager.speed;
                 agent.isStopped = true;
                 target.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+                player.GetComponent<ColorAction>().colorAct_Green.RemoveTarget(target);
                 break;
             }
 

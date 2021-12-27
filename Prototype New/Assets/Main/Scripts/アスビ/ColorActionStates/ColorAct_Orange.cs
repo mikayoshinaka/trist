@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ColorAct_Orange : ColorActState
 {
-    GameObject energyLine;
-    LineRenderer lineRenderer;
+    GameObject energy;
+    MeshFilter meshFilter;
 
     // チャージ用
     bool charging;
@@ -31,7 +31,7 @@ public class ColorAct_Orange : ColorActState
 
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
@@ -45,9 +45,10 @@ public class ColorAct_Orange : ColorActState
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
         gimmickObject.SetActive(true);
 
-        energyLine = gimmickObject.transform.Find("Orange_LineRenderer").gameObject;
-        energyLine.SetActive(false);
-        lineRenderer = energyLine.GetComponent<LineRenderer>();
+        energy = gimmickObject.transform.Find("Orange_Energy").gameObject;
+        energy.SetActive(false);
+        meshFilter = energy.GetComponent<MeshFilter>();
+        meshFilter.mesh = CreateMesh();
 
         instantiatedObjects = GameObject.Find("InstantiatedObjects");
 
@@ -76,7 +77,7 @@ public class ColorAct_Orange : ColorActState
             // チャージ処理
             if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)))
             {
-                energyLine.SetActive(true);
+                energy.SetActive(true);
                 charging = true;
             }
             if (charging)
@@ -85,12 +86,9 @@ public class ColorAct_Orange : ColorActState
             }
 
             // 攻撃処理
-            if (!colorActionCooldown.cooldown && (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton5)))
+            if (!colorActionCooldown.cooldown && charging && (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton5)))
             {
                 FireEnergy(colorAct);
-
-                cooldownBar.SetActive(true);
-                colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.orange);
             }
         }
     }
@@ -107,13 +105,83 @@ public class ColorAct_Orange : ColorActState
             power += 4f * Time.deltaTime;
         }
 
-        Vector3 offset = new Vector3(0, 1f, 0);
-        Vector3 origin = colorAct.transform.position + offset;
-        Vector3 direction = origin + colorAct.transform.forward * power;
-
-        lineRenderer.SetPosition(0, origin);
-        lineRenderer.SetPosition(1, direction);
+        // MESH
+        meshFilter.mesh = CreateMesh();
     }
+
+    #region Mesh
+
+    // FOVのビジュアル
+    Mesh CreateMesh()
+    {
+        Mesh mesh = new Mesh();
+
+        int numTriangles = 8;
+        int numVertices = numTriangles * 3;
+
+        Vector3[] vertices = new Vector3[numVertices];
+        int[] triangles = new int[numVertices];
+
+        Vector3 bottomCenter = Vector3.zero;
+        Vector3 bottomLeft = Quaternion.Euler(0, -angle, 0) * Vector3.forward * power;
+        Vector3 bottomRight = Quaternion.Euler(0, angle / 2, 0) * Vector3.forward * power;
+
+        Vector3 topCenter = bottomCenter + Vector3.up;
+        Vector3 topLeft = bottomLeft + Vector3.up;
+        Vector3 topRight = bottomRight + Vector3.up;
+
+        int vert = 0;
+
+        //左側
+        vertices[vert++] = bottomCenter;
+        vertices[vert++] = bottomLeft;
+        vertices[vert++] = topLeft;
+
+        vertices[vert++] = topLeft;
+        vertices[vert++] = topCenter;
+        vertices[vert++] = bottomCenter;
+
+        //右側
+        vertices[vert++] = bottomCenter;
+        vertices[vert++] = topCenter;
+        vertices[vert++] = topRight;
+
+        vertices[vert++] = topRight;
+        vertices[vert++] = bottomRight;
+        vertices[vert++] = bottomCenter;
+
+        //前側
+        vertices[vert++] = bottomLeft;
+        vertices[vert++] = bottomRight;
+        vertices[vert++] = topRight;
+
+        vertices[vert++] = topRight;
+        vertices[vert++] = topLeft;
+        vertices[vert++] = bottomLeft;
+
+        //上側
+        vertices[vert++] = topCenter;
+        vertices[vert++] = topLeft;
+        vertices[vert++] = topRight;
+
+        //下側
+        vertices[vert++] = bottomCenter;
+        vertices[vert++] = bottomRight;
+        vertices[vert++] = bottomLeft;
+
+        for (int i = 0; i < numVertices; ++i)
+        {
+            triangles[i] = i;
+        }
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+
+        return mesh;
+    }
+
+    #endregion
 
     // 攻撃処理
     private void FireEnergy(ColorAction colorAct)
@@ -125,11 +193,14 @@ public class ColorAct_Orange : ColorActState
         {
             // 攻撃のビジュアル
             ExecuteEnergy(colorAct);
+            cooldownBar.SetActive(true);
+            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.orange);
         }
         
-        energyLine.SetActive(false);
+        energy.SetActive(false);
         charging = false;
         power = 2f;
+        meshFilter.mesh = CreateMesh();
     }
 
     // 当たり判定
@@ -162,6 +233,12 @@ public class ColorAct_Orange : ColorActState
 
             enemyAnchor.Add(enemy);
             enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+
+            // エフェクト
+            GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+            effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.orange));
+
+            MonoBehaviour.Destroy(effect, 2f);
         }
 
         EnergyLeap(colorAct);
@@ -203,6 +280,12 @@ public class ColorAct_Orange : ColorActState
                     zapLine.SetPosition(1, target);
 
                     enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+
+                    // エフェクト
+                    GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+                    effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.orange));
+
+                    MonoBehaviour.Destroy(effect, 2f);
                 }
             }
         }

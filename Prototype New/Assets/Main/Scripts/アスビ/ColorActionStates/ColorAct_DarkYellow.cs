@@ -14,9 +14,12 @@ public class ColorAct_DarkYellow : ColorActState
     GameObject cooldownBar;
     ColorActionCooldown colorActionCooldown;
 
+    // エフェクト
+    ColorActionObjects colorActionObjects;
+
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
@@ -34,6 +37,9 @@ public class ColorAct_DarkYellow : ColorActState
         // Cooldown
         cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
         colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
+
+        // エフェクト
+        colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
     }
 
     public override void UpdateState(ColorAction colorAct)
@@ -65,7 +71,16 @@ public class ColorAct_DarkYellow : ColorActState
         for (int i = 0; i < numColliders; i++)
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkYellow();
+            if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+            {
+                enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkYellow();
+
+                // エフェクト
+                GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+                effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.darkyellow));
+
+                MonoBehaviour.Destroy(effect, 2f);
+            }
         }
     }
 

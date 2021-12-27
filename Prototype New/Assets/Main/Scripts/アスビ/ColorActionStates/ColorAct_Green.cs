@@ -10,18 +10,24 @@ public class ColorAct_Green : ColorActState
     bool possessing;
 
     List<GameObject> possessList = new List<GameObject>();
+    List<GameObject> targetList = new List<GameObject>();
 
     // Cooldown
     GameObject cooldownBar;
     ColorActionCooldown colorActionCooldown;
 
+    // エフェクト
+    ColorActionObjects colorActionObjects;
+
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         radius = 5f;
         maxPossess = 5;
         possessing = false;
+        possessList.Clear();
+        targetList.Clear();
 
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
         gimmickObject.SetActive(true);
@@ -30,6 +36,9 @@ public class ColorAct_Green : ColorActState
         // Cooldown
         cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
         colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
+
+        // エフェクト
+        colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
     }
 
     public override void UpdateState(ColorAction colorAct)
@@ -52,7 +61,6 @@ public class ColorAct_Green : ColorActState
     private void Gimmick_Green(ColorAction colorAct)
     {
         possessing = true;
-        possessList.Clear();
 
         if (ZoneEffect != null)
         {
@@ -66,7 +74,7 @@ public class ColorAct_Green : ColorActState
         for (int i = 0; i < numColliders; i++)
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            if (!enemy.GetComponent<EnemyBehaviour>().mazeGimmick && !enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+            if (!enemy.GetComponent<EnemyBehaviour>().mazeGimmick && !enemy.GetComponent<EnemyBehaviour>().gimmickAction && !possessList.Contains(enemy) && !targetList.Contains(enemy))
             {
                 enemy.GetComponent<EnemyBehaviour>().Gimmick_Green(false, null);
                 possessList.Add(enemy);
@@ -101,24 +109,31 @@ public class ColorAct_Green : ColorActState
         int maxColliders = maxPossess + possessList.Count;
         Collider[] hitColliders = new Collider[maxColliders];
         int numColliders = Physics.OverlapSphereNonAlloc(colorAct.transform.position, radius * 2f, hitColliders, colorAct.enemyMask);
+
         for (int i = 0; i < numColliders; i++)
         {
-            GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+            if (possessList.Count > 0)
             {
-                HauntTarget(colorAct, enemy);
+                GameObject enemy = hitColliders[i].transform.parent.gameObject;
+                if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction && !targetList.Contains(enemy))
+                {
+                    targetList.Add(enemy);
+                    HauntTarget(colorAct, enemy);
+                }
             }
         }
     }
 
     private void HauntTarget(ColorAction colorAct, GameObject target)
     {
-        if (possessList.Count > 0)
-        {
-            GameObject[] haunter = possessList.ToArray();
-            haunter[0].GetComponent<EnemyBehaviour>().Gimmick_Green(true, target);
-            possessList.Remove(haunter[0]);
-        }
+        GameObject[] haunter = possessList.ToArray();
+        haunter[0].GetComponent<EnemyBehaviour>().Gimmick_Green(true, target);
+        possessList.Remove(haunter[0]);
+    }
+
+    public void RemoveTarget(GameObject target)
+    {
+        targetList.Remove(target);
     }
 
     public override void DrawGizmosState(ColorAction colorAct)

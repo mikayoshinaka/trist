@@ -51,8 +51,9 @@ public class ColorActionCooldown : MonoBehaviour
     {
         cooldown = true;
 
-        PickColor(colorState);
-        
+        transform.Find("Bar").GetComponent<Image>().color = PickColor(colorState);
+        transform.Find("SpiralCooldown").GetComponent<VisualEffect>().SetGradient("Strip Gradient", PickGradient(colorState));
+
         if (Cooldown != null)
         {
             StopCoroutine(Cooldown);
@@ -75,58 +76,91 @@ public class ColorActionCooldown : MonoBehaviour
         ResetCooldown();
     }
 
-    void PickColor(ColorState colorState)
+    public Color PickColor(ColorState colorState)
     {
         Color color = Color.black;
-        Gradient gradient = null;
 
         if (colorState == ColorState.red)
         {
             color = colorRed;
-            gradient = gradientRed;
         }
         else if (colorState == ColorState.blue)
         {
             color = colorBlue;
-            gradient = gradientBlue;
         }
         else if (colorState == ColorState.yellow)
         {
             color = colorYellow;
-            gradient = gradientYellow;
         }
         else if (colorState == ColorState.darkred)
         {
             color = colorDarkRed;
-            gradient = gradientDarkRed;
         }
         else if (colorState == ColorState.darkblue)
         {
             color = colorDarkBlue;
-            gradient = gradientDarkBlue;
         }
         else if (colorState == ColorState.darkyellow)
         {
             color = colorDarkYellow;
-            gradient = gradientDarkYellow;
         }
         else if (colorState == ColorState.purple)
         {
             color = colorPurple;
-            gradient = gradientPurple;
         }
         else if (colorState == ColorState.orange)
         {
             color = colorOrange;
-            gradient = gradientOrange;
         }
         else if (colorState == ColorState.green)
         {
             color = colorGreen;
+        }
+
+        return color;
+    }
+
+    public Gradient PickGradient(ColorState colorState)
+    {
+        Gradient gradient = null;
+
+        if (colorState == ColorState.red)
+        {
+            gradient = gradientRed;
+        }
+        else if (colorState == ColorState.blue)
+        {
+            gradient = gradientBlue;
+        }
+        else if (colorState == ColorState.yellow)
+        {
+            gradient = gradientYellow;
+        }
+        else if (colorState == ColorState.darkred)
+        {
+            gradient = gradientDarkRed;
+        }
+        else if (colorState == ColorState.darkblue)
+        {
+            gradient = gradientDarkBlue;
+        }
+        else if (colorState == ColorState.darkyellow)
+        {
+            gradient = gradientDarkYellow;
+        }
+        else if (colorState == ColorState.purple)
+        {
+            gradient = gradientPurple;
+        }
+        else if (colorState == ColorState.orange)
+        {
+            gradient = gradientOrange;
+        }
+        else if (colorState == ColorState.green)
+        {
             gradient = gradientGreen;
         }
 
-        transform.Find("Bar").GetComponent<Image>().color = color;
-        transform.Find("SpiralCooldown").GetComponent<VisualEffect>().SetGradient("Strip Gradient", gradient);
+        return gradient;
     }
 }

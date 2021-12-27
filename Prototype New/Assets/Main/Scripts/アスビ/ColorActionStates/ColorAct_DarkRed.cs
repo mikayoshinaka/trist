@@ -8,6 +8,9 @@ public class ColorAct_DarkRed : ColorActState
     float distance = 20f;
     float angle = 30f;
 
+    GameObject lightSource;
+    Light light;
+
     // 透明化用
     SphereCollider transparentCollider;
 
@@ -15,9 +18,12 @@ public class ColorAct_DarkRed : ColorActState
     GameObject cooldownBar;
     ColorActionCooldown colorActionCooldown;
 
+    // エフェクト
+    ColorActionObjects colorActionObjects;
+
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         // カメラ設定
         //GameObject currentCamera = GameObject.Find("Cameras").transform.Find("ZoomInCamera").gameObject;
@@ -30,12 +36,16 @@ public class ColorAct_DarkRed : ColorActState
         // ライト
         GameObject gimmickObject = colorAct.transform.Find("GimmickObjects").gameObject;
         gimmickObject.SetActive(true);
-        GameObject lightSource = gimmickObject.transform.Find("DarkRed_LightSource").gameObject;
+        lightSource = gimmickObject.transform.Find("DarkRed_LightSource").gameObject;
         lightSource.SetActive(true);
+        light = lightSource.GetComponent<Light>();
 
         // Cooldown
         cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
         colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
+
+        // エフェクト
+        colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
 
         enemyList.Clear();
         OnValidate();
@@ -47,6 +57,11 @@ public class ColorAct_DarkRed : ColorActState
         {
             enemyList.Clear();
             Gimmick_DarkRed(colorAct);
+            if (Shutter != null)
+            {
+                colorAct.StopCoroutine(Shutter);
+            }
+            Shutter = colorAct.StartCoroutine(OnShutter());
 
             cooldownBar.SetActive(true);
             colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkred);
@@ -86,8 +101,33 @@ public class ColorAct_DarkRed : ColorActState
 
                 // 攻撃
                 enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+
+                // エフェクト
+                GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+                effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.darkred));
+
+                MonoBehaviour.Destroy(effect, 2f);
             }
         }
+    }
+
+    Coroutine Shutter;
+    IEnumerator OnShutter()
+    {
+        float intensity = light.intensity;
+        light.intensity *= 10f;
+
+        float timer = 0f;
+        float timeLimit = 0.5f;
+        while (timer < timeLimit)
+        {
+            light.intensity = intensity * 10f + (timer - 0f) * (intensity - intensity * 10f) / (0.5f - 0f);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        light.intensity = intensity;
     }
 
     #region FOV

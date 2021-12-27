@@ -7,7 +7,7 @@ public class ColorAct_Null : ColorActState
     // 入る処理
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         // GimmickObject Reset
         GameObject gimmickObjects = colorAct.transform.Find("GimmickObjects").gameObject;

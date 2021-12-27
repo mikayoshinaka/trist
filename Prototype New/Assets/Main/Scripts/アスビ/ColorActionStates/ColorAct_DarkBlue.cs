@@ -12,9 +12,12 @@ public class ColorAct_DarkBlue : ColorActState
     GameObject cooldownBar;
     ColorActionCooldown colorActionCooldown;
 
+    // エフェクト
+    ColorActionObjects colorActionObjects;
+
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
 
         radius = 1f;
         barrierPlaying = false;
@@ -31,6 +34,9 @@ public class ColorAct_DarkBlue : ColorActState
         // Cooldown
         cooldownBar = GameObject.Find("Camera Canvas").transform.Find("GimmickCooldownBar").gameObject;
         colorActionCooldown = cooldownBar.GetComponent<ColorActionCooldown>();
+
+        // エフェクト
+        colorActionObjects = colorAct.GetComponent<ColorActionObjects>();
     }
 
     public override void UpdateState(ColorAction colorAct)
@@ -66,7 +72,16 @@ public class ColorAct_DarkBlue : ColorActState
         for (int i = 0; i < numColliders; i++)
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkBlue();
+            if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+            {
+                enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkBlue();
+
+                // エフェクト
+                GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+                effect.GetComponent<UnityEngine.VFX.VisualEffect>().SetGradient("Gradient", colorActionCooldown.PickGradient(ColorActionCooldown.ColorState.darkblue));
+
+                MonoBehaviour.Destroy(effect, 2f);
+            }
         }
     }
 

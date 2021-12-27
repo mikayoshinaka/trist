@@ -6,7 +6,7 @@ public class ColorAct_Yellow : ColorActState
 {
     public override void EnterState(ColorAction colorAct)
     {
-        Debug.Log(this);
+        //Debug.Log(this);
     }
 
     public override void UpdateState(ColorAction colorAct)
