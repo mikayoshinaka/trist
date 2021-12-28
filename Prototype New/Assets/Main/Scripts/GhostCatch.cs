@@ -72,7 +72,7 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] private float dollZoom2Time = 2.0f;
     [SerializeField] private float dollInstanceMaxTime = 10.0f;
     private float discloseTime;
-
+    GameObject ear;
     [SerializeField] private float vibrateRange = 0.5f, vibrateSpeed = 10.0f;
     float initPosition, newPosition, minPosition, maxPosition;
     //[SerializeField] private int partition = 20;
@@ -154,9 +154,19 @@ public class GhostCatch : MonoBehaviour
     //  敵を掴む
     private void GhostGrab()
     {
-        //ボス 一体想定
-        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && bossEnemy.Count > 0 && possessScript.possess == false && grab == false && !(bossEnemy[0].GetComponent<BossEnemy>().mode == BossEnemy.Mode.grabbed))
+        //ボス
+        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && bossEnemy.Count > 0 && possessScript.possess == false && grab == false&&bossGrab==false )
         {
+            Sort(0, bossEnemy.Count - 1, ref bossEnemy);
+            if (bossEnemy[0].tag == "BossEnemy" && bossEnemy[0].GetComponent<BossEnemy>().mode == BossEnemy.Mode.grabbed)
+            {
+                return;
+            }
+            else if ((bossEnemy[0].tag == "BossEarLeft" || bossEnemy[0].tag == "BossEarRight") && bossEnemy[0].transform.parent.gameObject.GetComponent<BossEnemy>().mode == BossEnemy.Mode.grabbed)
+            {
+                return;
+            }
+
             if (bossGrab == false)
             {
                 bossGrab = true;
@@ -166,17 +176,33 @@ public class GhostCatch : MonoBehaviour
                 image.SetActive(true);
                 image2.SetActive(true);
             }
-            for (int i = 0; i < bossEnemy.Count; i++)
+
+
+            if(bossEnemy[0].tag == "BossEarLeft"|| bossEnemy[0].tag == "BossEarRight")
             {
-                if (!caughtObj.Contains(bossEnemy[i]))
-                {
-                    if (bossEnemy[i].GetComponent<BossEnemy>().bossHP == 0)
-                    {
-                        bossEnemy[i].transform.parent = player.transform;
-                    }
-                    caughtObj.Add(bossEnemy[i]);
-                }
+                bossEnemy[0].transform.parent.gameObject.GetComponent<BossEar>().Selectear(bossEnemy[0]);
+                ear = bossEnemy[0];
             }
+           
+
+            if (bossEnemy[0].tag == "BossEnemy" && !caughtObj.Contains(bossEnemy[0]))
+            {
+                if (bossEnemy[0].GetComponent<BossEnemy>().bossHP == 0)
+                {
+                    bossEnemy[0].transform.parent = player.transform;
+                }
+                caughtObj.Add(bossEnemy[0]);
+            }
+            else if((bossEnemy[0].tag == "BossEarLeft" || bossEnemy[0].tag == "BossEarRight") && !caughtObj.Contains(bossEnemy[0].transform.parent.gameObject))
+            {
+
+                //if (bossEnemy[0].transform.parent.gameObject.GetComponent<BossEnemy>().bossHP == 0)
+                //{
+                //    bossEnemy[0].transform.parent = player.transform;
+                //}
+                caughtObj.Add(bossEnemy[0].transform.parent.gameObject);
+            }
+
             if (canGrabTime / maxGrabTime > 0)
             {
                 GrabbingTime();
@@ -184,23 +210,28 @@ public class GhostCatch : MonoBehaviour
         }
         else if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && bossGrab == true && possessScript.possess == false && grab == false)
         {
-            for (int i = 0; i < enemy.Count; i++)
-            {
-                if (!caughtObj.Contains(enemy[i]))
-                {
-                    if (bossEnemy[i].GetComponent<BossEnemy>().bossHP == 0)
-                    {
-                        bossEnemy[i].transform.parent = player.transform;
-                    }
-                    caughtObj.Add(bossEnemy[i]);
-                }
-            }
+
+            //if (!caughtObj.Contains(bossEnemy[0]))
+            //{
+            //    if (bossEnemy[0].GetComponent<BossEnemy>().bossHP == 0)
+            //    {
+            //        bossEnemy[0].transform.parent = player.transform;
+            //    }
+            //    caughtObj.Add(bossEnemy[0]);
+            //}
+
             GrabbingTime();
         }
         else if (bossGrab == true && mode == Mode.CanGrab)
         {
             if (caughtObj[0].GetComponent<BossEnemy>().bossHP > 0)
             {
+                if (ear != null)
+                {
+                    ear.transform.parent.gameObject.GetComponent<BossEar>().UndoEar(ear);
+                    ear.transform.parent.gameObject.GetComponent<BossEar>().DetachEar();
+                    ear = null;
+                }
                 caughtObj[0].GetComponent<BossEnemy>().bossHP -= 1;
                 caughtObj[0].GetComponent<BossEnemy>().hpDown = true;
                 CaughtObjMoveable(caughtObj[0]);
@@ -214,13 +245,12 @@ public class GhostCatch : MonoBehaviour
             else
             {
                 bossGrab = false;
-                for (int i = 0; i < caughtObj.Count; i++)
-                {
-                    caughtObj[i].transform.parent = null;
-                    Vector3 startPos = transform.InverseTransformPoint(caughtObj[i].transform.GetChild(0).position);
-                    caughtObjPos.Add(startPos);
-                    time.Add(0.0f);
-                }
+
+                caughtObj[0].transform.parent = null;
+                Vector3 startPos = transform.InverseTransformPoint(caughtObj[0].transform.GetChild(0).position);
+                caughtObjPos.Add(startPos);
+                time.Add(0.0f);
+
                 image.SetActive(false);
                 image2.SetActive(false);
                 mode = Mode.Fusion;
@@ -562,7 +592,12 @@ public class GhostCatch : MonoBehaviour
             enemy.Clear();
             bossEnemy.Clear();
             mode = Mode.CannotGrab;
-
+            if (ear != null)
+            {
+                ear.transform.parent.gameObject.GetComponent<BossEar>().UndoEar(ear);
+                //ear.transform.parent.gameObject.GetComponent<BossEar>().DetachEar();
+                ear = null;
+            }
             // アスビ用
             gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
         }
@@ -871,7 +906,7 @@ public class GhostCatch : MonoBehaviour
         {
             enemy.GetComponent<EnemyBehaviour>().enabled = true;
             enemy.GetComponent<NavMeshAgent>().isStopped = false;
-            enemy.transform.parent = null;
+            enemy.transform.parent = GameObject.Find("Enemies").transform;
         }
         else if (enemy.tag == "BossEnemy")
         {
@@ -912,7 +947,7 @@ public class GhostCatch : MonoBehaviour
 
             }
         }
-        if (other.tag == "BossEnemy")
+        if (other.tag == "BossEnemy"|| other.tag == "BossEarLeft"|| other.tag == "BossEarRight")
         {
             Debug.Log("hit");
             if (!bossEnemy.Contains(other.gameObject))
@@ -935,7 +970,7 @@ public class GhostCatch : MonoBehaviour
 
             }
         }
-        if (other.tag == "BossEnemy")
+        if (other.tag == "BossEnemy" || other.tag == "BossEarLeft" || other.tag == "BossEarRight")
         {
             if (bossEnemy.Contains(other.gameObject))
             {

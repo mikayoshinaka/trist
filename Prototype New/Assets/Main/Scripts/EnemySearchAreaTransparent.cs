@@ -17,11 +17,11 @@ public class EnemySearchAreaTransparent : MonoBehaviour
        
        
     }
-    
-   
+
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "YellowEnemyBody" || other.tag == "BlueEnemyBody" || other.tag == "RedEnemyBody")
+        if (other.tag == "YellowEnemyBody" || other.tag == "BlueEnemyBody" || other.tag == "RedEnemyBody" || other.tag == "BossEnemyBody")
         {
             Debug.Log("hit");
             if (!areaEnemy.Contains(other.gameObject))
@@ -29,12 +29,12 @@ public class EnemySearchAreaTransparent : MonoBehaviour
                 areaEnemy.Add(other.gameObject);
             }
         }
-       
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "YellowEnemyBody" || other.tag == "BlueEnemyBody" || other.tag == "RedEnemyBody")
+        if (other.tag == "YellowEnemyBody" || other.tag == "BlueEnemyBody" || other.tag == "RedEnemyBody" || other.tag == "BossEnemyBody")
         {
             if (areaEnemy.Contains(other.gameObject))
             {

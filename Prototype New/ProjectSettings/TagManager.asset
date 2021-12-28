@@ -23,6 +23,8 @@ TagManager:
   - RedEnemyBody2
   - YellowEnemyBody2
   - BossDoll
+  - BossEarLeft
+  - BossEarRight
   layers:
   - Default
   - TransparentFX
@@ -44,7 +46,7 @@ TagManager:
   - BossEnemy
   - SeeThrough
   - UpStages
-  - 
+  - bossEar
   - 
   - 
   - 
