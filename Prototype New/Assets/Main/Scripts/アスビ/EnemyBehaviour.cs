@@ -763,6 +763,40 @@ public class EnemyBehaviour : MonoBehaviour
         patrolSet = false;
     }
 
+    public void ClearMazeAction()
+    {
+        if (mazeGimmickState == MazeGimmickState.Throw)
+        {
+            return;
+        }
+
+        if (mazeFurnitureType == MazeFurnitureType.Bookstand)
+        {
+            targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Bookstands"));
+        }
+        else if (mazeFurnitureType == MazeFurnitureType.Desk)
+        {
+            targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Desks"));
+        }
+        else if (mazeFurnitureType == MazeFurnitureType.Chair)
+        {
+            targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Chairs"));
+        }
+
+        targetFurniture.transform.position -= new Vector3(0, 1.5f, 0);
+
+        agent.isStopped = false;
+        agent.speed = enemiesManager.speed;
+        agent.angularSpeed = enemiesManager.angularSpeed;
+        agent.acceleration = enemiesManager.accelSpeed;
+
+        mazeGimmickState = MazeGimmickState.None;
+        mazeGimmick = false;
+        targetFurniture = null;
+        targetObj = null;
+        trajectory.Clear();
+    }
+
     #endregion
 
     private void OnDrawGizmos()

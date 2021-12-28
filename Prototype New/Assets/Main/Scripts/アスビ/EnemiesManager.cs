@@ -94,6 +94,32 @@ public class EnemiesManager : MonoBehaviour
         }
     }
 
+    // 仮バグ修正
+    public void ClearGimmick()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<EnemyBehaviour>().gimmickAction)
+            {
+                transform.GetChild(i).GetComponent<EnemyBehaviour>().gimmickAction = false;
+            }
+
+            if (transform.GetChild(i).GetComponent<EnemyBehaviour>().mazeGimmick)
+            {
+                transform.GetChild(i).GetComponent<EnemyBehaviour>().ClearMazeAction();
+            }
+
+            // エフェクト
+            if (transform.GetChild(i).transform.childCount > 3)
+            {
+                for (int j = 3; j < transform.GetChild(i).transform.childCount; j++)
+                {
+                    Destroy(transform.GetChild(i).GetChild(j).gameObject);
+                }
+            }
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if (enableGizmos)

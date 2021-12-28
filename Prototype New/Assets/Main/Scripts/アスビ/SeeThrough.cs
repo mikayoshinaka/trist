@@ -18,7 +18,7 @@ public class SeeThrough : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("PlayerController").transform;
-        mainCameraObj = GameObject.Find("Main Camera").transform;
+        mainCameraObj = GameObject.Find("Cameras").transform.Find("Main Camera").transform;
         mainCamera = mainCameraObj.GetComponent<Camera>();
         seeThroughMask = LayerMask.GetMask("SeeThrough");
     }

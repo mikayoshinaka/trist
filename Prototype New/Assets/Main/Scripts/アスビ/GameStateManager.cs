@@ -117,6 +117,7 @@ public class GameStateManager : MonoBehaviour
         // 敵
         enemiesManager.RespawnEnemy();
         enemiesManager.SetMode(EnemiesManager.EnemyMode.Mode_Defensive);
+        enemiesManager.ClearGimmick();
 
         // 迷路
         mazeAssignment.FurnitureActive();
