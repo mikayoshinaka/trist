@@ -101,6 +101,7 @@ public class BookShelf : MonoBehaviour
             velocity[i] = explosionSpeed * transform.forward;
             enterObject[i].GetComponent<Rigidbody>().isKinematic = false;
             enterObject[i].transform.parent = null;
+            GameObject.Find("ClearScene").GetComponent<ClearScene>().flewBook.Add(enterObject[i]);
             enterObject[i].tag = "AttackBook";
             enterObject[i].GetComponent<Rigidbody>().AddForce(coefficient * velocity[i]);
         }

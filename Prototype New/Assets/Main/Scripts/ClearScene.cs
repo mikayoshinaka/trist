@@ -19,6 +19,7 @@ public class ClearScene : MonoBehaviour
     public List<Vector3> startBookForward = new List<Vector3>();
     public List<Vector3> startChairForward = new List<Vector3>();
     public List<GameObject> enemy = new List<GameObject>();
+    public List<GameObject> flewBook = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -103,9 +104,22 @@ public class ClearScene : MonoBehaviour
         }
     }
 
+    void FlewBookCannotSee()
+    {
+        for (int i = 0; i < flewBook.Count; i++)
+        {
+            if (flewBook[i].activeSelf == true)
+            {
+                flewBook[i].SetActive(false);
+
+            }
+        }
+    }
+
     public void ClearScenePos()
     {
         ResetFurniturePos();
         EnemyCannnotSee();
+        FlewBookCannotSee();
     }
 }
