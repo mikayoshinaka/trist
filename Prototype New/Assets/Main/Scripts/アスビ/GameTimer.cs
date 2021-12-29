@@ -5,18 +5,23 @@ using UnityEngine.UI;
 
 public class GameTimer : MonoBehaviour
 {
-    Text text;
-
     public float countdown = 180f;
+
+    // Raw UI
+    public RawUIManager hundreds;
+    public RawUIManager tens;
+    public RawUIManager ones;
+
     //è¨ñÏ‡V èIóπóp
     [SerializeField] private DollSave dollSave;
-    // Start is called before the first frame update
+
     void Start()
     {
-        text = GetComponent<Text>();
+        hundreds = transform.Find("Hundreds").GetComponent<RawUIManager>();
+        tens = transform.Find("Tens").GetComponent<RawUIManager>();
+        ones = transform.Find("Ones").GetComponent<RawUIManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //è¨ñÏ‡VÅ@äJénóp
@@ -26,8 +31,45 @@ public class GameTimer : MonoBehaviour
         }
         if (countdown >= 0)
         {
-            countdown -= Time.deltaTime;
-            text.text = ": " + Mathf.Round(countdown);
+            Countdown();
         }        
+    }
+
+    void Countdown()
+    {
+        string number = Mathf.Round(countdown).ToString();
+        int digit = number.Length;
+
+        // ÇRåÖ
+        if (digit > 2)
+        {
+            hundreds.SetNumber(number[0] - '0');
+        }
+        else
+        {
+            hundreds.SetNumber(0);
+        }
+
+        // ÇQåÖ
+        if (digit > 1)
+        {
+            tens.SetNumber(number[digit - 2] - '0');
+        }
+        else
+        {
+            tens.SetNumber(0);
+        }
+
+        // ÇPåÖ
+        if (countdown > 0)
+        {
+            ones.SetNumber(number[digit - 1] - '0');
+        }
+        else
+        {
+            ones.SetNumber(0);
+        }
+
+        countdown -= Time.deltaTime;
     }
 }

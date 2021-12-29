@@ -5127,9 +5127,7 @@ MonoBehaviour:
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
-  m_InputSlots:
-  - {fileID: 0}
-  - {fileID: 0}
+  m_InputSlots: []
   m_OutputSlots: []
   m_Disabled: 0
   repeat: 0
