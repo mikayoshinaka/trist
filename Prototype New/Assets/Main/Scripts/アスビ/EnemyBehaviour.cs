@@ -13,6 +13,7 @@ public class EnemyBehaviour : MonoBehaviour
     public NavMeshAgent agent;
     [SerializeField] Animator enemyAnimator;
     [SerializeField] GameObject enemyCanvas;
+    [SerializeField] GameObject enemyAura;
     [SerializeField] GhostCatch ghostCatch;
 
     [Header("当たり判定")]
@@ -68,6 +69,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         enemyAnimator = enemyBody.GetComponent<Animator>();
         enemyCanvas = enemy.transform.Find("EnemyCanvas").gameObject;
+        enemyAura = enemy.transform.Find("EnemyAura").gameObject;
         ghostCatch = player.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
 
         enemyState = EnemyState.Patrol;
@@ -147,6 +149,10 @@ public class EnemyBehaviour : MonoBehaviour
                 enemyState = EnemyState.Patrol;
                 ActionAdjustment();
                 enemyAnimator.SetBool("Running", false);
+                if (enemyAura.activeInHierarchy)
+                {
+                    enemyAura.SetActive(false);
+                }
             }
 
             if (!patrolSet)
@@ -256,6 +262,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             agent.isStopped = false;
             enemyAnimator.SetBool("Running", true);
+            enemyAura.SetActive(true);
         }
     }
 
@@ -332,6 +339,10 @@ public class EnemyBehaviour : MonoBehaviour
         moveAway = true;
         yield return new WaitForSeconds(time);
         enemyAnimator.SetBool("Running", false);
+        if (enemyAura.activeInHierarchy)
+        {
+            enemyAura.SetActive(false);
+        }
         agent.isStopped = false;
         moveAway = false;
     }

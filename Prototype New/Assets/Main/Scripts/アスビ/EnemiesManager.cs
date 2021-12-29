@@ -19,6 +19,7 @@ public class EnemiesManager : MonoBehaviour
     public EnemyMode enemyMode;
 
     [Header("Enemy Properties")]
+    public int childCount = 4;
     public float speed = 4f;
     public float chaseSpeed = 6f;
     public float angularSpeed = 240f;
@@ -110,9 +111,9 @@ public class EnemiesManager : MonoBehaviour
             }
 
             // エフェクト
-            if (transform.GetChild(i).transform.childCount > 3)
+            if (transform.GetChild(i).transform.childCount > childCount)
             {
-                for (int j = 3; j < transform.GetChild(i).transform.childCount; j++)
+                for (int j = childCount; j < transform.GetChild(i).transform.childCount; j++)
                 {
                     Destroy(transform.GetChild(i).GetChild(j).gameObject);
                 }

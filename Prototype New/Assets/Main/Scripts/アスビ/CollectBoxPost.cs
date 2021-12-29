@@ -33,6 +33,18 @@ public class CollectBoxPost : MonoBehaviour
         int spots = Random.Range(exclude + 1, exclude + BoxSpots.Length) % BoxSpots.Length;
         SaveBox.transform.position = BoxSpots[spots].transform.position;
         saveBoxAnchor = spots;
+
+        for (int i = 0; i < BoxSpots.Length; i++)
+        {
+            if (i == spots)
+            {
+                BoxSpots[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                BoxSpots[i].gameObject.SetActive(true);
+            }
+        }
     }
 
     // プレイヤーから一番近いハコを除く

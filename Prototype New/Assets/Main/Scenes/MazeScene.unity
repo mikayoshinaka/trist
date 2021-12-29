@@ -1913,6 +1913,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1553967428}
     m_Modifications:
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 9221184643311702124, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: ghostCatch
       value: 
@@ -8705,6 +8713,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1553967428}
     m_Modifications:
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 9221184643311702124, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: ghostCatch
       value: 
@@ -10310,6 +10326,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0a849d975b7788042800eb4cba1391ae, type: 3}
       propertyPath: m_Name
       value: boxsmall
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0a849d975b7788042800eb4cba1391ae, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1433383047106953440, guid: 0a849d975b7788042800eb4cba1391ae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -22889,6 +22909,7 @@ VFXRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23830,6 +23851,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1553967428}
     m_Modifications:
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5834140711519678319, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: ghostCatch
       value: 
@@ -27019,6 +27048,7 @@ MonoBehaviour:
   gameStateManager: {fileID: 0}
   playerController: {fileID: 0}
   enemyMode: 0
+  childCount: 4
   speed: 4
   chaseSpeed: 6
   angularSpeed: 720
@@ -36157,6 +36187,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1553967428}
     m_Modifications:
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 9221184643311702124, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: ghostCatch
       value: 
@@ -39570,6 +39608,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1553967428}
     m_Modifications:
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1280085508739507826, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5834140711519678319, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: ghostCatch
       value: 
@@ -39608,7 +39654,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9221184643311702126, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.28
+      value: 0.561
       objectReference: {fileID: 0}
     - target: {fileID: 9221184643311702126, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
       propertyPath: m_LocalPosition.z
