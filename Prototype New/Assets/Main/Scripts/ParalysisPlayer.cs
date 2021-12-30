@@ -6,7 +6,7 @@ public class ParalysisPlayer : MonoBehaviour
 {
 
     private float time;
-    private float timeMax = 3.0f;
+    [SerializeField] private float timeMax = 2.0f;
     public bool paralysis;
     // Start is called before the first frame update
     void Start()

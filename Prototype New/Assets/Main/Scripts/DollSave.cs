@@ -119,6 +119,9 @@ public class DollSave : MonoBehaviour
                 playerController.transform.position = endPosition.transform.position;
                 playerController.transform.LookAt(this.transform.position);
                 GameObject.Find("ClearScene").GetComponent<ClearScene>().ClearScenePos();
+                //‚Æ‚è‚ ‚¦‚¸
+                PlayerPrefs.SetInt("dollCount",dolls.Count);
+                SceneManager.LoadScene("Result");
             }
             else
             SceneManager.LoadScene("GameOver");

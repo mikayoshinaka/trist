@@ -49,6 +49,11 @@ public class GhostCatch : MonoBehaviour
     [SerializeField] public GameObject presentBox;
     [SerializeField] private GameObject image;
     [SerializeField] private GameObject image2;
+    [SerializeField] private GameObject lampMax;
+    [SerializeField] private GameObject lamp3;
+    [SerializeField] private GameObject lamp2;
+    [SerializeField] private GameObject lamp1;
+    [SerializeField] private GameObject lamp0;
     [SerializeField] private Transparent transparent;
     public GameObject doll = null;
     [SerializeField] private GameObject mainCamera;
@@ -107,8 +112,13 @@ public class GhostCatch : MonoBehaviour
         dollInstanceTime = 0.0f;
         shootTime = 0.0f;
         discloseTime = 0.0f;
-        image.SetActive(false);
-        image2.SetActive(false);
+        lampMax.SetActive(false);
+        lamp3.SetActive(false);
+        lamp2.SetActive(false);
+        lamp1.SetActive(false);
+        lamp0.SetActive(false);
+        //image.SetActive(false);
+        //image2.SetActive(false);
 
         // アスビ用
         gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
@@ -171,14 +181,14 @@ public class GhostCatch : MonoBehaviour
             {
                 bossGrab = true;
             }
-            if (image.activeSelf == false)
-            {
-                image.SetActive(true);
-                image2.SetActive(true);
-            }
+            //if (image.activeSelf == false)
+            //{
+            //    image.SetActive(true);
+            //    image2.SetActive(true);
+            //}
+            
 
-
-            if(bossEnemy[0].tag == "BossEarLeft"|| bossEnemy[0].tag == "BossEarRight")
+            if (bossEnemy[0].tag == "BossEarLeft"|| bossEnemy[0].tag == "BossEarRight")
             {
                 bossEnemy[0].transform.parent.gameObject.GetComponent<BossEar>().Selectear(bossEnemy[0]);
                 ear = bossEnemy[0];
@@ -237,8 +247,13 @@ public class GhostCatch : MonoBehaviour
                 CaughtObjMoveable(caughtObj[0]);
                 bossGrab = false;
                 caughtObj.Clear();
-                image.SetActive(false);
-                image2.SetActive(false);
+                //image.SetActive(false);
+                //image2.SetActive(false);
+                lampMax.SetActive(false);
+                lamp3.SetActive(false);
+                lamp2.SetActive(false);
+                lamp1.SetActive(false);
+                lamp0.SetActive(false);
                 canGrabTime = 3.0f;
                 mode = Mode.CanGrab;
             }
@@ -251,8 +266,13 @@ public class GhostCatch : MonoBehaviour
                 caughtObjPos.Add(startPos);
                 time.Add(0.0f);
 
-                image.SetActive(false);
-                image2.SetActive(false);
+                //image.SetActive(false);
+                //image2.SetActive(false);
+                lampMax.SetActive(false);
+                lamp3.SetActive(false);
+                lamp2.SetActive(false);
+                lamp1.SetActive(false);
+                lamp0.SetActive(false);
                 mode = Mode.Fusion;
             }
 
@@ -268,11 +288,11 @@ public class GhostCatch : MonoBehaviour
             {
                 grab = true;
             }
-            if (image.activeSelf == false)
-            {
-                image.SetActive(true);
-                image2.SetActive(true);
-            }
+            //if (image.activeSelf == false)
+            //{
+            //    image.SetActive(true);
+            //    image2.SetActive(true);
+            //}
             for (int i = 0; i < enemy.Count; i++)
             {
                 if (!caughtObj.Contains(enemy[i]))
@@ -314,8 +334,13 @@ public class GhostCatch : MonoBehaviour
                 caughtObjPos.Add(startPos);
                 time.Add(0.0f);
             }
-            image.SetActive(false);
-            image2.SetActive(false);
+            //image.SetActive(false);
+            //image2.SetActive(false);
+            lampMax.SetActive(false);
+            lamp3.SetActive(false);
+            lamp2.SetActive(false);
+            lamp1.SetActive(false);
+            lamp0.SetActive(false);
             mode = Mode.Fusion;
         }
     }
@@ -574,13 +599,43 @@ public class GhostCatch : MonoBehaviour
         if (canGrabTime / maxGrabTime > 0)
         {
             CaughtObjStop();
-            image.GetComponent<Image>().fillAmount = canGrabTime / maxGrabTime;
+            //image.GetComponent<Image>().fillAmount = canGrabTime / maxGrabTime;
+            if (canGrabTime / maxGrabTime <= 0.03)
+            {
+                lamp1.SetActive(false);
+                lamp0.SetActive(true);
+            }
+            else if(canGrabTime/maxGrabTime<=0.25)
+            {
+                lamp2.SetActive(false);
+                lamp1.SetActive(true);
+            }
+            else if(canGrabTime / maxGrabTime <= 0.5)
+            {
+                lamp3.SetActive(false);
+                lamp2.SetActive(true);
+            }
+            else if(canGrabTime / maxGrabTime <= 0.75)
+            {
+                lampMax.SetActive(false);
+                lamp3.SetActive(true);
+            }
+            else
+            {
+                lampMax.SetActive(true);
+            }
+           
         }
         else
         {
-            image.GetComponent<Image>().fillAmount = 0;
-            image.SetActive(false);
-            image2.SetActive(false);
+            //image.GetComponent<Image>().fillAmount = 0;
+            //image.SetActive(false);
+            //image2.SetActive(false);
+            lampMax.SetActive(false);
+            lamp3.SetActive(false);
+            lamp2.SetActive(false);
+            lamp1.SetActive(false);
+            lamp0.SetActive(false);
             bossGrab = false;
             grab = false;
             canGrabTime = 3.0f;

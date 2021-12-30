@@ -9,6 +9,7 @@ public class GameEnd : MonoBehaviour
     private float inputHorizontal;
     [SerializeField] GameObject[] image = new GameObject[2];
     Scene nowScene;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,7 +58,7 @@ public class GameEnd : MonoBehaviour
         if (around == 1 && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B)))
         {
             //Time.timeScale = 1f;
-            SceneManager.LoadScene(nowScene.name);
+            SceneManager.LoadScene("MazeScene");
         }
         else if (around == 2 && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B)))
         {
