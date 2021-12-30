@@ -7,6 +7,9 @@ using UnityEngine.VFX;
 public class BossEnemy : MonoBehaviour
 {
     //ƒ{ƒXŽ©g
+    [SerializeField] BossEar bossEar;
+    [SerializeField] private float leftBossEarAngle=25.0f;
+    [SerializeField] private float rightBossEarAngle = 25.0f;
     Vector3 firstBossSize;
     [SerializeField] private int bossHPMax = 3;
     public int bossHP;
@@ -467,7 +470,18 @@ public class BossEnemy : MonoBehaviour
     {
         if (bossHP > 0)
         {
-            this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
+            //this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
+            if (bossEar.earNum==1) {
+                transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y - leftBossEarAngle, 0);
+            }
+            else if(bossEar.earNum == 2)
+            {
+                transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y + rightBossEarAngle, 0);
+            }
+            else
+            {
+                this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
+            }
         }
         if (reSet == true)
         {

@@ -13,10 +13,11 @@ public class BossEar : MonoBehaviour
     [SerializeField] private GameObject rightEarArea;
     [SerializeField] private GameObject flyleftEar;
     [SerializeField] private GameObject flyrightEar;
+    [SerializeField] private GameObject jointPos;
     Vector3 leftEarjointPos;
     Vector3 rightEarjointPos;
     bool pull;
-    int earNum = 0;
+    public int earNum = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,11 +38,17 @@ public class BossEar : MonoBehaviour
     {
         if(earNum==1)
         {
-            leftEarjoint.transform.position = playerController.transform.position;
+            //leftEarjoint.transform.position =new Vector3( playerController.transform.position.x+this.transform.TransformPoint(leftEarjointPos).x
+            //                                            , playerController.transform.position.y+2 + this.transform.TransformPoint(leftEarjointPos).y
+            //                                            , playerController.transform.position.z + this.transform.TransformPoint(leftEarjointPos).z);
+            leftEarjoint.transform.position = jointPos.transform.position;
         }
         else if(earNum==2)
         {
-            rightEarjoint.transform.position = playerController.transform.position;
+            //rightEarjoint.transform.position = new Vector3(playerController.transform.position.x+this.transform.TransformPoint(rightEarjointPos).x
+            //                                            , playerController.transform.position.y+2 + this.transform.TransformPoint(rightEarjointPos).y
+            //                                            , playerController.transform.position.z + this.transform.TransformPoint(rightEarjointPos).z);
+            rightEarjoint.transform.position = new Vector3(jointPos.transform.position.x, jointPos.transform.position.y+1, jointPos.transform.position.z);
         }
     }
     //à¯Ç¡í£ÇÈé®ÇëIë
@@ -95,6 +102,7 @@ public class BossEar : MonoBehaviour
         {
             this.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         }
+        earNum = 0;
     }
     //é®ÇÃç≈èâÇÃèÍèä
     void StartEarPos()

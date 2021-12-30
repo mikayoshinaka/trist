@@ -20558,6 +20558,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050936855}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1052594457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1052594458}
+  m_Layer: 3
+  m_Name: JointPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1052594458
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052594457}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.11, z: 0.112}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
+  m_Children: []
+  m_Father: {fileID: 1571241478}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1053309235
 GameObject:
   m_ObjectHideFlags: 0
@@ -35887,6 +35917,8 @@ MonoBehaviour:
   rightEarArea: {fileID: 1057278873}
   flyleftEar: {fileID: 1535818284}
   flyrightEar: {fileID: 1346175608}
+  jointPos: {fileID: 1052594457}
+  earNum: 0
 --- !u!1001 &1816348241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43982,12 +44014,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1161104586488154374}
     - target: {fileID: 5319251083356067021, guid: 502cbceebd76aae4dbd379e7989ec6fb, type: 3}
+      propertyPath: bossEar
+      value: 
+      objectReference: {fileID: 1812444561}
+    - target: {fileID: 5319251083356067021, guid: 502cbceebd76aae4dbd379e7989ec6fb, type: 3}
       propertyPath: fireBall
       value: 
       objectReference: {fileID: 517546220346749918, guid: 11b2919d7a5ab3f4186220ba5dc70e5a, type: 3}
     - target: {fileID: 5319251083356067021, guid: 502cbceebd76aae4dbd379e7989ec6fb, type: 3}
       propertyPath: changeTimerMax
       value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5319251083356067021, guid: 502cbceebd76aae4dbd379e7989ec6fb, type: 3}
+      propertyPath: rightBossEarAngle
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 5319251083356067021, guid: 502cbceebd76aae4dbd379e7989ec6fb, type: 3}
       propertyPath: mig_Point.Array.size
