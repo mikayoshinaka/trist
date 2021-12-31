@@ -25,6 +25,7 @@ TagManager:
   - BossDoll
   - BossEarLeft
   - BossEarRight
+  - Wall
   layers:
   - Default
   - TransparentFX

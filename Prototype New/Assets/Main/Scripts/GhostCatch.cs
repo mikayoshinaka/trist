@@ -165,7 +165,7 @@ public class GhostCatch : MonoBehaviour
     private void GhostGrab()
     {
         //ボス
-        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && bossEnemy.Count > 0 && possessScript.possess == false && grab == false&&bossGrab==false )
+        if ((Input.GetKey(KeyCode.B) || Input.GetKey(KeyCode.JoystickButton0)) && bossEnemy.Count > 0 && possessScript.possess == false && grab == false && bossGrab == false)
         {
             Sort(0, bossEnemy.Count - 1, ref bossEnemy);
             if (bossEnemy[0].tag == "BossEnemy" && bossEnemy[0].GetComponent<BossEnemy>().mode == BossEnemy.Mode.grabbed)
@@ -186,14 +186,14 @@ public class GhostCatch : MonoBehaviour
             //    image.SetActive(true);
             //    image2.SetActive(true);
             //}
-            
 
-            if (bossEnemy[0].tag == "BossEarLeft"|| bossEnemy[0].tag == "BossEarRight")
+
+            if (bossEnemy[0].tag == "BossEarLeft" || bossEnemy[0].tag == "BossEarRight")
             {
                 bossEnemy[0].transform.parent.gameObject.GetComponent<BossEar>().Selectear(bossEnemy[0]);
                 ear = bossEnemy[0];
             }
-           
+
 
             if (bossEnemy[0].tag == "BossEnemy" && !caughtObj.Contains(bossEnemy[0]))
             {
@@ -203,7 +203,7 @@ public class GhostCatch : MonoBehaviour
                 }
                 caughtObj.Add(bossEnemy[0]);
             }
-            else if((bossEnemy[0].tag == "BossEarLeft" || bossEnemy[0].tag == "BossEarRight") && !caughtObj.Contains(bossEnemy[0].transform.parent.gameObject))
+            else if ((bossEnemy[0].tag == "BossEarLeft" || bossEnemy[0].tag == "BossEarRight") && !caughtObj.Contains(bossEnemy[0].transform.parent.gameObject))
             {
 
                 //if (bossEnemy[0].transform.parent.gameObject.GetComponent<BossEnemy>().bossHP == 0)
@@ -401,14 +401,14 @@ public class GhostCatch : MonoBehaviour
         else if (dollInstanceTime >= dollZoom2Time && zoom == true)
         {
             DollDisclose(caughtObj);
-            doll.transform.Rotate(new Vector3(0,dollRotateSpeed,0));
+            doll.transform.Rotate(new Vector3(0, dollRotateSpeed, 0));
         }
         dollInstanceTime += Time.deltaTime;
         if (dollInstanceTime < dollInstanceMaxTime)
         {
             return;
         }
-        doll.transform.rotation =new Quaternion(0,0,0,0);
+        doll.transform.rotation = new Quaternion(0, 0, 0, 0);
         doll.transform.position = dollInstancePos2.position;
         playerController.GetComponent<CharacterMovementScript>().enabled = true;
         dollInstanceZoom1.SetActive(false);
@@ -418,7 +418,7 @@ public class GhostCatch : MonoBehaviour
         zoom = false;
         disclose = false;
         mode = Mode.Carry;
-        
+
         // アスビ用
         gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Maze);
     }
@@ -605,17 +605,17 @@ public class GhostCatch : MonoBehaviour
                 lamp1.SetActive(false);
                 lamp0.SetActive(true);
             }
-            else if(canGrabTime/maxGrabTime<=0.25)
+            else if (canGrabTime / maxGrabTime <= 0.25)
             {
                 lamp2.SetActive(false);
                 lamp1.SetActive(true);
             }
-            else if(canGrabTime / maxGrabTime <= 0.5)
+            else if (canGrabTime / maxGrabTime <= 0.5)
             {
                 lamp3.SetActive(false);
                 lamp2.SetActive(true);
             }
-            else if(canGrabTime / maxGrabTime <= 0.75)
+            else if (canGrabTime / maxGrabTime <= 0.75)
             {
                 lampMax.SetActive(false);
                 lamp3.SetActive(true);
@@ -624,7 +624,7 @@ public class GhostCatch : MonoBehaviour
             {
                 lampMax.SetActive(true);
             }
-           
+
         }
         else
         {
@@ -870,13 +870,13 @@ public class GhostCatch : MonoBehaviour
             float phase = Time.time * 2 * Mathf.PI;
             discloseTime += (Time.deltaTime/* + Mathf.Sin(phase)*/) * discloseSpeed;
             doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + (discloseTime * discloseHeight), dollInstancePos.position.z);
-            doll.transform.localScale = new Vector3((1.0f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.0f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.0f + (ghost.Count - 1) * 0.3f) * discloseTime);
+            doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f) * discloseTime, (0.7f + (ghost.Count - 1) * 0.3f) * discloseTime, (0.7f + (ghost.Count - 1) * 0.3f) * discloseTime);
         }
         else if (disclose == false)
         {
             disclose = true;
             doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + discloseHeight, dollInstancePos.position.z);
-            doll.transform.localScale = new Vector3((1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f), (1.0f + (ghost.Count - 1) * 0.3f));
+            doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f));
         }
     }
     //人形の振動
@@ -918,7 +918,7 @@ public class GhostCatch : MonoBehaviour
             {
                 inhaleSpeed = 0.0f;
                 dollSave.DollAdd(doll, caughtObj.Count);
-                if(doll.tag=="BossDoll")
+                if (doll.tag == "BossDoll")
                 {
                     dollSave.bossIn = true;
                 }
@@ -1002,7 +1002,7 @@ public class GhostCatch : MonoBehaviour
 
             }
         }
-        if (other.tag == "BossEnemy"|| other.tag == "BossEarLeft"|| other.tag == "BossEarRight")
+        if (other.tag == "BossEnemy" || other.tag == "BossEarLeft" || other.tag == "BossEarRight")
         {
             Debug.Log("hit");
             if (!bossEnemy.Contains(other.gameObject))

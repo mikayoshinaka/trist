@@ -92,6 +92,7 @@ public class CollectBoxPost : MonoBehaviour
         }
         else
         {
+            GameObject.Find("CameraArea").GetComponent<ShootCameraCanLookBox>().furniture.Clear();
             SaveBox.SetActive(false);
         }
     }

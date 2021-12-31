@@ -7,8 +7,9 @@ using UnityEngine.VFX;
 public class BossEnemy : MonoBehaviour
 {
     //ボス自身
+    Animator animator;
     [SerializeField] BossEar bossEar;
-    [SerializeField] private float leftBossEarAngle=25.0f;
+    [SerializeField] private float leftBossEarAngle = 25.0f;
     [SerializeField] private float rightBossEarAngle = 25.0f;
     Vector3 firstBossSize;
     [SerializeField] private int bossHPMax = 3;
@@ -84,6 +85,7 @@ public class BossEnemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = this.gameObject.transform.GetChild(0).GetComponent<Animator>();
         firstBossSize = new Vector3(this.transform.GetChild(0).localScale.x, this.transform.GetChild(0).localScale.y, this.transform.GetChild(0).localScale.z);
         reSet = false;
         bossHP = bossHPMax;
@@ -147,6 +149,7 @@ public class BossEnemy : MonoBehaviour
     {
         if (bossSize > 0.0f)
         {
+            animator.SetBool("Attacked", true);
             bossSize -= Time.deltaTime /** 0.2f*/;
             this.transform.GetChild(0).localScale = new Vector3(firstBossSize.x / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)), firstBossSize.y / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)), firstBossSize.z / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)));
             //this.transform.GetChild(0).localScale -= new Vector3(0.01f,0.01f,0.01f)*Time.deltaTime;
@@ -154,7 +157,7 @@ public class BossEnemy : MonoBehaviour
         else if (bossSize <= 0.0f)
         {
             this.transform.GetChild(0).localScale = new Vector3(firstBossSize.x / (bossHPMax + 1) * (float)(bossHP + 1 / bossHPMax + 1), firstBossSize.y / (bossHPMax + 1) * (float)(bossHP + 1 / bossHPMax + 1), firstBossSize.z / (bossHPMax + 1) * (float)(bossHP + 1 / bossHPMax + 1));
-
+            animator.SetBool("Attacked", false);
             bossSize = 1.0f;
             hpDown = false;
         }
@@ -190,10 +193,11 @@ public class BossEnemy : MonoBehaviour
             fireInstance = false;
             fireBalls.Clear();
             fireAttackCount = 0;
+            animator.SetBool("Fire", false);
             mode = Mode.change;
         }
     }
-    
+
     //火球生成
     IEnumerator GenerateFire()
     {
@@ -214,6 +218,7 @@ public class BossEnemy : MonoBehaviour
                 instantPlayerPos = player.transform.position;
                 Vector3 terminusDirection1 = FireTerminus(fireBalls[fireAttackCount - 1].transform.position, new Vector3(instantPlayerPos.x, instantPlayerPos.y + ballAjust, instantPlayerPos.z));
                 Vector3 terminusDirection2 = FireTerminus(fireBalls[fireBalls.Count - fireAttackCount].transform.position, new Vector3(instantPlayerPos.x, instantPlayerPos.y + ballAjust, instantPlayerPos.z));
+                animator.SetBool("Fire", true);
                 StartCoroutine(AttackingFire(instantPlayerPos, fireBalls[fireAttackCount - 1], fireBalls[fireBalls.Count - fireAttackCount], terminusDirection1, terminusDirection2));
             }
         }
@@ -350,6 +355,7 @@ public class BossEnemy : MonoBehaviour
         {
             laserStart = true;
             transform.LookAt(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
+            animator.SetBool("Beam", true);
         }
         laserTimer += Time.deltaTime;
         LaserMigration();
@@ -361,6 +367,7 @@ public class BossEnemy : MonoBehaviour
             laserTimer = 0.0f;
             mode = Mode.change;
             horizontalAngle = 0.0f;
+            animator.SetBool("Beam", false);
             if (laserSpeed < 0)
             {
                 laserSpeed *= -1;
@@ -398,7 +405,7 @@ public class BossEnemy : MonoBehaviour
     //レーザーの回転
     void LaserRotation()
     {
-        horizontalAngle += Time.deltaTime * laserSpeed;
+        horizontalAngle += Time.deltaTime * -laserSpeed;
         laser.transform.localRotation = Quaternion.Euler(7.0f, horizontalAngle, 0.0f);
         if (horizontalAngle > horizontalAngleLimit)
         {
@@ -463,7 +470,7 @@ public class BossEnemy : MonoBehaviour
     //ボスが倒れたとき
     void BossDown()
     {
-        agent.agentTypeID=0;
+        agent.agentTypeID = 0;
     }
     //掴まれた
     void BossGrabbed()
@@ -471,10 +478,11 @@ public class BossEnemy : MonoBehaviour
         if (bossHP > 0)
         {
             //this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
-            if (bossEar.earNum==1) {
+            if (bossEar.earNum == 1)
+            {
                 transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y - leftBossEarAngle, 0);
             }
-            else if(bossEar.earNum == 2)
+            else if (bossEar.earNum == 2)
             {
                 transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y + rightBossEarAngle, 0);
             }
@@ -507,6 +515,11 @@ public class BossEnemy : MonoBehaviour
     //すべて元に戻す
     void ResetMode()
     {
+        animator.SetBool("Fire", false);
+        animator.SetBool("Beam", false);
+        animator.SetBool("Escape", false);
+        animator.SetBool("Attacked", false);
+        animator.SetBool("Walk", false);
         rotateAngle = 0.0f;
         fire = 0;
         fireAttackCount = 0;
@@ -532,6 +545,7 @@ public class BossEnemy : MonoBehaviour
     //ランダム移動
     void BossMoveRandom()
     {
+        animator.SetBool("Walk", true);
         randomMoveTimer += Time.deltaTime;
         if (randomMoveTimer > randomMoveTimerMax)
         {
@@ -578,7 +592,7 @@ public class BossEnemy : MonoBehaviour
             }
             sourcePos.Clear();
         }
-        if(randomMoveCount>=3)
+        if (randomMoveCount >= 3)
         {
             randomMoveCount = 0;
             randomMoveTimer = 0.0f;
@@ -595,6 +609,7 @@ public class BossEnemy : MonoBehaviour
     //追いかける
     void BossMoveChase()
     {
+        animator.SetBool("Walk", true);
         Vector3 bossMovePos = lookAhead();
         agent.SetDestination(bossMovePos);
         bool approachPlayer = InArea(chaseDis);
@@ -609,10 +624,12 @@ public class BossEnemy : MonoBehaviour
             modeChange = Random.Range(0, 2);
             if (modeChange == 0)
             {
+                animator.SetBool("Walk", false);
                 mode = Mode.fire;
             }
             else if (modeChange == 1)
             {
+                animator.SetBool("Walk", false);
                 mode = Mode.beam;
             }
             if (GetComponent<NavMeshAgent>().isActiveAndEnabled == true)
@@ -624,6 +641,7 @@ public class BossEnemy : MonoBehaviour
     //決まった場所に移動
     void BossMoveSetPosition()
     {
+        animator.SetBool("Walk", true);
         Vector3 pos = mig_Point[point].position;
         if (Vector3.Distance(agent.transform.position, pos) < 2.0f)
         {

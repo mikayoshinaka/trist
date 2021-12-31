@@ -30,7 +30,7 @@ public class DollSave : MonoBehaviour
     [SerializeField] float fadeSpeed = 1.0f;
     float red, green, blue, alfa;
     public bool isFadeOut = false;
-    bool  beginCount = false;
+    bool beginCount = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +41,7 @@ public class DollSave : MonoBehaviour
         time = 0.0f;
         shoot = false;
         i = 0;
-        anim = GameObject.Find("boxbig").GetComponent<Animator>();
+        anim = GameObject.Find("ShootBox").GetComponent<Animator>();
 
         red = fadeImage.color.r;
         green = fadeImage.color.g;
@@ -57,7 +57,7 @@ public class DollSave : MonoBehaviour
             catchArea.GetComponent<GhostCatch>().mode = GhostCatch.Mode.Shoot;
             GameObject.Find("Enemies").GetComponent<EnemiesManager>().enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
         }
-        if(bossIn&&!(GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode==GhostCatch.Mode.Shoot))
+        if (bossIn && !(GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot))
         {
             if (isFadeOut == false)
             {
@@ -99,7 +99,7 @@ public class DollSave : MonoBehaviour
                 }
             }
         }
-        else if (bossIn==false&&GameObject.Find("Timer").GetComponent<GameTimer>().countdown <= 0)
+        else if (bossIn == false && GameObject.Find("Timer").GetComponent<GameTimer>().countdown <= 0)
         {
             StartFadeOut();
         }
@@ -112,7 +112,7 @@ public class DollSave : MonoBehaviour
         SetAlpha();
         if (alfa >= 1)
         {
-            if(bossIn)
+            if (bossIn)
             {
                 isFadeOut = true;
                 this.gameObject.transform.position = clearSaveBoxPos.position;
@@ -120,11 +120,11 @@ public class DollSave : MonoBehaviour
                 playerController.transform.LookAt(this.transform.position);
                 GameObject.Find("ClearScene").GetComponent<ClearScene>().ClearScenePos();
                 //‚Æ‚è‚ ‚¦‚¸
-                PlayerPrefs.SetInt("dollCount",dolls.Count);
+                PlayerPrefs.SetInt("dollCount", dolls.Count);
                 SceneManager.LoadScene("Result");
             }
             else
-            SceneManager.LoadScene("GameOver");
+                SceneManager.LoadScene("GameOver");
         }
 
     }
@@ -148,7 +148,7 @@ public class DollSave : MonoBehaviour
         dolls.Add(doll);
         //catchPoint += count * 100 + (count - 1) * 60;
         //text.text = catchPoint + "Point";
-        anim.SetBool("open",false);
+        anim.SetBool("open", false);
     }
     public void AnimStart()
     {

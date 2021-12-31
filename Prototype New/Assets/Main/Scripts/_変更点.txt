@@ -122,3 +122,6 @@ EnemiesManager
 93行
  //小野澤　クリア用
             GameObject.Find("ClearScene").GetComponent<ClearScene>().enemy.Add(enemy);
+
+CollectBoxPost
+ GameObject.Find("CameraArea").GetComponent<ShootCameraCanLookBox>().furniture.Clear();
