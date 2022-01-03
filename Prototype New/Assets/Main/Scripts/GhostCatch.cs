@@ -767,6 +767,7 @@ public class GhostCatch : MonoBehaviour
             {
                 doll = Instantiate(bossDoll, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Yellow);
+                doll.tag = "BossDoll";
             }
 
         }
@@ -870,13 +871,28 @@ public class GhostCatch : MonoBehaviour
             float phase = Time.time * 2 * Mathf.PI;
             discloseTime += (Time.deltaTime/* + Mathf.Sin(phase)*/) * discloseSpeed;
             doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + (discloseTime * discloseHeight), dollInstancePos.position.z);
-            doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f) * discloseTime, (0.7f + (ghost.Count - 1) * 0.3f) * discloseTime, (0.7f + (ghost.Count - 1) * 0.3f) * discloseTime);
+            if (doll.tag == "BossDoll")
+            {
+                doll.transform.localScale = new Vector3((1.6f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.6f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.6f + (ghost.Count - 1) * 0.3f) * discloseTime);
+            }
+            else
+            {
+                doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f) * discloseTime, (0.7f + (ghost.Count - 1) * 0.3f) * discloseTime, (0.7f + (ghost.Count - 1) * 0.3f) * discloseTime);
+            }
         }
         else if (disclose == false)
         {
             disclose = true;
             doll.transform.position = new Vector3(dollInstancePos.position.x, dollInstancePos.position.y + discloseHeight, dollInstancePos.position.z);
-            doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f));
+            if (doll.tag == "BossDoll")
+            {
+                doll.transform.localScale = new Vector3((1.6f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.6f + (ghost.Count - 1) * 0.3f) * discloseTime, (1.6f + (ghost.Count - 1) * 0.3f) * discloseTime);
+            }
+            else
+            {
+                doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f));
+            }
+            
         }
     }
     //人形の振動
