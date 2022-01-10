@@ -69,6 +69,11 @@ public class BossEnemy : MonoBehaviour
     private float bossMovementTimer;
     [SerializeField] private Transform[] mig_Point;
     private int point = 0;
+
+    AudioSource audioSource;
+    public AudioClip instanceFireSE;
+    public AudioClip beamSE;
+    public GameObject bossSound;
     public enum Mode
     {
         fire,
@@ -105,6 +110,8 @@ public class BossEnemy : MonoBehaviour
         beforeBossPos = this.transform.position;
         playerMovementTimer = 0.0f;
         randomMoveCount = 0;
+
+        audioSource = bossSound.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -204,6 +211,7 @@ public class BossEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (mode == Mode.fire)
         {
+            audioSource.PlayOneShot(instanceFireSE);
             InstanceFire(fire);
             fire += 2;
             if (fire < fireBallCount)
@@ -356,6 +364,8 @@ public class BossEnemy : MonoBehaviour
             laserStart = true;
             transform.LookAt(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
             animator.SetBool("Beam", true);
+            audioSource.clip = beamSE;
+            audioSource.Play();
         }
         laserTimer += Time.deltaTime;
         LaserMigration();
@@ -368,6 +378,7 @@ public class BossEnemy : MonoBehaviour
             mode = Mode.change;
             horizontalAngle = 0.0f;
             animator.SetBool("Beam", false);
+            audioSource.Stop();
             if (laserSpeed < 0)
             {
                 laserSpeed *= -1;
@@ -526,7 +537,7 @@ public class BossEnemy : MonoBehaviour
         startFireInstance = false;
         fireInstance = false;
         laserStart = false;
-
+        audioSource.Stop();
         changeTimer = 0.0f;
         fireTimer = 0.0f;
         laserTimer = 0.0f;

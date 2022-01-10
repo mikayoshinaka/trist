@@ -82,6 +82,14 @@ public class GhostCatch : MonoBehaviour
     float initPosition, newPosition, minPosition, maxPosition;
     //[SerializeField] private int partition = 20;
     private List<float> time = new List<float>();
+
+    AudioSource audioSource;
+    public AudioClip grabSE;
+    public AudioClip slowSE;
+    public AudioClip showoffSE;
+    public AudioClip attackedSE;
+    public AudioClip dollVibrateSE;
+    bool attacked;
     public enum Mode
     {
         CanGrab,
@@ -119,7 +127,8 @@ public class GhostCatch : MonoBehaviour
         lamp0.SetActive(false);
         //image.SetActive(false);
         //image2.SetActive(false);
-
+        audioSource= GameObject.Find("PlayerSound").GetComponent<AudioSource>();
+        attacked = false;
         // アスビ用
         gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
         colorAction = GameObject.Find("PlayerController").GetComponent<ColorAction>();
@@ -201,6 +210,7 @@ public class GhostCatch : MonoBehaviour
                 {
                     bossEnemy[0].transform.parent = player.transform;
                 }
+                audioSource.PlayOneShot(grabSE);
                 caughtObj.Add(bossEnemy[0]);
             }
             else if ((bossEnemy[0].tag == "BossEarLeft" || bossEnemy[0].tag == "BossEarRight") && !caughtObj.Contains(bossEnemy[0].transform.parent.gameObject))
@@ -300,6 +310,7 @@ public class GhostCatch : MonoBehaviour
                     enemy[i].GetComponent<EnemyBehaviour>().enabled = false;
                     enemy[i].transform.parent = player.transform;
                     caughtObj.Add(enemy[i]);
+                    audioSource.PlayOneShot(grabSE);
                 }
             }
             if (canGrabTime / maxGrabTime > 0)
@@ -320,6 +331,7 @@ public class GhostCatch : MonoBehaviour
                     enemy[i].GetComponent<EnemyBehaviour>().enabled = false;
                     enemy[i].transform.parent = player.transform;
                     caughtObj.Add(enemy[i]);
+                    audioSource.PlayOneShot(grabSE);
                 }
             }
             GrabbingTime();
@@ -341,6 +353,7 @@ public class GhostCatch : MonoBehaviour
             lamp2.SetActive(false);
             lamp1.SetActive(false);
             lamp0.SetActive(false);
+            audioSource.PlayOneShot(slowSE);
             mode = Mode.Fusion;
         }
     }
@@ -489,6 +502,11 @@ public class GhostCatch : MonoBehaviour
     //攻撃された
     private void EnemyAttacked()
     {
+        if(attacked==false)
+        {
+            audioSource.PlayOneShot(attackedSE);
+            attacked = true;
+        }
         if (doll != null)
         {
             doll.SetActive(false);
@@ -527,6 +545,7 @@ public class GhostCatch : MonoBehaviour
         if (enemyFleeComplete == true)
         {
             ReSetCatch();
+            attacked = false;
             mode = Mode.CannotGrab;
         }
     }
@@ -862,6 +881,7 @@ public class GhostCatch : MonoBehaviour
         }
         doll.transform.parent = playerController.transform;
         doll.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+        audioSource.PlayOneShot(showoffSE);
     }
     //人形の出現
     private void DollDisclose(List<GameObject> ghost)
@@ -905,6 +925,7 @@ public class GhostCatch : MonoBehaviour
             newPosition = initPosition;
             minPosition = initPosition - vibrateRange;
             maxPosition = initPosition + vibrateRange;
+            audioSource.PlayOneShot(dollVibrateSE);
         }
         Vibrate();
 
@@ -930,10 +951,12 @@ public class GhostCatch : MonoBehaviour
             {
                 inhaleSpeed += Time.deltaTime * inhaleAccelerate;
             }
+
             if (inhaleDis < 0.03f)
             {
                 inhaleSpeed = 0.0f;
                 dollSave.DollAdd(doll, caughtObj.Count);
+                dollSave.slow = false;
                 if (doll.tag == "BossDoll")
                 {
                     dollSave.bossIn = true;
@@ -943,6 +966,7 @@ public class GhostCatch : MonoBehaviour
             }
             else
             {
+                dollSave.SlowSound();
                 doll.transform.position = Vector3.MoveTowards(doll.transform.position, inhalePos.position, Time.deltaTime * ((inhaleSpeed * inhaleSpeed) + inhaleFirstSpeed));
             }
         }

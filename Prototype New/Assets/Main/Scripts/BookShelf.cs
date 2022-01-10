@@ -19,11 +19,15 @@ public class BookShelf : MonoBehaviour
     [SerializeField] private float coefficient;
     [SerializeField] private float explosionSpeed;
     public bool fly;
+    AudioSource audioSource;
+    public AudioClip bookAttackSE;
+    public GameObject bookSound;
     // Start is called before the first frame update
     void Start()
     {
         fly = false;
         horizontalAngle = this.gameObject.transform.localEulerAngles.y;
+        audioSource = bookSound.GetComponent<AudioSource>();
         //y = this.gameObject.transform.localPosition.y;
     }
 
@@ -55,6 +59,7 @@ public class BookShelf : MonoBehaviour
         if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && fly ==false)
         {
             fly = true;
+            audioSource.PlayOneShot(bookAttackSE);
             FlyBook();
         }
         //    x = ( Mathf.Sin((horizontalAngle) * Mathf.Deg2Rad));

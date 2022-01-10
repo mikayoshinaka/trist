@@ -9,12 +9,13 @@ public class GameEnd : MonoBehaviour
     private float inputHorizontal;
     [SerializeField] GameObject[] image = new GameObject[2];
     Scene nowScene;
-
+    private GameObject menuSoundScript;
     // Start is called before the first frame update
     void Start()
     {
         around = 1;
         nowScene = SceneManager.GetActiveScene();
+        menuSoundScript = GameObject.Find("MenuSound").transform.gameObject;
     }
 
     // Update is called once per frame
@@ -30,10 +31,12 @@ public class GameEnd : MonoBehaviour
         if (inputHorizontal >= 0.5f && around == 1)
         {
             around = 2;
+            menuSoundScript.GetComponent<MenuSoundScript>().Select();
         }
         else if (inputHorizontal < -0.5f && around == 2)
         {
             around = 1;
+            menuSoundScript.GetComponent<MenuSoundScript>().Select();
         }
 
     }
@@ -59,11 +62,13 @@ public class GameEnd : MonoBehaviour
         {
             //Time.timeScale = 1f;
             SceneManager.LoadScene("MazeScene");
+            menuSoundScript.GetComponent<MenuSoundScript>().Decide();
         }
         else if (around == 2 && (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B)))
         {
             //Time.timeScale = 1f;
             SceneManager.LoadScene("Title");
+            menuSoundScript.GetComponent<MenuSoundScript>().Decide();
         }
 
 

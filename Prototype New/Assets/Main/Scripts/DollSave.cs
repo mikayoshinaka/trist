@@ -31,6 +31,11 @@ public class DollSave : MonoBehaviour
     float red, green, blue, alfa;
     public bool isFadeOut = false;
     bool beginCount = false;
+
+    AudioSource audioSource;
+    public AudioClip boxSlowSE;
+    public GameObject boxSound;
+    public bool slow;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +52,9 @@ public class DollSave : MonoBehaviour
         green = fadeImage.color.g;
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
+
+        audioSource = boxSound.GetComponent<AudioSource>();
+        slow = false;
     }
 
     // Update is called once per frame
@@ -153,6 +161,13 @@ public class DollSave : MonoBehaviour
     public void AnimStart()
     {
         anim.SetBool("open", true);
+    }
+    public void SlowSound()
+    {
+        if (slow==false) {
+            audioSource.PlayOneShot(boxSlowSE);
+            slow = true;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {

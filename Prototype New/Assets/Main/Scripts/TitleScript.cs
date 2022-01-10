@@ -9,6 +9,7 @@ public class TitleScript : MonoBehaviour
     [SerializeField]float fadeSpeed = 1.0f;
     float red, green, blue, alfa;
     bool isFadeOut = false;
+    private GameObject menuSoundScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,14 +17,16 @@ public class TitleScript : MonoBehaviour
         green= fadeImage.color.g;
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
+        menuSoundScript = GameObject.Find("MenuSound").transform.gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1))
+        if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1)&&isFadeOut==false)
         {
             isFadeOut = true;
+            menuSoundScript.GetComponent<MenuSoundScript>().Decide();
         }
         if (isFadeOut) {
             StartFadeOut();

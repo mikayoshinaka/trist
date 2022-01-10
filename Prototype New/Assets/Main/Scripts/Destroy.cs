@@ -7,12 +7,16 @@ public class Destroy : MonoBehaviour
     VisualEffect effect;
     float destroyTime = 4.0f;
     float timer;
+    AudioSource audioSource;
+    public AudioClip hitFireSE;
     // Start is called before the first frame update
     void Start()
     {
         timer = 0.0f;
         effect = this.gameObject.GetComponent<VisualEffect>();
         effect.SendEvent("OnPlay");
+        audioSource = this.gameObject.GetComponent<AudioSource>();
+        audioSource.PlayOneShot(hitFireSE);
     }
 
     // Update is called once per frame
