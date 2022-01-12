@@ -35,7 +35,7 @@ public class Transparent : MonoBehaviour
             }        
         }
         else {
-            if (ghostCatch.GetComponent<GhostCatch>().mode==GhostCatch.Mode.Carry|| ghostCatch.GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot)
+            if (ghostCatch.GetComponent<GhostCatch>().mode==GhostCatch.Mode.Carry|| ghostCatch.GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot|| ghostCatch.GetComponent<GhostCatch>().mode == GhostCatch.Mode.End)
             {
                 
                     if (enemySearchAreaTransparent.GetComponent<EnemySearchAreaTransparent>().areaEnemy.Contains(this.gameObject)) {

@@ -6,6 +6,7 @@ public class ShootCameraCanLookBox : MonoBehaviour
 {
     GhostCatch ghostCatch;
     public List<GameObject> furniture = new List<GameObject>();
+    [SerializeField] DollSave dollSave;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +25,10 @@ public class ShootCameraCanLookBox : MonoBehaviour
                     furniture[i].SetActive(false);
                 }
             }
+        }
+        else if(dollSave.bossIn==true)
+        {
+            return;
         }
         else
         {

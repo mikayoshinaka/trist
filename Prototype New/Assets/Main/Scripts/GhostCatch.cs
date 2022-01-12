@@ -98,7 +98,8 @@ public class GhostCatch : MonoBehaviour
         Carry,
         Shoot,
         CannotGrab,
-        Attacked
+        Attacked,
+        End
     }
     public Mode mode;
 
@@ -163,6 +164,8 @@ public class GhostCatch : MonoBehaviour
                 break;
             case Mode.Attacked:
                 EnemyAttacked();
+                break;
+            case Mode.End:
                 break;
         }
         if (mode != Mode.CanGrab || mode != Mode.Attacked)
@@ -488,15 +491,23 @@ public class GhostCatch : MonoBehaviour
         }
         else
         {
-            playerController.GetComponent<CharacterMovementScript>().enabled = true;
-            shootTime = 0.0f;
-            mainCamera.SetActive(true);
-            shootCamera.SetActive(false);
-            ReSetCatch();
-            mode = Mode.CanGrab;
+            if (dollSave.bossIn == false)
+            {
+                playerController.GetComponent<CharacterMovementScript>().enabled = true;
+                shootTime = 0.0f;
+                mainCamera.SetActive(true);
+                shootCamera.SetActive(false);
+                ReSetCatch();
+                mode = Mode.CanGrab;
 
-            // アスビ用
-            gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+                // アスビ用
+                gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+            }
+            else
+            {
+                mode = Mode.End;
+            }
+            
         }
 
     }

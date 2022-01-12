@@ -7,35 +7,32 @@ public class DollSave : MonoBehaviour
 {
     [SerializeField] private GameObject catchArea;
     public List<GameObject> dolls = new List<GameObject>();
-    public List<GameObject> seePoint = new List<GameObject>();
     [SerializeField] private GameObject mainCamera;
-    [SerializeField] private GameObject endCamera;
-    [SerializeField] private GameObject endScene;
-    [SerializeField] private GameObject endUI;
     [SerializeField] private GameObject playerController;
-    [SerializeField] private GameObject endPosition;
     [SerializeField] private Transform clearSaveBoxPos;
+    [SerializeField] private GameObject clearCamera;
+    public GameObject clearCameraEndPos;
     public Text text;
     bool within;
-    bool shoot;
     public bool bossIn;
-    //int catchPoint;
-    int i;
-    [SerializeField] private float zoomTime = 2.0f;
     private float timer;
-    private float time;
+    [SerializeField] private float clearAnimationTime=2.0f;
+    [SerializeField] private float clearMoveOnlyTime = 2.0f;
     private Animator anim;
-
-    public Image fadeImage;
+    public Image clearFadeImage;
+    public Image failedFadeImage;
     [SerializeField] float fadeSpeed = 1.0f;
-    float red, green, blue, alfa;
+    [SerializeField] float clearFadeCameraRotateSpeed = 2.0f;
+    [SerializeField] float clearFadeCameraMoveSpeed = 1.0f;
+    float failedRed, failedGreen, failedBlue, failedAlfa;
+    float clearRed, clearGreen, clearBlue, clearAlfa;
     public bool isFadeOut = false;
-    bool beginCount = false;
 
     AudioSource audioSource;
     public AudioClip boxSlowSE;
     public GameObject boxSound;
     public bool slow;
+    bool startClear;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,18 +40,20 @@ public class DollSave : MonoBehaviour
         within = false;
         //catchPoint = 0;
         timer = 0.0f;
-        time = 0.0f;
-        shoot = false;
-        i = 0;
         anim = GameObject.Find("ShootBox").GetComponent<Animator>();
 
-        red = fadeImage.color.r;
-        green = fadeImage.color.g;
-        blue = fadeImage.color.b;
-        alfa = fadeImage.color.a;
+        failedRed = failedFadeImage.color.r;
+        failedGreen = failedFadeImage.color.g;
+        failedBlue = failedFadeImage.color.b;
+        failedAlfa = failedFadeImage.color.a;
+        clearRed = clearFadeImage.color.r;
+        clearGreen = clearFadeImage.color.g;
+        clearBlue = clearFadeImage.color.b;
+        clearAlfa = clearFadeImage.color.a;
 
         audioSource = boxSound.GetComponent<AudioSource>();
         slow = false;
+        startClear = false;
     }
 
     // Update is called once per frame
@@ -67,86 +66,56 @@ public class DollSave : MonoBehaviour
         }
         if (bossIn && !(GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot))
         {
-            if (isFadeOut == false)
+        Å@Å@if(startClear==false)
             {
-                StartFadeOut();
+                startClear = true;
+                playerController.transform.LookAt(new Vector3 (clearCamera.transform.position.x,playerController.transform.position.y ,clearCamera.transform.position.z));
             }
-            else if (isFadeOut == true && beginCount == false)
+            timer += Time.deltaTime;
+            if(timer>=clearAnimationTime)
             {
-                StartFadeIn();
-            }
-            else
-            {
-                timer += Time.deltaTime;
-                endCamera.SetActive(true);
-                AnimStart();
-                if (timer > zoomTime)
+                Vector3 vector3 = playerController.transform.position - clearCamera.transform.position;
+                Quaternion q = Quaternion.LookRotation(vector3);
+                clearCamera.transform.rotation = Quaternion.Slerp(clearCamera.transform.rotation, q, Time.deltaTime*clearFadeCameraRotateSpeed);
+                clearCamera.transform.position = Vector3.MoveTowards(clearCamera.transform.position, clearCameraEndPos.transform.position, clearFadeCameraMoveSpeed*Time.deltaTime);
+                if(timer >= clearAnimationTime+clearMoveOnlyTime)
                 {
-                    //16è„å¿
-                    if (i < dolls.Count)
-                    {
-                        dolls[i].SetActive(true);
-                        dolls[i].transform.parent = null;
-                        Vector3 p1Pos = Vector3.zero;
-                        Vector3 p2Pos = Vector3.zero;
-                        BezierCoordinate(this.transform.position, ref p1Pos, ref p2Pos, seePoint[i].transform.position);
-                        SuckedIntoBox(this.transform.position, p1Pos, p2Pos, seePoint[i].transform.position, i);
-                        dolls[i].transform.eulerAngles = new Vector3(0, 90, 0);
-                        if (shoot == true)
-                        {
-                            i += 1;
-                            shoot = false;
-                            time = 0.0f;
-                        }
-                    }
-                    else
-                    {
-                        endScene.SetActive(true);
-                        endUI.SetActive(true);
-                    }
+                    WhiteOut();
                 }
             }
+            
         }
         else if (bossIn == false && GameObject.Find("Timer").GetComponent<GameTimer>().countdown <= 0)
         {
-            StartFadeOut();
+            BlackOut();
         }
     }
     //à√Ç≠Ç∑ÇÈ
-    void StartFadeOut()
+    void BlackOut()
     {
-        fadeImage.enabled = true;
-        alfa += Time.deltaTime * fadeSpeed;
-        SetAlpha();
-        if (alfa >= 1)
+        failedFadeImage.enabled = true;
+        failedAlfa += Time.deltaTime * fadeSpeed;
+        SetAlpha(failedFadeImage,failedRed,failedGreen,failedBlue,failedAlfa);
+        if (failedAlfa >= 1)
         {
-            if (bossIn)
-            {
-                isFadeOut = true;
-                this.gameObject.transform.position = clearSaveBoxPos.position;
-                playerController.transform.position = endPosition.transform.position;
-                playerController.transform.LookAt(this.transform.position);
-                GameObject.Find("ClearScene").GetComponent<ClearScene>().ClearScenePos();
-                //Ç∆ÇËÇ†Ç¶Ç∏
-                PlayerPrefs.SetInt("dollCount", dolls.Count);
-                SceneManager.LoadScene("Result");
-            }
-            else
                 SceneManager.LoadScene("GameOver");
         }
 
     }
-    void StartFadeIn()
+    //ñæÇÈÇ≠Ç∑ÇÈ
+    void WhiteOut()
     {
-        alfa -= Time.deltaTime * fadeSpeed;
-        SetAlpha();
-        if (alfa <= 0)
-        {
-            beginCount = true;
+        clearFadeImage.enabled = true;
+        clearAlfa += Time.deltaTime * fadeSpeed;
+        SetAlpha(clearFadeImage, clearRed, clearGreen, clearBlue, clearAlfa);
+        if (clearAlfa >= 1)
+        {  
+                PlayerPrefs.SetInt("dollCount", dolls.Count);
+                SceneManager.LoadScene("Result");
         }
 
     }
-    void SetAlpha()
+    void SetAlpha(Image fadeImage,float red, float green, float blue, float alfa)
     {
         fadeImage.color = new Color(red, green, blue, alfa);
     }
@@ -184,77 +153,5 @@ public class DollSave : MonoBehaviour
             within = false;
         }
     }
-
-
-    private void BezierCoordinate(Vector3 startPos, ref Vector3 p1, ref Vector3 p2, Vector3 endPos)
-    {
-        //p1 = new Vector3((startPos.x + ((startPos.x + endPos.x) / 2.0f)) / 2.0f, 6.0f, (startPos.z + ((startPos.z + endPos.z) / 2.0f)) / 2.0f);
-        //p2 = new Vector3((endPos.x + ((startPos.x + endPos.x) / 2.0f)) / 2.0f, 6.0f, (endPos.z + ((startPos.z + endPos.z) / 2.0f)) / 2.0f);
-        //p1 = new Vector3(((startPos.x + endPos.x) / 2.0f), 6.0f, ((startPos.z + endPos.z) / 2.0f));
-        //p2 = new Vector3(((startPos.x + endPos.x) / 2.0f), 6.0f, ((startPos.z + endPos.z) / 2.0f));
-        //p1 = new Vector3((endPos.x + ((startPos.x + endPos.x) / 2.0f)) / 2.0f, 4.0f, (endPos.z + ((startPos.z + endPos.z) / 2.0f)) / 2.0f);
-        //p1 = new Vector3(player.transform.position.x, 10.0f, player.transform.position.z);
-        //p2 = new Vector3(player.transform.position.x, 10.0f, player.transform.position.z);
-        p1 = new Vector3(0.0f, 6.0f, 0.0f);
-        p2 = new Vector3(0.0f, 6.0f, 0.0f);
-    }
-
-    public void SuckedIntoBox(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, int i)
-    {
-
-        Vector3 b0 = Vector3.zero;
-        Vector3 b1 = Vector3.zero;
-        Vector3 b2 = Vector3.zero;
-        Vector3 b3 = Vector3.zero;
-        float ax = 0.0f, ay = 0.0f, az = 0.0f;
-        float bx = 0.0f, by = 0.0f, bz = 0.0f;
-        float cx = 0.0f, cy = 0.0f, cz = 0.0f;
-        Vector3 vec = GetPointAtTime(time, ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz,
-                                   ref p0, ref p1, ref p2, ref p3, ref b0, ref b1, ref b2, ref b3);
-        dolls[i].transform.position = vec;
-        time += Time.deltaTime;
-        if (time > 1.0f)
-        {
-            shoot = true;
-        }
-    }
-
-    private Vector3 GetPointAtTime(float t, ref float ax, ref float ay, ref float az, ref float bx, ref float by, ref float bz, ref float cx, ref float cy, ref float cz,
-                                   ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 b0, ref Vector3 b1, ref Vector3 b2, ref Vector3 b3)
-    {
-        CheckConstant(ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz, ref p0, ref p1, ref p2, ref p3, ref b0, ref b1, ref b2, ref b3);
-        float t2 = t * t;
-        float t3 = t * t * t;
-        float x = ax * t3 + bx * t2 + cx * t + p0.x;
-        float y = ay * t3 + by * t2 + cy * t + p0.y;
-        float z = az * t3 + bz * t2 + cz * t + p0.z;
-        return new Vector3(x, y, z);
-    }
-
-    private void SetConstant(ref float ax, ref float ay, ref float az, ref float bx, ref float by, ref float bz, ref float cx, ref float cy, ref float cz, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
-    {
-        cx = 3.0f * ((p0.x + p1.x) - p0.x);
-        bx = 3.0f * ((p3.x + p2.x) - (p0.x + p1.x)) - cx;
-        ax = p3.x - p0.x - cx - bx;
-        cy = 3.0f * ((p0.y + p1.y) - p0.y);
-        by = 3.0f * ((p3.y + p2.y) - (p0.y + p1.y)) - cy;
-        ay = p3.y - p0.y - cy - by;
-        cz = 3.0f * ((p0.z + p1.z) - p0.z);
-        bz = 3.0f * ((p3.z + p2.z) - (p0.z + p1.z)) - cz;
-        az = p3.z - p0.z - cz - bz;
-
-    }
-
-    private void CheckConstant(ref float ax, ref float ay, ref float az, ref float bx, ref float by, ref float bz, ref float cx, ref float cy, ref float cz,
-                               ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 b0, ref Vector3 b1, ref Vector3 b2, ref Vector3 b3)
-    {
-        if (p0 != b0 || p1 != b1 || p2 != b2 || p3 != b3)
-        {
-            SetConstant(ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz, p0, p1, p2, p3);
-            b0 = p0;
-            b1 = p1;
-            b2 = p2;
-            b3 = p3;
-        }
-    }
+   
 }
