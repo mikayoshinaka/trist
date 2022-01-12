@@ -5,6 +5,14 @@ using Cinemachine;
 
 public class GameStateManager : MonoBehaviour
 {
+    public enum Stage
+    {
+        stage1,
+        stage2
+    }
+    [Header("Stage")]
+    public Stage stage;
+
     [Header("Cameras")]
     [SerializeField] private GameObject cameras;
     [SerializeField] private GameObject zoomOutCamera;
@@ -26,6 +34,7 @@ public class GameStateManager : MonoBehaviour
    
     [Header("Enemies")]
     [SerializeField] private EnemiesManager enemiesManager;
+    [SerializeField] private DonyoriManager donyoriManager;
 
     [Header("Maze")]
     [SerializeField] private CollectBoxPost collectBoxPost;
@@ -60,6 +69,10 @@ public class GameStateManager : MonoBehaviour
         seeThrough = playerController.GetComponent<SeeThrough>();
        
         enemiesManager = GameObject.Find("Enemies").GetComponent<EnemiesManager>();
+        if (stage == Stage.stage2)
+        {
+            donyoriManager = GameObject.Find("DonyoriEnemies").GetComponent<DonyoriManager>();
+        }
 
         collectBoxPost = GameObject.Find("Maze").transform.Find("SaveBox").GetComponent<CollectBoxPost>();
         mazeAssignment = GameObject.Find("Maze").GetComponent<MazeAssignment>();
@@ -118,6 +131,12 @@ public class GameStateManager : MonoBehaviour
         enemiesManager.RespawnEnemy();
         enemiesManager.SetMode(EnemiesManager.EnemyMode.Mode_Defensive);
         enemiesManager.ClearGimmick();
+
+        if (stage == Stage.stage2)
+        {
+            donyoriManager.SetMode(DonyoriManager.EnemyMode.Mode_Defensive);
+            donyoriManager.ClearGimmick();
+        }
 
         // 迷路
         mazeAssignment.FurnitureActive();
@@ -187,6 +206,11 @@ public class GameStateManager : MonoBehaviour
 
         // 敵
         enemiesManager.SetMode(EnemiesManager.EnemyMode.Mode_Offensive);
+
+        if (stage == Stage.stage2)
+        {
+            donyoriManager.SetMode(DonyoriManager.EnemyMode.Mode_Offensive);
+        }
     }
 
     #endregion

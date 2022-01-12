@@ -242,7 +242,10 @@ public class MazeAssignment : MonoBehaviour
 
         if (furniture != null && enemy != null)
         {
-            enemy.GetComponent<EnemyBehaviour>().MazeGimmick(furniture, targetPos, furnitureMask);
+            if (enemy.tag == "NormalGhost")
+            {
+                enemy.GetComponent<EnemyBehaviour>().MazeGimmick(furniture, targetPos, furnitureMask);
+            }
         }
     }
 

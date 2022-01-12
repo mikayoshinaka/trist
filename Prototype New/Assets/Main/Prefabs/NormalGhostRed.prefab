@@ -454,11 +454,11 @@ GameObject:
   - component: {fileID: 8674091978676757805}
   m_Layer: 0
   m_Name: NormalGhostRed
-  m_TagString: Enemy
+  m_TagString: NormalGhost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6649389007839900822
 Transform:
   m_ObjectHideFlags: 0

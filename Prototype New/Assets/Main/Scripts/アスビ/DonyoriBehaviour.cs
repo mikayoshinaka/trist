@@ -1,12 +1,12 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBehaviour : MonoBehaviour
+public class DonyoriBehaviour : MonoBehaviour
 {
     public static Transform player;
-    [SerializeField] EnemiesManager enemiesManager;
+    [SerializeField] DonyoriManager donyoriManager;
     [SerializeField] GameObject enemy;
     [SerializeField] GameObject enemyBody;
     [SerializeField] EnemySight enemySight;
@@ -16,7 +16,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] GameObject enemyAura;
     [SerializeField] GhostCatch ghostCatch;
 
-    [Header("å½“ãŸã‚Šåˆ¤å®š")]
+    [Header("“–‚½‚è”»’è")]
     [SerializeField] float patrolRange = 10f;
     public static float sightRange = 7.5f;
     public static float attackRange = 1.5f;
@@ -52,7 +52,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("PlayerController").transform;
-        enemiesManager = transform.parent.GetComponent<EnemiesManager>();
+        donyoriManager = transform.parent.GetComponent<DonyoriManager>();
         enemy = this.gameObject;
         enemyBody = enemy.transform.Find("EnemyBody").gameObject;
         enemySight = GetComponent<EnemySight>();
@@ -62,10 +62,10 @@ public class EnemyBehaviour : MonoBehaviour
         stageMask = LayerMask.GetMask("Stages");
         upstageMask = LayerMask.GetMask("UpStages");
 
-        agent.speed = enemiesManager.speed;
-        patrolRange = enemiesManager.patrolRange;
-        sightRange = enemiesManager.sightRange;
-        attackRange = enemiesManager.attackRange;
+        agent.speed = donyoriManager.speed;
+        patrolRange = donyoriManager.patrolRange;
+        sightRange = donyoriManager.sightRange;
+        attackRange = donyoriManager.attackRange;
 
         enemyAnimator = enemyBody.GetComponent<Animator>();
         enemyCanvas = enemy.transform.Find("EnemyCanvas").gameObject;
@@ -80,13 +80,13 @@ public class EnemyBehaviour : MonoBehaviour
         //enableGizmos = true;
     }
 
-    void Update()
+     void Update()
     {
-        // å½“ãŸã‚Šåˆ¤å®š
-        // ç´¢æ•µåˆ¤å®š
+        // “–‚½‚è”»’è
+        // õ“G”»’è
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange * chaseRange, playerMask);
 
-        // æ”»æ’ƒåˆ¤å®š
+        // UŒ‚”»’è
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
         if (gimmickAction)
@@ -95,51 +95,51 @@ public class EnemyBehaviour : MonoBehaviour
         }
         else if (mazeGimmick)
         {
-            // è¿·è·¯
-            MazeUpdate();
+            // –À˜H
+            //MazeUpdate();
         }
         else if (moveAway)
         {
-            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰é€ƒã’ã‚‹
+            // ƒvƒŒƒCƒ„[‚©‚ç“¦‚°‚é
             MoveAway();
         }
         else
         {
-            // è‡ªç”±ç§»å‹•
+            // ©—RˆÚ“®
             Patrol();
 
-            // ç´¢æ•µ
+            // õ“G
             Locate();
 
-            // æ”»æ’ƒ
+            // UŒ‚
             Action();
         }
     }
 
-    // æ•µã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼èª¿æ•´
+    // “G‚Ìƒpƒ‰ƒ[ƒ^[’²®
     void ActionAdjustment()
     {
-        // ãƒãƒ¼ãƒãƒ«ã‚¹ãƒ”ãƒ¼ãƒ‰
+        // ƒm[ƒ}ƒ‹ƒXƒs[ƒh
         if (enemyState == EnemyState.Patrol)
         {
             chasing = false;
-            agent.speed = enemiesManager.speed;
+            agent.speed = donyoriManager.speed;
             chaseRange = 1f;
             enemySight.chaseAngle = 1f;
         }
-        // ã‚¹ãƒ”ãƒ¼ãƒ‰ä¸ŠãŒã‚‹
+        // ƒXƒs[ƒhã‚ª‚é
         else if (enemyState == EnemyState.Locate)
         {
             chasing = true;
-            agent.speed = enemiesManager.chaseSpeed;
+            agent.speed = donyoriManager.chaseSpeed;
             chaseRange = 2f;
             enemySight.chaseAngle = 3f;
         }
     }
 
-    #region è‡ªç”±ç§»å‹•
+    #region ©—RˆÚ“®
 
-    // è¨­å®š
+    // İ’è
     void Patrol()
     {
         if ((!playerInSightRange && !playerInAttackRange) || !enemySight.detected)
@@ -171,7 +171,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    // ç§»å‹•è¨­å®š
+    // ˆÚ“®İ’è
     void SetPatrol()
     {
         float pointX = Random.Range(-patrolRange, patrolRange);
@@ -191,7 +191,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    // ç§»å‹•å¤‰æ›´ã‚¿ã‚¤ãƒãƒ¼
+    // ˆÚ“®•ÏXƒ^ƒCƒ}[
     Coroutine patrolling;
     IEnumerator Patrolling()
     {
@@ -201,9 +201,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     #endregion
 
-    #region ç´¢æ•µ
+    #region õ“G
 
-    // è¨­å®š
+    // İ’è
     void Locate()
     {
         if (playerInSightRange && !playerInAttackRange)
@@ -216,13 +216,13 @@ public class EnemyBehaviour : MonoBehaviour
                     enemyState = EnemyState.Locate;
                 }
 
-                if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
+                if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Defensive)
                 {
                     Runaway(3f);
                 }
-                else if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
+                else if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Offensive)
                 {
-                    Chase();
+                    // Chase();
                 }
             }
         }
@@ -232,7 +232,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½ã„ã‹ã‘ã‚‹
+    // ƒvƒŒƒCƒ„[‚ğ’Ç‚¢‚©‚¯‚é
     void Chase()
     {
         if (!chasing)
@@ -268,9 +268,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     #endregion
 
-    #region æ”»æ’ƒ
+    #region UŒ‚
 
-    // è¨­å®š
+    // İ’è
     void Action()
     {
         if (playerInSightRange && playerInAttackRange)
@@ -280,43 +280,43 @@ public class EnemyBehaviour : MonoBehaviour
                 enemyState = EnemyState.Attack;
             }
 
-            if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
+            if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Defensive)
             {
                 Defense();
             }
-            else if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
+            else if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Offensive)
             {
-                Offense();
+                // Offense();
             }
         }   
     }
 
-    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨å½“ãŸã£ãŸæ™‚ã«é€ƒã’ã‚‹
+    // ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½‚É“¦‚°‚é
     void Defense()
     {
         Runaway(3f);
     }
 
-    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æ”»æ’ƒã™ã‚‹ã‚®ãƒŸãƒƒã‚¯
+    // ƒvƒŒƒCƒ„[‚ğUŒ‚‚·‚éƒMƒ~ƒbƒN
     void Offense()
     {
 
         //
-        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨å½“ãŸã£ãŸæ™‚ //
+        // ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½ //
         if (ghostCatch.mode==GhostCatch.Mode.Carry) {
             ghostCatch.SetState(GhostCatch.Mode.Attacked);
         }
-        // ã“ã“ã«ã‚¹ãƒãƒ¼ãƒ³å‡¦ç†ã‚’å‘¼ã¶ //
+        // ‚±‚±‚ÉƒXƒ|[ƒ“ˆ—‚ğŒÄ‚Ô //
         // 
 
-        enemiesManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
+        donyoriManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
     }
 
     #endregion
 
-    #region é›¢ã‚Œã‚‹è¡Œå‹•
+    #region —£‚ê‚és“®
 
-    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰é€ƒã’ã‚‹
+    // ƒvƒŒƒCƒ„[‚©‚ç“¦‚°‚é
     void Runaway(float time)
     {
         if (!moveAway)
@@ -329,7 +329,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    // é€ƒã’ã‚‹ã‚¿ã‚¤ãƒãƒ¼
+    // “¦‚°‚éƒ^ƒCƒ}[
     Coroutine runningAway;
     IEnumerator RunningAway(float time)
     {
@@ -347,7 +347,7 @@ public class EnemyBehaviour : MonoBehaviour
         moveAway = false;
     }
 
-    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰é›¢ã‚Œã‚‹æ–¹å‘
+    // ƒvƒŒƒCƒ„[‚©‚ç—£‚ê‚é•ûŒü
     private Vector3 awayDirection;
     void SetAwayDirection()
     {
@@ -361,7 +361,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     #endregion
 
-    #region è‰²ã‚®ãƒŸãƒƒã‚¯
+    #region FƒMƒ~ƒbƒN
 
     #region Dark Red
     public void Gimmick_DarkRed()
@@ -508,7 +508,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         float timer = 0f;
         float timeLimit = 5f;
-        agent.speed = enemiesManager.chaseSpeed * 2f;
+        agent.speed = donyoriManager.chaseSpeed * 2f;
         while (timer < timeLimit)
         {
             float distance = Vector3.Distance(transform.position, target.transform.position);
@@ -520,7 +520,7 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 // Temporary
                 enemyAnimator.SetBool("Surprised", true);
-                agent.speed = enemiesManager.speed;
+                agent.speed = donyoriManager.speed;
                 agent.isStopped = true;
                 if (target.tag == "NormalGhost")
                 {
@@ -530,6 +530,7 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     target.GetComponent<DonyoriBehaviour>().Gimmick_DarkRed();
                 }
+
                 player.GetComponent<ColorAction>().colorAct_Green.RemoveTarget(target);
 
                 Destroy(transform.Find("PossessAura(Clone)").gameObject);
@@ -549,286 +550,4 @@ public class EnemyBehaviour : MonoBehaviour
 
     #endregion
 
-    #region è¿·è·¯ã‚®ãƒŸãƒƒã‚¯
-
-    enum MazeGimmickState
-    {
-        None,
-        Gather,
-        Pickup,
-        Transfer,
-        Throw
-    }
-    [SerializeField] MazeGimmickState mazeGimmickState = MazeGimmickState.None;
-
-    enum MazeFurnitureType
-    {
-        Bookstand,
-        Chair,
-        Desk
-    }
-    MazeFurnitureType mazeFurnitureType;
-
-    GameObject targetFurniture;
-    GameObject targetObj;
-    Vector3 targetPos;
-    float throwRange;
-    List<Vector3> trajectory = new List<Vector3>();
-
-    // è¿·è·¯é–‹å§‹
-    public void MazeGimmick(GameObject furniture, GameObject targetPos, LayerMask mask)
-    {
-        if (mask == LayerMask.GetMask("Bookstand"))
-        {
-            mazeFurnitureType = MazeFurnitureType.Bookstand;
-            throwRange = 5f;
-            agent.speed = enemiesManager.chaseSpeed * 5f;
-        }
-        else if (mask == LayerMask.GetMask("Chair"))
-        {
-            mazeFurnitureType = MazeFurnitureType.Chair;
-            throwRange = 15f;
-            agent.speed = enemiesManager.chaseSpeed;
-        }
-        else if (mask == LayerMask.GetMask("Desk"))
-        {
-            mazeFurnitureType = MazeFurnitureType.Desk;
-            throwRange = 5f;
-            agent.speed = enemiesManager.chaseSpeed * 5.5f;
-        }
-        agent.angularSpeed = enemiesManager.angularSpeed * 2;
-        agent.acceleration = 30;
-
-        mazeGimmick = true;
-        mazeGimmickState = MazeGimmickState.Gather;
-        targetFurniture = furniture;
-        targetObj = targetPos;
-    }
-
-    // è¿·è·¯ã®Update()
-    void MazeUpdate()
-    {
-        // è¿·è·¯ã‚®ãƒŸãƒƒã‚¯
-        if (mazeGimmickState == MazeGimmickState.None)
-        {
-            // ãªã—
-        }
-        else if (mazeGimmickState == MazeGimmickState.Gather)
-        {
-            MazeGimmick_Move(targetFurniture);
-        }
-        else if (mazeGimmickState == MazeGimmickState.Pickup)
-        {
-            MazeGimmick_Pickup();
-        }
-        else if (mazeGimmickState == MazeGimmickState.Transfer)
-        {
-            MazeGimmick_Move(targetObj);
-        }
-    }
-
-    // ç§»å‹•å‡¦ç†ã€å®¶å…·ã‚’æ¢ã™ã¨æŒã£ã¦ã„ã‚‹å‡¦ç†
-    void MazeGimmick_Move(GameObject target)
-    {
-        float distance = Vector3.Distance(transform.position, target.transform.position);
-        if (mazeGimmickState == MazeGimmickState.Gather && distance > 5f)
-        {
-            agent.SetDestination(target.transform.position);
-        }
-        else if (mazeGimmickState == MazeGimmickState.Transfer && distance > throwRange)
-        {
-            agent.SetDestination(target.transform.position);
-        }
-        else
-        {
-            agent.isStopped = true;
-            if (mazeGimmickState == MazeGimmickState.Gather)
-            {
-                mazeGimmickState = MazeGimmickState.Pickup;
-            }
-            else if (mazeGimmickState == MazeGimmickState.Transfer)
-            {
-                mazeGimmickState = MazeGimmickState.Throw;
-                targetFurniture.transform.rotation = target.transform.rotation;
-                if (mazeFurnitureType == MazeFurnitureType.Bookstand)
-                {
-                    targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Bookstands"));
-                    targetPos = target.transform.position;
-                }
-                else if (mazeFurnitureType == MazeFurnitureType.Desk)
-                {
-                    targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Desks"));
-                    targetPos = target.transform.position;
-                }
-                else if (mazeFurnitureType == MazeFurnitureType.Chair)
-                {
-                    targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Chairs"));
-                    targetPos = player.transform.position;
-                    targetPos += new Vector3(0, 1f, 0);
-                }
-
-                ThrowTrajectory();
-                if (GimmickThrow != null)
-                {
-                    StopCoroutine(GimmickThrow);
-                }
-                GimmickThrow = StartCoroutine(MazeGimmick_Throw());
-            }
-        }
-    }
-
-    // å®¶å…·ã‚’å–ã‚‹å‡¦ç†
-    void MazeGimmick_Pickup()
-    {
-        Vector3 currentPos = targetFurniture.transform.position;
-        Vector3 pickupSpot = transform.Find("PickupSpot").transform.position;
-        targetFurniture.transform.position = Vector3.MoveTowards(currentPos, pickupSpot, 10f * Time.deltaTime);
-        float distance = Vector3.Distance(targetFurniture.transform.position, pickupSpot);
-        if (distance < 0.1f)
-        {
-            targetFurniture.transform.position = pickupSpot;
-            targetFurniture.transform.SetParent(this.transform);
-            agent.isStopped = false;
-
-            mazeGimmickState = MazeGimmickState.Transfer;
-            if (mazeFurnitureType == MazeFurnitureType.Chair)
-            {
-                targetObj = player.gameObject;   
-            }
-
-            if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
-            {
-                targetFurniture.transform.Find("Navmesh").gameObject.SetActive(true);
-                NavMeshSurface surface = GameObject.Find("NavMeshPlayer").GetComponent<NavMeshSurface>();
-                surface.BuildNavMesh();
-            }
-        }
-    }
-
-    // å®¶å…·ã‚’æŠ•ã’ã‚‹å¼¾é“
-    void ThrowTrajectory()
-    {
-        trajectory.Clear();
-        Vector3 origin = transform.position;
-        Vector3 target = targetPos;
-        Vector3 peak = (origin + target) / 2;
-        float height = Vector3.Distance(origin, target);
-        peak += new Vector3(0, height / 1.5f, 0);
-
-        for (float ratio = 0; ratio <= 1; ratio += 1f / 5)
-        {
-            Vector3 pointA = Vector3.Lerp(origin, peak, ratio);
-            Vector3 pointB = Vector3.Lerp(peak, target, ratio);
-            Vector3 bezierPoint = Vector3.Lerp(pointA, pointB, ratio);
-            trajectory.Add(bezierPoint);
-        }
-    }
-
-    // æŠ•ã’ã‚‹å‡¦ç†
-    Coroutine GimmickThrow;
-    IEnumerator MazeGimmick_Throw()
-    {
-        Vector3[] trajectoryPoint = trajectory.ToArray();
-        int point = 1;
-
-        while (point < trajectoryPoint.Length)
-        {
-            Vector3 currentPos = targetFurniture.transform.position;
-            targetFurniture.transform.position = Vector3.MoveTowards(currentPos, trajectoryPoint[point], 10f * Time.deltaTime);
-            float distance = Vector3.Distance(targetFurniture.transform.position, trajectoryPoint[point]);
-            if (distance < 0.1f)
-            {
-                point++;
-            }
-            yield return null;
-        }
-
-        if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
-        {
-            if (mazeFurnitureType == MazeFurnitureType.Chair)
-            {
-                bool hit = Physics.CheckSphere(trajectoryPoint[trajectoryPoint.Length - 1], 2f, playerMask);
-
-                if (hit && ghostCatch.mode == GhostCatch.Mode.Carry)
-                {
-                    ghostCatch.SetState(GhostCatch.Mode.Attacked);
-                    enemiesManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
-                }
-            }
-        }
-
-        targetFurniture.transform.position = targetPos;
-        agent.isStopped = false;
-        agent.speed = enemiesManager.speed;
-        agent.angularSpeed = enemiesManager.angularSpeed;
-        agent.acceleration = enemiesManager.accelSpeed;
-
-        if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Offensive)
-        {
-            targetFurniture.transform.Find("Navmesh").gameObject.SetActive(true);
-            NavMeshSurface surface = GameObject.Find("NavMeshPlayer").GetComponent<NavMeshSurface>();
-            surface.BuildNavMesh();
-        }
-
-        // çµ‚äº†
-        mazeGimmickState = MazeGimmickState.None;
-        mazeGimmick = false;
-        targetFurniture = null;
-        targetObj = null;
-        trajectory.Clear();
-
-        // ä»®ãƒã‚°ä¿®æ­£
-        patrolSet = false;
-    }
-
-    public void ClearMazeAction()
-    {
-        if (mazeGimmickState == MazeGimmickState.Throw)
-        {
-            return;
-        }
-
-        if (mazeFurnitureType == MazeFurnitureType.Bookstand)
-        {
-            targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Bookstands"));
-        }
-        else if (mazeFurnitureType == MazeFurnitureType.Desk)
-        {
-            targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Desks"));
-        }
-        else if (mazeFurnitureType == MazeFurnitureType.Chair)
-        {
-            targetFurniture.transform.SetParent(GameObject.Find("Furnitures").transform.Find("Chairs"));
-        }
-
-        targetFurniture.transform.position -= new Vector3(0, 1.5f, 0);
-
-        agent.isStopped = false;
-        agent.speed = enemiesManager.speed;
-        agent.angularSpeed = enemiesManager.angularSpeed;
-        agent.acceleration = enemiesManager.accelSpeed;
-
-        mazeGimmickState = MazeGimmickState.None;
-        mazeGimmick = false;
-        targetFurniture = null;
-        targetObj = null;
-        trajectory.Clear();
-    }
-
-    #endregion
-
-    private void OnDrawGizmos()
-    {
-        if (enableGizmos)
-        {
-            Gizmos.color = Color.grey;
-            Gizmos.DrawWireSphere(transform.position, patrolRange);
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, sightRange * chaseRange);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackRange);
-        }
-    }
 }

@@ -97,14 +97,28 @@ public class ColorAct_Green : ColorActState
         for (int i = 0; i < numColliders; i++)
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            if (!enemy.GetComponent<EnemyBehaviour>().mazeGimmick && !enemy.GetComponent<EnemyBehaviour>().gimmickAction && !possessList.Contains(enemy) && !targetList.Contains(enemy))
+            if (enemy.tag == "NormalGhost")
             {
-                enemy.GetComponent<EnemyBehaviour>().Gimmick_Green(false, null);
-                possessList.Add(enemy);
+                if (!enemy.GetComponent<EnemyBehaviour>().mazeGimmick && !enemy.GetComponent<EnemyBehaviour>().gimmickAction && !possessList.Contains(enemy) && !targetList.Contains(enemy))
+                {
+                    enemy.GetComponent<EnemyBehaviour>().Gimmick_Green(false, null);
+                    possessList.Add(enemy);
 
-                // エフェクト
-                MonoBehaviour.Instantiate(colorActionObjects.possessAura, enemy.transform.position, enemy.transform.rotation, enemy.transform);
-            }            
+                    // エフェクト
+                    MonoBehaviour.Instantiate(colorActionObjects.possessAura, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+                }
+            }
+            else if (enemy.tag == "DonyoriGhost")
+            {
+                if (!enemy.GetComponent<DonyoriBehaviour>().mazeGimmick && !enemy.GetComponent<DonyoriBehaviour>().gimmickAction && !possessList.Contains(enemy) && !targetList.Contains(enemy))
+                {
+                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_Green(false, null);
+                    possessList.Add(enemy);
+
+                    // エフェクト
+                    MonoBehaviour.Instantiate(colorActionObjects.possessAura, enemy.transform.position, enemy.transform.rotation, enemy.transform);
+                }
+            }       
         }        
     }
 
@@ -125,7 +139,14 @@ public class ColorAct_Green : ColorActState
             if (distance > 5f)
             {
                 Vector3 offset = new Vector3(Random.Range(-2, 4), 0, Random.Range(-2, 4));
-                enemy[i].GetComponent<EnemyBehaviour>().agent.SetDestination(colorAct.transform.position + offset);
+                if (enemy[i].tag == "NormalGhost")
+                {
+                    enemy[i].GetComponent<EnemyBehaviour>().agent.SetDestination(colorAct.transform.position + offset);
+                }
+                else if (enemy[i].tag == "DonyoriGhost")
+                {
+                    enemy[i].GetComponent<DonyoriBehaviour>().agent.SetDestination(colorAct.transform.position + offset);
+                }
             } 
         }
     }
@@ -141,10 +162,21 @@ public class ColorAct_Green : ColorActState
             if (possessList.Count > 0)
             {
                 GameObject enemy = hitColliders[i].transform.parent.gameObject;
-                if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction && !targetList.Contains(enemy))
+                if (enemy.tag == "NormalGhost")
                 {
-                    targetList.Add(enemy);
-                    HauntTarget(colorAct, enemy);
+                    if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction && !targetList.Contains(enemy))
+                    {
+                        targetList.Add(enemy);
+                        HauntTarget(colorAct, enemy);
+                    }
+                }
+                else if (enemy.tag == "DonyoriGhost")
+                {
+                    if (!enemy.GetComponent<DonyoriBehaviour>().gimmickAction && !targetList.Contains(enemy))
+                    {
+                        targetList.Add(enemy);
+                        HauntTarget(colorAct, enemy);
+                    }
                 }
             }
         }
@@ -153,7 +185,14 @@ public class ColorAct_Green : ColorActState
     private void HauntTarget(ColorAction colorAct, GameObject target)
     {
         GameObject[] haunter = possessList.ToArray();
-        haunter[0].GetComponent<EnemyBehaviour>().Gimmick_Green(true, target);
+        if (haunter[0].tag == "NormalGhost")
+        {
+            haunter[0].GetComponent<EnemyBehaviour>().Gimmick_Green(true, target);
+        }
+        else if (haunter[0].tag == "DonyoriGhost")
+        {
+            haunter[0].GetComponent<DonyoriBehaviour>().Gimmick_Green(true, target);
+        }
         possessList.Remove(haunter[0]);
     }
 

@@ -26,6 +26,8 @@ TagManager:
   - BossEarLeft
   - BossEarRight
   - Wall
+  - NormalGhost
+  - DonyoriGhost
   layers:
   - Default
   - TransparentFX

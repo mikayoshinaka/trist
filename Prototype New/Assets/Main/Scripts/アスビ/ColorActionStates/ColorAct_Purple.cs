@@ -203,7 +203,14 @@ public class ColorAct_Purple : ColorActState
         for (int i = 0; i < numColliders; i++)
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            enemy.GetComponent<EnemyBehaviour>().Gimmick_Purple();
+            if (enemy.tag == "NormalGhost")
+            {
+                enemy.GetComponent<EnemyBehaviour>().Gimmick_Purple();
+            }
+            else if (enemy.tag == "DonyoriGhost")
+            {
+                enemy.GetComponent<DonyoriBehaviour>().Gimmick_Purple();
+            }
 
             // エフェクト
             GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);

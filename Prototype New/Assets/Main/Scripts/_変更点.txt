@@ -125,3 +125,13 @@ EnemiesManager
 
 CollectBoxPost
  GameObject.Find("CameraArea").GetComponent<ShootCameraCanLookBox>().furniture.Clear();
+
+
+
+ ============	2022.1.12	================
+ 
+ 変更内容：
+ // どんよりお化け追加したため、タグの変更
+ 
+ - GhostCatch
+ (.tag == "Enemy")　を　(.tag == "NormalGhost" || .tag == "DonyoriGhost")に変更する

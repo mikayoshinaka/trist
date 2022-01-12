@@ -249,13 +249,29 @@ public class ColorAct_Orange : ColorActState
                 continue;
             }
 
-            if (enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+            if (enemy.tag == "NormalGhost")
             {
-                continue;
+                if (enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+                {
+                    continue;
+                }
             }
-
+            else if (enemy.tag == "DonyoriGhost")
+            {
+                if (enemy.GetComponent<DonyoriBehaviour>().gimmickAction)
+                {
+                    continue;
+                }
+            }
             enemyAnchor.Add(enemy);
-            enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+            if (enemy.tag == "NormalGhost")
+            {
+                enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+            }
+            else if (enemy.tag == "DonyoriGhost")
+            {
+                enemy.GetComponent<DonyoriBehaviour>().Gimmick_Orange();
+            }
 
             // エフェクト
             GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);
@@ -284,9 +300,20 @@ public class ColorAct_Orange : ColorActState
                 {
                     continue;
                 }
-                if (enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+
+                if (enemy.tag == "NormalGhost")
                 {
-                    continue;
+                    if (enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+                    {
+                        continue;
+                    }
+                }
+                else if (enemy.tag == "DonyoriGhost")
+                {
+                    if (enemy.GetComponent<DonyoriBehaviour>().gimmickAction)
+                    {
+                        continue;
+                    }
                 }
 
                 if (leapCount < 5)
@@ -302,7 +329,14 @@ public class ColorAct_Orange : ColorActState
                     zapLine.SetPosition(0, origin);
                     zapLine.SetPosition(1, target);
 
-                    enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+                    if (enemy.tag == "NormalGhost")
+                    {
+                        enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+                    }
+                    else if (enemy.tag == "DonyoriGhost")
+                    {
+                        enemy.GetComponent<DonyoriBehaviour>().Gimmick_Orange();
+                    }
 
                     // エフェクト
                     GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);

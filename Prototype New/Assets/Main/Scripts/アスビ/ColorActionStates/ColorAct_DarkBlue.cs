@@ -95,9 +95,16 @@ public class ColorAct_DarkBlue : ColorActState
         for (int i = 0; i < numColliders; i++)
         {
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
-            if (!enemy.GetComponent<EnemyBehaviour>().gimmickAction)
+            if ((enemy.tag == "NormalGhost" && !enemy.GetComponent<EnemyBehaviour>().gimmickAction) || (enemy.tag == "DonyoriGhost" && !enemy.GetComponent<DonyoriBehaviour>().gimmickAction))
             {
-                enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkBlue();
+                if (enemy.tag == "NormalGhost")
+                {
+                    enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkBlue();
+                }
+                else if (enemy.tag == "DonyoriGhost")
+                {
+                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_DarkBlue();
+                }
 
                 // エフェクト
                 GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);

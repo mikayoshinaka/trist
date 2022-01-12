@@ -123,7 +123,14 @@ public class ColorAct_DarkRed : ColorActState
                 enemyList.Add(enemy);
 
                 // 攻撃
-                enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+                if (enemy.tag == "NormalGhost")
+                {
+                    enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+                }
+                else if (enemy.tag == "DonyoriGhost")
+                {
+                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_DarkRed();
+                }
 
                 // エフェクト
                 GameObject effect = MonoBehaviour.Instantiate(colorActionObjects.colorHitEffect, enemy.transform.position, enemy.transform.rotation, enemy.transform);

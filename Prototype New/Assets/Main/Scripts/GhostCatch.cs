@@ -307,7 +307,15 @@ public class GhostCatch : MonoBehaviour
             {
                 if (!caughtObj.Contains(enemy[i]))
                 {
-                    enemy[i].GetComponent<EnemyBehaviour>().enabled = false;
+                    if (enemy[i].tag == "NormalGhost")
+                    {
+                        enemy[i].GetComponent<EnemyBehaviour>().enabled = false;
+                    }
+                    else if (enemy[i].tag == "DonyoriGhost")
+                    {
+                        enemy[i].GetComponent<DonyoriBehaviour>().enabled = false;
+                    }
+                    
                     enemy[i].transform.parent = player.transform;
                     caughtObj.Add(enemy[i]);
                     audioSource.PlayOneShot(grabSE);
@@ -328,7 +336,15 @@ public class GhostCatch : MonoBehaviour
             {
                 if (!caughtObj.Contains(enemy[i]))
                 {
-                    enemy[i].GetComponent<EnemyBehaviour>().enabled = false;
+                    if (enemy[i].tag == "NormalGhost")
+                    {
+                        enemy[i].GetComponent<EnemyBehaviour>().enabled = false;
+                    }
+                    else if (enemy[i].tag == "DonyoriGhost")
+                    {
+                        enemy[i].GetComponent<DonyoriBehaviour>().enabled = false;
+                    }
+                    
                     enemy[i].transform.parent = player.transform;
                     caughtObj.Add(enemy[i]);
                     audioSource.PlayOneShot(grabSE);
@@ -976,7 +992,7 @@ public class GhostCatch : MonoBehaviour
     {
         for (int i = 0; i < caughtObj.Count; i++)
         {
-            if (caughtObj[i].tag == "Enemy")
+            if (caughtObj[i].tag == "NormalGhost" || caughtObj[i].tag == "DonyoriGhost")
             {
                 if (caughtObj[i].GetComponent<NavMeshAgent>().isActiveAndEnabled)
                 {
@@ -997,9 +1013,17 @@ public class GhostCatch : MonoBehaviour
     //捕まえたものを動けるようにする
     public void CaughtObjMoveable(GameObject enemy)
     {
-        if (enemy.tag == "Enemy")
+        if (enemy.tag == "NormalGhost" || enemy.tag == "DonyoriGhost")
         {
-            enemy.GetComponent<EnemyBehaviour>().enabled = true;
+            if (enemy.tag == "NormalGhost")
+            {
+                enemy.GetComponent<EnemyBehaviour>().enabled = true;
+            }
+            else if (enemy.tag == "DonyoriGhost")
+            {
+                enemy.GetComponent<DonyoriBehaviour>().enabled = true;
+            }
+            
             enemy.GetComponent<NavMeshAgent>().isStopped = false;
             enemy.transform.parent = GameObject.Find("Enemies").transform;
         }
@@ -1033,7 +1057,7 @@ public class GhostCatch : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "NormalGhost" || other.tag == "DonyoriGhost")
         {
             Debug.Log("hit");
             if (!enemy.Contains(other.gameObject))
@@ -1057,7 +1081,7 @@ public class GhostCatch : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "NormalGhost" || other.tag == "DonyoriGhost")
         {
             if (enemy.Contains(other.gameObject))
             {
