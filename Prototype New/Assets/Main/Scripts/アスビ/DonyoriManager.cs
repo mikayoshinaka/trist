@@ -28,6 +28,9 @@ public class DonyoriManager : MonoBehaviour
     public float sightRange = 8f;
     public float attackRange = 1.5f;
 
+    [Header("Possession")]
+    public List<GameObject> possession = new List<GameObject>();
+
     [Header("Respawn")]
     public int respawnAmount = 20;
     public GameObject enemySpawner;
@@ -55,6 +58,7 @@ public class DonyoriManager : MonoBehaviour
             for (int i = 0; i < transform.childCount; i++)
             {
                 Transform child = transform.GetChild(i);
+                child.GetComponent<DonyoriBehaviour>().DonyoriReset();
                 if (child.GetComponent<DonyoriBehaviour>().gimmickAction)
                 {
                     child.GetComponent<DonyoriBehaviour>().gimmickAction = false;

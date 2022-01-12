@@ -413,7 +413,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
     #endregion
 
-    #region DarkYellow
+    #region Dark Yellow
     public void Gimmick_DarkYellow()
     {
         gimmickAction = true;

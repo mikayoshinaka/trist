@@ -12,7 +12,6 @@ public class DonyoriBehaviour : MonoBehaviour
     [SerializeField] EnemySight enemySight;
     public NavMeshAgent agent;
     [SerializeField] Animator enemyAnimator;
-    [SerializeField] GameObject enemyCanvas;
     [SerializeField] GameObject enemyAura;
     [SerializeField] GhostCatch ghostCatch;
 
@@ -23,6 +22,7 @@ public class DonyoriBehaviour : MonoBehaviour
     [SerializeField] LayerMask playerMask;
     [SerializeField] LayerMask stageMask;
     [SerializeField] LayerMask upstageMask;
+    [SerializeField] LayerMask bookstandMask;
     public bool playerInSightRange, playerInAttackRange;
 
     private enum EnemyState
@@ -36,13 +36,16 @@ public class DonyoriBehaviour : MonoBehaviour
     [Header("Patrol")]
     [SerializeField] Vector3 patrolPoint;
     [SerializeField] bool patrolSet;
+    [SerializeField] bool searchSet;
 
     [Header("Locate")]
     [SerializeField] bool moveAway;
-    private bool chasing;
+    [SerializeField] bool standby;
+    [SerializeField] bool cooldown;
     private float chaseRange = 1f;
 
     [Header("Gimmick")]
+    [SerializeField] GameObject targetPossession;
     public bool gimmickAction;
     public bool mazeGimmick;
 
@@ -61,6 +64,7 @@ public class DonyoriBehaviour : MonoBehaviour
         playerMask = LayerMask.GetMask("PlayerTrigger");
         stageMask = LayerMask.GetMask("Stages");
         upstageMask = LayerMask.GetMask("UpStages");
+        bookstandMask = LayerMask.GetMask("Bookstand");
 
         agent.speed = donyoriManager.speed;
         patrolRange = donyoriManager.patrolRange;
@@ -68,19 +72,21 @@ public class DonyoriBehaviour : MonoBehaviour
         attackRange = donyoriManager.attackRange;
 
         enemyAnimator = enemyBody.GetComponent<Animator>();
-        enemyCanvas = enemy.transform.Find("EnemyCanvas").gameObject;
         enemyAura = enemy.transform.Find("EnemyAura").gameObject;
         ghostCatch = player.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
 
         enemyState = EnemyState.Patrol;
         patrolSet = false;
+        searchSet = false;
         moveAway = false;
+        standby = false;
+        cooldown = false;
         gimmickAction = false;
         mazeGimmick = false;
         //enableGizmos = true;
     }
 
-     void Update()
+    void Update()
     {
         // 当たり判定
         // 索敵判定
@@ -93,15 +99,18 @@ public class DonyoriBehaviour : MonoBehaviour
         {
             // Gimmick_Update();
         }
-        else if (mazeGimmick)
-        {
-            // 迷路
-            //MazeUpdate();
-        }
         else if (moveAway)
         {
             // プレイヤーから逃げる
             MoveAway();
+        }
+        else if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Offensive)
+        {
+            // 家具を探す
+            SearchObject();
+
+            // 家具をとりつく
+            Possessing();
         }
         else
         {
@@ -122,7 +131,6 @@ public class DonyoriBehaviour : MonoBehaviour
         // ノーマルスピード
         if (enemyState == EnemyState.Patrol)
         {
-            chasing = false;
             agent.speed = donyoriManager.speed;
             chaseRange = 1f;
             enemySight.chaseAngle = 1f;
@@ -130,7 +138,6 @@ public class DonyoriBehaviour : MonoBehaviour
         // スピード上がる
         else if (enemyState == EnemyState.Locate)
         {
-            chasing = true;
             agent.speed = donyoriManager.chaseSpeed;
             chaseRange = 2f;
             enemySight.chaseAngle = 3f;
@@ -148,6 +155,10 @@ public class DonyoriBehaviour : MonoBehaviour
             {
                 enemyState = EnemyState.Patrol;
                 ActionAdjustment();
+                if (agent.isStopped)
+                {
+                    agent.isStopped = false;
+                }
                 enemyAnimator.SetBool("Running", false);
                 if (enemyAura.activeInHierarchy)
                 {
@@ -220,49 +231,11 @@ public class DonyoriBehaviour : MonoBehaviour
                 {
                     Runaway(3f);
                 }
-                else if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Offensive)
-                {
-                    // Chase();
-                }
             }
         }
         else if (enemySight.inView)
         {
             enemySight.inView = false;
-        }
-    }
-
-    // プレイヤーを追いかける
-    void Chase()
-    {
-        if (!chasing)
-        {
-            ActionAdjustment();
-            if (SurprisedFinding != null)
-            {
-                StopCoroutine(SurprisedFinding);
-            }
-            SurprisedFinding = StartCoroutine(SurprisedOnFound());
-        }
-
-        agent.SetDestination(player.position);
-    }
-
-    Coroutine SurprisedFinding;
-    IEnumerator SurprisedOnFound()
-    {
-        agent.isStopped = true;
-        enemyCanvas.SetActive(true);
-
-        yield return new WaitForSeconds(0.5f);
-
-        enemyCanvas.SetActive(false);
-
-        if (!gimmickAction)
-        {
-            agent.isStopped = false;
-            enemyAnimator.SetBool("Running", true);
-            enemyAura.SetActive(true);
         }
     }
 
@@ -284,10 +257,6 @@ public class DonyoriBehaviour : MonoBehaviour
             {
                 Defense();
             }
-            else if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Offensive)
-            {
-                // Offense();
-            }
         }   
     }
 
@@ -295,21 +264,6 @@ public class DonyoriBehaviour : MonoBehaviour
     void Defense()
     {
         Runaway(3f);
-    }
-
-    // プレイヤーを攻撃するギミック
-    void Offense()
-    {
-
-        //
-        // プレイヤーと当たった時 //
-        if (ghostCatch.mode==GhostCatch.Mode.Carry) {
-            ghostCatch.SetState(GhostCatch.Mode.Attacked);
-        }
-        // ここにスポーン処理を呼ぶ //
-        // 
-
-        donyoriManager.gameStateManager.ChangeGameState(GameStateManager.GameState.gameState_Collect);
     }
 
     #endregion
@@ -361,6 +315,131 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
+    #region どんより特別行動
+
+    // 通常に戻る
+    public void DonyoriReset()
+    {
+        if (targetPossession != null)
+        {
+            donyoriManager.possession.Remove(targetPossession);
+            targetPossession = null;
+        }
+
+        transform.Find("EnemyBody").gameObject.SetActive(true);
+        searchSet = false;
+        standby = false;
+        cooldown = false;
+        agent.speed = donyoriManager.speed;
+    }
+
+    // 家具を探す
+    void SearchObject()
+    {
+        if (!standby)
+        {
+            if (!searchSet)
+            {
+                int maxColliders = 5;
+                Collider[] hitColliders = new Collider[maxColliders];
+                int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 50f, hitColliders, bookstandMask);
+                float distance = 50f;
+                for (int i = 0; i < numColliders; i++)
+                {
+                    float targetDistance = Vector3.Distance(transform.position, hitColliders[i].transform.position);
+
+                    GameObject target = hitColliders[i].transform.parent.gameObject;
+                    if (targetDistance < distance && !donyoriManager.possession.Contains(target) && target.activeInHierarchy)
+                    {
+                        distance = targetDistance;
+                        targetPossession = hitColliders[i].transform.parent.gameObject;
+                    }
+                }
+
+                if (targetPossession != null)
+                {
+                    donyoriManager.possession.Add(targetPossession);
+                    searchSet = true;
+                    agent.speed = donyoriManager.chaseSpeed;
+                }
+            }
+
+            if (searchSet)
+            {
+                if (Vector3.Distance(transform.position, targetPossession.transform.position) > 1f)
+                {
+                    if (agent.isStopped)
+                    {
+                        agent.isStopped = false;
+                    }    
+                    agent.SetDestination(targetPossession.transform.position);
+                }
+                else if (transform.Find("EnemyBody").gameObject.activeInHierarchy)
+                {
+                    transform.Find("EnemyBody").gameObject.SetActive(false);
+                    agent.isStopped = true;
+
+                    // Rotation
+                    if (FixRotation != null)
+                    {
+                        StopCoroutine(FixRotation);
+                    }
+                    FixRotation = StartCoroutine(OnFixRotation());
+
+                    searchSet = false;
+                    standby = true;
+                }
+            }
+        }
+    }
+
+    // 仮バグ修正
+    Coroutine FixRotation;
+    IEnumerator OnFixRotation()
+    {
+        GameObject target = targetPossession;
+        transform.rotation = target.transform.rotation;
+        yield return new WaitForSeconds(1f);
+        transform.rotation = target.transform.rotation;
+    }
+
+    void Possessing()
+    {
+        if (standby)
+        {
+            enemySight.inView = true;
+            if (enemySight.detected && playerInSightRange && !cooldown)
+            {
+                if (BookSplat != null)
+                {
+                    StopCoroutine(BookSplat);
+                }
+                BookSplat = StartCoroutine(OnBookSplat());
+            }
+        }
+    }
+
+    Coroutine BookSplat;
+    IEnumerator OnBookSplat()
+    {
+        GameObject booksplatter = targetPossession.transform.Find("BookSplatter").gameObject;
+        cooldown = true;
+        yield return new WaitForSeconds(0.5f);
+        booksplatter.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+        // 当たり判定
+        if (enemySight.detected && playerInSightRange)
+        {
+            player.transform.Find("PlayerBody").GetComponent<ParalysisPlayer>().paralysis = true;
+        }
+
+        yield return new WaitForSeconds(2f);
+        booksplatter.SetActive(false);
+    }
+
+    #endregion
+
     #region 色ギミック
 
     #region Dark Red
@@ -375,6 +454,7 @@ public class DonyoriBehaviour : MonoBehaviour
         DarkRedCoroutine = StartCoroutine(OnDarkRed());
 
         enemyAnimator.SetBool("Surprised", true);
+        DonyoriReset();
     }
     Coroutine DarkRedCoroutine;
     IEnumerator OnDarkRed()
@@ -395,6 +475,7 @@ public class DonyoriBehaviour : MonoBehaviour
             StopCoroutine(DarkBlueCoroutine);
         }
         DarkBlueCoroutine = StartCoroutine(OnDarkBlue());
+        DonyoriReset();
     }
     Coroutine DarkBlueCoroutine;
     IEnumerator OnDarkBlue()
@@ -413,7 +494,7 @@ public class DonyoriBehaviour : MonoBehaviour
     }
     #endregion
 
-    #region DarkYellow
+    #region Dark Yellow
     public void Gimmick_DarkYellow()
     {
         gimmickAction = true;
@@ -425,6 +506,7 @@ public class DonyoriBehaviour : MonoBehaviour
         DarkYellowCoroutine = StartCoroutine(OnDarkYellow());
 
         enemyAnimator.SetBool("Surprised", true);
+        DonyoriReset();
     }
     Coroutine DarkYellowCoroutine;
     IEnumerator OnDarkYellow()
@@ -446,6 +528,7 @@ public class DonyoriBehaviour : MonoBehaviour
             StopCoroutine(PurpleCoroutine);
         }
         PurpleCoroutine = StartCoroutine(onPurple());
+        DonyoriReset();
     }
     Coroutine PurpleCoroutine;
     IEnumerator onPurple()
@@ -476,6 +559,7 @@ public class DonyoriBehaviour : MonoBehaviour
         OrangeCoroutine = StartCoroutine(OnOrange());
 
         enemyAnimator.SetBool("Surprised", true);
+        DonyoriReset();
     }
     Coroutine OrangeCoroutine;
     IEnumerator OnOrange()
@@ -502,6 +586,7 @@ public class DonyoriBehaviour : MonoBehaviour
             }
             GreenCoroutine = StartCoroutine(OnGreen(target));
         }
+        DonyoriReset();
     }
     Coroutine GreenCoroutine;
     IEnumerator OnGreen(GameObject target)
@@ -550,4 +635,18 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
+    private void OnDrawGizmos()
+    {
+        if (enableGizmos)
+        {
+            Gizmos.color = Color.grey;
+            Gizmos.DrawWireSphere(transform.position, patrolRange);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, sightRange * chaseRange);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+        }
+    }
 }
