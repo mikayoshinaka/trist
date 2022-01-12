@@ -259,6 +259,11 @@ public class MazeAssignment : MonoBehaviour
         GameObject target = null;
         for (int i = 0; i < numColliders; i++)
         {
+            if (hitColliders[i].transform.parent.tag == "DonyoriGhost")
+            {
+                continue;
+            }
+
             // Vector3.Distanceによる距離計算
             float targetDistance = Vector3.Distance(targetPos.transform.position, hitColliders[i].transform.position);
 

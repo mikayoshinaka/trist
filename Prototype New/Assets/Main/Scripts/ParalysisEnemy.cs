@@ -20,14 +20,29 @@ public class ParalysisEnemy : MonoBehaviour
        if(paralysis==true && time < timeMax)
        {
             time += Time.deltaTime;
-            this.gameObject.GetComponent<EnemyBehaviour>().enabled = false;
+            if (this.gameObject.tag == "NormalGhost")
+            {
+                this.gameObject.GetComponent<EnemyBehaviour>().enabled = false;
+            }
+            else if (this.gameObject.tag == "DonyoriGhost")
+            {
+                this.gameObject.GetComponent<DonyoriBehaviour>().enabled = false;
+            }
+
             this.gameObject.GetComponent<NavMeshAgent>().isStopped = true;
        }
        else if(paralysis == true && time >= timeMax)
        {
             paralysis = false;
             time = 0.0f;
-            this.gameObject.GetComponent<EnemyBehaviour>().enabled = true;
+            if (this.gameObject.tag == "NormalGhost")
+            {
+                this.gameObject.GetComponent<EnemyBehaviour>().enabled = true;
+            }
+            else if (this.gameObject.tag == "DonyoriGhost")
+            {
+                this.gameObject.GetComponent<DonyoriBehaviour>().enabled = true;
+            }
             this.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
        }
     }
