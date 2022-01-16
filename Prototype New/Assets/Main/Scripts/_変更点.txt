@@ -135,3 +135,21 @@ CollectBoxPost
  
  - GhostCatch
  (.tag == "Enemy")　を　(.tag == "NormalGhost" || .tag == "DonyoriGhost")に変更する
+
+============	2022.1.16	================
+
+
+変更内容：
+ColorAct_DarkRed
+
+79行
+ //小野澤　サウンド用
+            lightSource.GetComponent<SGSEOneShot>().canSE = true;
+ColorAct_Purple
+
+156行
+ //小野澤　サウンド用
+            targetPoint.GetComponent<SGSEOneShot>().canSE = true;
+195行
+ //小野澤　サウンド用
+        GameObject.Find("CannonBallSound").GetComponent<CannonBallHitSE>().HitBall();

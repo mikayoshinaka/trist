@@ -153,6 +153,9 @@ public class ColorAct_Purple : ColorActState
             cooldownBar.SetActive(true);
             colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.purple);
 
+            //小野澤　サウンド用
+            targetPoint.GetComponent<SGSEOneShot>().canSE = true;
+
             cannonball = MonoBehaviour.Instantiate(colorActionObjects.cannonball, origin, colorAct.transform.rotation, instantiatedObjects.transform);
 
             cannonballPoint = new Vector3[vertex];
@@ -189,7 +192,8 @@ public class ColorAct_Purple : ColorActState
 
         // 敵に当たった時
         CannonCollider(colorAct);
-
+        //小野澤　サウンド用
+        GameObject.Find("CannonBallSound").GetComponent<CannonBallHitSE>().HitBall();
         shooting = false;
         MonoBehaviour.Destroy(cannonball);
     }

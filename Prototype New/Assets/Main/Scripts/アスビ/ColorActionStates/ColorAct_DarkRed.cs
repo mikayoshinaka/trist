@@ -76,6 +76,8 @@ public class ColorAct_DarkRed : ColorActState
         {
             enemyList.Clear();
             Gimmick_DarkRed(colorAct);
+            //小野澤　サウンド用
+            lightSource.GetComponent<SGSEOneShot>().canSE = true;
             if (Shutter != null)
             {
                 colorAct.StopCoroutine(Shutter);
