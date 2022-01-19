@@ -56,7 +56,7 @@ public class BookShelf : MonoBehaviour
         }
 
         LimitAngle();
-        if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && fly ==false)
+        if((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1)) && fly ==false)
         {
             fly = true;
             audioSource.PlayOneShot(bookAttackSE);

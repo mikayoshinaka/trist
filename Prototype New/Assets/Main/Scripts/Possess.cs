@@ -61,16 +61,16 @@ public class Possess : MonoBehaviour
         {
             return;
         }
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == false && canPossess == false && searchObject.Count > 0 
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == false && canPossess == false && searchObject.Count > 0 
             && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false && ghostCatch.bossGrab == false && ghostCatch.mode==GhostCatch.Mode.CanGrab)
         {
             InputAndCanPossess();
         }
-        else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1)) && possess == true && canPossess == false && transparent == false && away == false)
+        else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == true && canPossess == false && transparent == false && away == false)
         {
             GhostLeaveFromPossessObject();
         }
-        else if (!((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton1))) && possess == true && canPossess == false)
+        else if (!((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0))) && possess == true && canPossess == false)
         {
             GhostChangeTime();
         }

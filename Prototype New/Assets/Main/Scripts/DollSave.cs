@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class DollSave : MonoBehaviour
 {
+    public Animator playerAnimator;
     [SerializeField] private GameObject catchArea;
     public List<GameObject> dolls = new List<GameObject>();
     [SerializeField] private GameObject mainCamera;
@@ -59,7 +60,7 @@ public class DollSave : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)) && within == true && catchArea.GetComponent<GhostCatch>().mode == GhostCatch.Mode.Carry)
+        if ((Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1)) && within == true && catchArea.GetComponent<GhostCatch>().mode == GhostCatch.Mode.Carry)
         {
             catchArea.GetComponent<GhostCatch>().mode = GhostCatch.Mode.Shoot;
             GameObject.Find("Enemies").GetComponent<EnemiesManager>().enemyMode = EnemiesManager.EnemyMode.Mode_Defensive;
@@ -70,10 +71,17 @@ public class DollSave : MonoBehaviour
             {
                 startClear = true;
                 playerController.transform.LookAt(new Vector3 (clearCamera.transform.position.x,playerController.transform.position.y ,clearCamera.transform.position.z));
+                if (playerAnimator.GetBool("Moving")==true) {
+                    playerAnimator.SetBool("Moving", false);
+                }
+                playerAnimator.SetBool("Clear", true);
             }
             timer += Time.deltaTime;
             if(timer>=clearAnimationTime)
             {
+                if (playerAnimator.GetBool("Clear")==true) {
+                    playerAnimator.SetBool("Clear", false);
+                }
                 Vector3 vector3 = playerController.transform.position - clearCamera.transform.position;
                 Quaternion q = Quaternion.LookRotation(vector3);
                 clearCamera.transform.rotation = Quaternion.Slerp(clearCamera.transform.rotation, q, Time.deltaTime*clearFadeCameraRotateSpeed);

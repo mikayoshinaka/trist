@@ -62,10 +62,10 @@ public class BossEnemy : MonoBehaviour
     public NavMeshAgent agent;
     [SerializeField] float chaseDis = 5.0f;
     private Vector3 beforePlayerPos;
-    private Vector3 playerAmountOfMovement;
+    private Vector3 playerAmountOfMovement = new Vector3(0.0f, 0.0f, 0.0f);
     private float playerMovementTimer;
     private Vector3 beforeBossPos;
-    private Vector3 bossAmountOfMovement;
+    private Vector3 bossAmountOfMovement = new Vector3(0.0f, 0.0f, 0.0f);
     private float bossMovementTimer;
     [SerializeField] private Transform[] mig_Point;
     private int point = 0;
@@ -95,7 +95,7 @@ public class BossEnemy : MonoBehaviour
         reSet = false;
         bossHP = bossHPMax;
         hpDown = false;
-        mode = Mode.change;
+        mode = Mode.definePosMove;
         rotateAngle = 0.0f;
         fire = 0;
         fireAttackCount = 0;

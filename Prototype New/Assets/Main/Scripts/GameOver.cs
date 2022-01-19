@@ -14,7 +14,7 @@ public class GameOver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKey(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKey(KeyCode.B))
         {
             menuSoundScript.GetComponent<MenuSoundScript>().Decide();
             SceneManager.LoadScene("Title");

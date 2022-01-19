@@ -14,6 +14,7 @@ public class BossEar : MonoBehaviour
     [SerializeField] private GameObject flyleftEar;
     [SerializeField] private GameObject flyrightEar;
     [SerializeField] private GameObject jointPos;
+    [SerializeField] private float canDetachDis = 2;
     Vector3 leftEarjointPos;
     Vector3 rightEarjointPos;
     bool pull;
@@ -28,7 +29,7 @@ public class BossEar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(pull==true)
+        if (pull == true)
         {
             PullEar();
         }
@@ -36,29 +37,29 @@ public class BossEar : MonoBehaviour
     //é®Çà¯Ç¡í£ÇÈ
     public void PullEar()
     {
-        if(earNum==1)
+        if (earNum == 1)
         {
             //leftEarjoint.transform.position =new Vector3( playerController.transform.position.x+this.transform.TransformPoint(leftEarjointPos).x
             //                                            , playerController.transform.position.y+2 + this.transform.TransformPoint(leftEarjointPos).y
             //                                            , playerController.transform.position.z + this.transform.TransformPoint(leftEarjointPos).z);
             leftEarjoint.transform.position = jointPos.transform.position;
         }
-        else if(earNum==2)
+        else if (earNum == 2)
         {
             //rightEarjoint.transform.position = new Vector3(playerController.transform.position.x+this.transform.TransformPoint(rightEarjointPos).x
             //                                            , playerController.transform.position.y+2 + this.transform.TransformPoint(rightEarjointPos).y
             //                                            , playerController.transform.position.z + this.transform.TransformPoint(rightEarjointPos).z);
-            rightEarjoint.transform.position = new Vector3(jointPos.transform.position.x, jointPos.transform.position.y+1, jointPos.transform.position.z);
+            rightEarjoint.transform.position = new Vector3(jointPos.transform.position.x, jointPos.transform.position.y + 1, jointPos.transform.position.z);
         }
     }
     //à¯Ç¡í£ÇÈé®ÇëIë
     public void Selectear(GameObject ear)
     {
-        if(ear.tag == "BossEarLeft")
+        if (ear.tag == "BossEarLeft")
         {
             earNum = 1;
         }
-        else if(ear.tag == "BossEarRight")
+        else if (ear.tag == "BossEarRight")
         {
             earNum = 2;
         }
@@ -81,7 +82,7 @@ public class BossEar : MonoBehaviour
     //é®ÇêÿÇËó£Ç∑
     public void DetachEar()
     {
-        if(earNum == 1)
+        if (earNum == 1)
         {
             leftEar.SetActive(false);
             leftEarArea.SetActive(false);
@@ -89,7 +90,7 @@ public class BossEar : MonoBehaviour
             flyleftEar.transform.parent = null;
             flyleftEar.GetComponent<Rigidbody>().isKinematic = false;
         }
-        else if(earNum == 2)
+        else if (earNum == 2)
         {
             rightEar.SetActive(false);
             rightEarArea.SetActive(false);
@@ -98,7 +99,7 @@ public class BossEar : MonoBehaviour
             flyrightEar.GetComponent<Rigidbody>().isKinematic = false;
 
         }
-        if(leftEar.activeSelf==false&&rightEar.activeSelf==false)
+        if (leftEar.activeSelf == false && rightEar.activeSelf == false)
         {
             this.gameObject.GetComponent<CapsuleCollider>().enabled = true;
         }
@@ -110,6 +111,16 @@ public class BossEar : MonoBehaviour
         leftEarjointPos = this.transform.InverseTransformPoint(leftEarjoint.transform.position);
         rightEarjointPos = this.transform.InverseTransformPoint(rightEarjoint.transform.position);
     }
-
-   
+    //é®Çó£ÇπÇÈãóó£
+    public bool CanDetachEar()
+    {
+        if (Vector3.Distance(playerController.transform.position, this.transform.position) >= canDetachDis)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

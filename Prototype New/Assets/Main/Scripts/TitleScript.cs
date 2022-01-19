@@ -23,7 +23,7 @@ public class TitleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton1)&&isFadeOut==false)
+        if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0)&&isFadeOut==false)
         {
             isFadeOut = true;
             menuSoundScript.GetComponent<MenuSoundScript>().Decide();
@@ -41,7 +41,7 @@ public class TitleScript : MonoBehaviour
         if (alfa>=1)
         {
             isFadeOut = false;
-            SceneManager.LoadScene("MazeScene");
+            SceneManager.LoadScene("SelectScene");
         }
 
     }

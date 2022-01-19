@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-public class GameEnd : MonoBehaviour
+
+public class selectSceneScript : MonoBehaviour
 {
     private int around;
     private float inputHorizontal;
     [SerializeField] GameObject[] image = new GameObject[2];
-    Scene nowScene;
     private GameObject menuSoundScript;
     // Start is called before the first frame update
     void Start()
     {
         around = 1;
-        nowScene = SceneManager.GetActiveScene();
         menuSoundScript = GameObject.Find("MenuSound").transform.gameObject;
     }
 
@@ -60,23 +59,18 @@ public class GameEnd : MonoBehaviour
     {
         if (around == 1 && (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKey(KeyCode.B)))
         {
-            //Time.timeScale = 1f;
-            if (PlayerPrefs.GetInt("SceneNumber")==1) {
-                SceneManager.LoadScene("MazeScene");
-            }
-            else
-            {
-                SceneManager.LoadScene("Stage 2");
-            }
             menuSoundScript.GetComponent<MenuSoundScript>().Decide();
+            PlayerPrefs.SetInt("SceneNumber", 1);
+            SceneManager.LoadScene("MazeScene");
         }
         else if (around == 2 && (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKey(KeyCode.B)))
         {
-            //Time.timeScale = 1f;
-            SceneManager.LoadScene("Title");
             menuSoundScript.GetComponent<MenuSoundScript>().Decide();
+            PlayerPrefs.SetInt("SceneNumber", 2);
+            SceneManager.LoadScene("Stage 2");
         }
 
 
     }
+
 }
