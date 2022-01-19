@@ -27883,11 +27883,14 @@ VisualEffect:
       - m_Value: 15
         m_Name: Spawn Rate
         m_Overridden: 1
+      - m_Value: 7.5
+        m_Name: Cooldown Max Duration
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 0, y: 0, z: 0.8}
+      - m_Value: {x: 0, y: 0, z: 0.75}
         m_Name: Move Velocity
         m_Overridden: 1
     m_Vector4f:

@@ -85,7 +85,7 @@ public class ColorAct_DarkRed : ColorActState
             Shutter = colorAct.StartCoroutine(OnShutter());
 
             cooldownBar.SetActive(true);
-            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkred);
+            colorActionCooldown.StartCooldown(5f, ColorActionCooldown.ColorState.darkred);
 
             // UI
             pressUI.gameObject.SetActive(false);
@@ -127,11 +127,11 @@ public class ColorAct_DarkRed : ColorActState
                 // 攻撃
                 if (enemy.tag == "NormalGhost")
                 {
-                    enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+                    enemy.GetComponent<EnemyBehaviour>().Gimmick_Surprised(3f);
                 }
                 else if (enemy.tag == "DonyoriGhost")
                 {
-                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_DarkRed();
+                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_Surprised(3f);
                 }
 
                 // エフェクト

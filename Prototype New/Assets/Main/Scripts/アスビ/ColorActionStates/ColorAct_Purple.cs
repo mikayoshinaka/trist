@@ -151,7 +151,7 @@ public class ColorAct_Purple : ColorActState
         if (!colorActionCooldown.cooldown && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5)) && !shooting)
         {
             cooldownBar.SetActive(true);
-            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.purple);
+            colorActionCooldown.StartCooldown(5f, ColorActionCooldown.ColorState.purple);
 
             //小野澤　サウンド用
             targetPoint.GetComponent<SGSEOneShot>().canSE = true;
@@ -209,11 +209,11 @@ public class ColorAct_Purple : ColorActState
             GameObject enemy = hitColliders[i].transform.parent.gameObject;
             if (enemy.tag == "NormalGhost")
             {
-                enemy.GetComponent<EnemyBehaviour>().Gimmick_Purple();
+                enemy.GetComponent<EnemyBehaviour>().Gimmick_Run(2f);
             }
             else if (enemy.tag == "DonyoriGhost")
             {
-                enemy.GetComponent<DonyoriBehaviour>().Gimmick_Purple();
+                enemy.GetComponent<DonyoriBehaviour>().Gimmick_Run(2f);
             }
 
             // エフェクト

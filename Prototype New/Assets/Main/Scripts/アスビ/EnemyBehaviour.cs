@@ -363,44 +363,43 @@ public class EnemyBehaviour : MonoBehaviour
 
     #region 色ギミック
 
-    #region Dark Red
-    public void Gimmick_DarkRed()
+    // 驚かす
+    public void Gimmick_Surprised(float duration)
     {
         gimmickAction = true;
         agent.isStopped = true;
-        if (DarkRedCoroutine != null)
+        if (SurprisedCoroutine != null)
         {
-            StopCoroutine(DarkRedCoroutine);
+            StopCoroutine(SurprisedCoroutine);
         }
-        DarkRedCoroutine = StartCoroutine(OnDarkRed());
+        SurprisedCoroutine = StartCoroutine(OnSurprised(duration));
 
         enemyAnimator.SetBool("Surprised", true);
     }
-    Coroutine DarkRedCoroutine;
-    IEnumerator OnDarkRed()
+    Coroutine SurprisedCoroutine;
+    IEnumerator OnSurprised(float duration)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(duration);
         gimmickAction = false;
         agent.isStopped = false;
     }
-    #endregion
 
-    #region Dark Blue
-    public void Gimmick_DarkBlue()
+    // 逃げる
+    public void Gimmick_Run(float duration)
     {
         gimmickAction = true;
         agent.isStopped = true;
-        if (DarkBlueCoroutine != null)
+        if (RunCoroutine != null)
         {
-            StopCoroutine(DarkBlueCoroutine);
+            StopCoroutine(RunCoroutine);
         }
-        DarkBlueCoroutine = StartCoroutine(OnDarkBlue());
+        RunCoroutine = StartCoroutine(OnRun(duration));
     }
-    Coroutine DarkBlueCoroutine;
-    IEnumerator OnDarkBlue()
+    Coroutine RunCoroutine;
+    IEnumerator OnRun(float duration)
     {
         float timer = 0f;
-        float timeLimit = 2f;
+        float timeLimit = duration;
         SetAwayDirection();
         while (timer < timeLimit)
         {
@@ -411,81 +410,8 @@ public class EnemyBehaviour : MonoBehaviour
         gimmickAction = false;
         agent.isStopped = false;
     }
-    #endregion
 
-    #region Dark Yellow
-    public void Gimmick_DarkYellow()
-    {
-        gimmickAction = true;
-        agent.isStopped = true;
-        if (DarkYellowCoroutine != null)
-        {
-            StopCoroutine(DarkYellowCoroutine);
-        }
-        DarkYellowCoroutine = StartCoroutine(OnDarkYellow());
-
-        enemyAnimator.SetBool("Surprised", true);
-    }
-    Coroutine DarkYellowCoroutine;
-    IEnumerator OnDarkYellow()
-    {
-        yield return new WaitForSeconds(1.5f);
-        gimmickAction = false;
-        agent.isStopped = false;
-    }
-
-    #endregion
-
-    #region Purple
-    public void Gimmick_Purple()
-    {
-        gimmickAction = true;
-        agent.isStopped = true;
-        if (PurpleCoroutine != null)
-        {
-            StopCoroutine(PurpleCoroutine);
-        }
-        PurpleCoroutine = StartCoroutine(onPurple());
-    }
-    Coroutine PurpleCoroutine;
-    IEnumerator onPurple()
-    {
-        float timer = 0f;
-        float timeLimit = 2f;
-        SetAwayDirection();
-        while (timer < timeLimit)
-        {
-            timer += Time.deltaTime;
-            MoveAway();
-            yield return null;
-        }
-        gimmickAction = false;
-        agent.isStopped = false;
-    }
-    #endregion
-
-    #region Orange
-    public void Gimmick_Orange()
-    {
-        gimmickAction = true;
-        agent.isStopped = true;
-        if (OrangeCoroutine != null)
-        {
-            StopCoroutine(OrangeCoroutine);
-        }
-        OrangeCoroutine = StartCoroutine(OnOrange());
-
-        enemyAnimator.SetBool("Surprised", true);
-    }
-    Coroutine OrangeCoroutine;
-    IEnumerator OnOrange()
-    {
-        yield return new WaitForSeconds(3f);
-        gimmickAction = false;
-        agent.isStopped = false;
-    }
-    #endregion
-
+    // 緑ギミック
     #region Green
 
     public void Gimmick_Green(bool flag, GameObject target)
@@ -524,11 +450,11 @@ public class EnemyBehaviour : MonoBehaviour
                 agent.isStopped = true;
                 if (target.tag == "NormalGhost")
                 {
-                    target.GetComponent<EnemyBehaviour>().Gimmick_DarkRed();
+                    target.GetComponent<EnemyBehaviour>().Gimmick_Surprised(3f);
                 }
                 else if (target.tag == "DonyoriGhost")
                 {
-                    target.GetComponent<DonyoriBehaviour>().Gimmick_DarkRed();
+                    target.GetComponent<DonyoriBehaviour>().Gimmick_Surprised(3f);
                 }
                 player.GetComponent<ColorAction>().colorAct_Green.RemoveTarget(target);
 

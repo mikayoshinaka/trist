@@ -67,7 +67,7 @@ public class ColorAct_Green : ColorActState
             Gimmick_Green(colorAct);
 
             cooldownBar.SetActive(true);
-            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.green);
+            colorActionCooldown.StartCooldown(5f, ColorActionCooldown.ColorState.green);
 
             // UI
             pressUI.gameObject.SetActive(false);

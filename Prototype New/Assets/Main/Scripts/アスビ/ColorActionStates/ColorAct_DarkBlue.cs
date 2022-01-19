@@ -67,7 +67,7 @@ public class ColorAct_DarkBlue : ColorActState
                 Gimmick_DarkBlue(colorAct);
 
                 cooldownBar.SetActive(true);
-                colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.darkblue);
+                colorActionCooldown.StartCooldown(5f, ColorActionCooldown.ColorState.darkblue);
 
                 // UI
                 pressUI.gameObject.SetActive(false);
@@ -99,11 +99,11 @@ public class ColorAct_DarkBlue : ColorActState
             {
                 if (enemy.tag == "NormalGhost")
                 {
-                    enemy.GetComponent<EnemyBehaviour>().Gimmick_DarkBlue();
+                    enemy.GetComponent<EnemyBehaviour>().Gimmick_Run(2f);
                 }
                 else if (enemy.tag == "DonyoriGhost")
                 {
-                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_DarkBlue();
+                    enemy.GetComponent<DonyoriBehaviour>().Gimmick_Run(2f);
                 }
 
                 // エフェクト

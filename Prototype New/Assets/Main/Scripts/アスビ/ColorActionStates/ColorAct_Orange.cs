@@ -217,7 +217,7 @@ public class ColorAct_Orange : ColorActState
             // 攻撃のビジュアル
             ExecuteEnergy(colorAct);
             cooldownBar.SetActive(true);
-            colorActionCooldown.StartCooldown(3f, ColorActionCooldown.ColorState.orange);
+            colorActionCooldown.StartCooldown(5f, ColorActionCooldown.ColorState.orange);
         }
         
         energy.SetActive(false);
@@ -266,11 +266,11 @@ public class ColorAct_Orange : ColorActState
             enemyAnchor.Add(enemy);
             if (enemy.tag == "NormalGhost")
             {
-                enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+                enemy.GetComponent<EnemyBehaviour>().Gimmick_Surprised(3f);
             }
             else if (enemy.tag == "DonyoriGhost")
             {
-                enemy.GetComponent<DonyoriBehaviour>().Gimmick_Orange();
+                enemy.GetComponent<DonyoriBehaviour>().Gimmick_Surprised(3f);
             }
 
             // エフェクト
@@ -331,11 +331,11 @@ public class ColorAct_Orange : ColorActState
 
                     if (enemy.tag == "NormalGhost")
                     {
-                        enemy.GetComponent<EnemyBehaviour>().Gimmick_Orange();
+                        enemy.GetComponent<EnemyBehaviour>().Gimmick_Surprised(3f);
                     }
                     else if (enemy.tag == "DonyoriGhost")
                     {
-                        enemy.GetComponent<DonyoriBehaviour>().Gimmick_Orange();
+                        enemy.GetComponent<DonyoriBehaviour>().Gimmick_Surprised(3f);
                     }
 
                     // エフェクト
