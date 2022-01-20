@@ -337,7 +337,21 @@ public class EnemyBehaviour : MonoBehaviour
         agent.isStopped = true;
         SetAwayDirection();
         moveAway = true;
+        
+        // 汗マーク
+        if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
+        {
+            enemyCanvas.SetActive(true);
+        }
+
         yield return new WaitForSeconds(time);
+
+        // 汗マーク
+        if (enemyCanvas.activeInHierarchy)
+        {
+            enemyCanvas.SetActive(false);
+        }
+
         enemyAnimator.SetBool("Running", false);
         if (enemyAura.activeInHierarchy)
         {

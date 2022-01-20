@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameTimer : MonoBehaviour
 {
+    public bool timerPlay;
     public float countdown = 180f;
 
     // Raw UI
@@ -29,7 +30,7 @@ public class GameTimer : MonoBehaviour
         {
             return;
         }
-        if (countdown >= 0)
+        if (countdown >= 0 && timerPlay)
         {
             Countdown();
         }        

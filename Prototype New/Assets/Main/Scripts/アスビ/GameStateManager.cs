@@ -40,6 +40,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private CollectBoxPost collectBoxPost;
     [SerializeField] private MazeAssignment mazeAssignment;
     [SerializeField] private float mazeTimer = 4f;
+    [SerializeField] private GameTimer gameTimer;
 
     public enum GameState
     {
@@ -76,6 +77,7 @@ public class GameStateManager : MonoBehaviour
 
         collectBoxPost = GameObject.Find("Maze").transform.Find("SaveBox").GetComponent<CollectBoxPost>();
         mazeAssignment = GameObject.Find("Maze").GetComponent<MazeAssignment>();
+        gameTimer = GameObject.Find("Timer").GetComponent<GameTimer>();
 
         StartState_Collecting();
     }
@@ -141,6 +143,7 @@ public class GameStateManager : MonoBehaviour
         // 迷路
         mazeAssignment.FurnitureActive();
         mazeAssignment.MazeNavmesh(false);
+        gameTimer.timerPlay = true;
     }
 
 
@@ -172,11 +175,13 @@ public class GameStateManager : MonoBehaviour
     {
         playerController.GetComponent<CharacterMovementScript>().enabled = false;
         collectBoxPost.HideBox(true);
+        gameTimer.timerPlay = false;
 
         yield return new WaitForSeconds(mazeTimer);
         
         playerController.GetComponent<CharacterMovementScript>().enabled = true;
         collectBoxPost.HideBox(false);
+        gameTimer.timerPlay = true;
 
         mazeAssignment.MazeNavmesh(true);
         ChangeGameState(GameState.gameState_Deliver);
