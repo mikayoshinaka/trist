@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 2076057981589757516}
   m_Layer: 8
   m_Name: EnemyBody
-  m_TagString: RedEnemyBody
+  m_TagString: RedEnemyBody2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

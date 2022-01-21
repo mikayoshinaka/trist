@@ -10,6 +10,7 @@ public class TitleScript : MonoBehaviour
     float red, green, blue, alfa;
     bool isFadeOut = false;
     private GameObject menuSoundScript;
+    private GameObject BGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,8 @@ public class TitleScript : MonoBehaviour
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
         menuSoundScript = GameObject.Find("MenuSound").transform.gameObject;
+        BGM = GameObject.Find("BGM").transform.gameObject;
+        BGM.GetComponent<BGM>().TitleSelectBGM();
     }
 
     // Update is called once per frame

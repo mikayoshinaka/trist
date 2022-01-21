@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 2076057981589757516}
   m_Layer: 8
   m_Name: EnemyBody
-  m_TagString: BlueEnemyBody
+  m_TagString: BlueEnemyBody2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1228,7 +1228,6 @@ MonoBehaviour:
   enemySight: {fileID: 0}
   agent: {fileID: 0}
   enemyAnimator: {fileID: 0}
-  enemyCanvas: {fileID: 0}
   enemyAura: {fileID: 0}
   ghostCatch: {fileID: 0}
   patrolRange: 10
@@ -1241,11 +1240,18 @@ MonoBehaviour:
   upstageMask:
     serializedVersion: 2
     m_Bits: 0
+  bookstandMask:
+    serializedVersion: 2
+    m_Bits: 0
   playerInSightRange: 0
   playerInAttackRange: 0
   patrolPoint: {x: 0, y: 0, z: 0}
   patrolSet: 0
+  searchSet: 0
   moveAway: 0
+  standby: 0
+  cooldown: 0
+  targetPossession: {fileID: 0}
   gimmickAction: 0
   mazeGimmick: 0
   enableGizmos: 0

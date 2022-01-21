@@ -11990,6 +11990,154 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 10
   enableGizmos: 1
+--- !u!1 &584300501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 584300504}
+  - component: {fileID: 584300503}
+  - component: {fileID: 584300502}
+  m_Layer: 0
+  m_Name: BGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &584300502
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584300501}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &584300503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584300501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbfe3c402e87ee40913b3c451846c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: b4ecf460531974f4ab20085bdde72e02, type: 3}
+  - {fileID: 8300000, guid: 395d731b66d09b44b856f24761186648, type: 3}
+  - {fileID: 8300000, guid: b8924a7c7209c6c44ae20a6f804d8f8c, type: 3}
+  - {fileID: 8300000, guid: 70a491e3015b30043aa709c3202561d3, type: 3}
+  - {fileID: 8300000, guid: 43d70ffc04c90304b9bd3f804fcfd364, type: 3}
+  - {fileID: 8300000, guid: ce5a90562e88b6f4f9359c58698c9a35, type: 3}
+  audioSource: {fileID: 584300502}
+--- !u!4 &584300504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584300501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.3545265, y: 5.1944733, z: -3.9914813}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &589129046
 GameObject:
   m_ObjectHideFlags: 0
@@ -36486,15 +36634,15 @@ MonoBehaviour:
   purpleDoll: {fileID: 919132149155446097, guid: cab77247b60103d48a9b69fb083cd8ac, type: 3}
   greenDoll: {fileID: 919132149155446097, guid: aab824f9b9f3e3240b4eb0ce2c4dfb3f, type: 3}
   orangeDoll: {fileID: 919132149155446097, guid: 5346f6cb11df40b4398b2e621267714b, type: 3}
-  redDoll2: {fileID: 919132149155446097, guid: 8d0f983cdd324944da6ff82bb0f55fa4, type: 3}
-  blueDoll2: {fileID: 919132149155446097, guid: 3ee88e9e2e42b764186c41ae6d2cb39d, type: 3}
-  yellowDoll2: {fileID: 919132149155446097, guid: 0bf338b34e93b134da5b4100d09a0809, type: 3}
-  darkRedDoll2: {fileID: 919132149155446097, guid: a4098ac6f54a9da4cad76312a3369e98, type: 3}
-  darkBlueDoll2: {fileID: 919132149155446097, guid: 7bf6934139af7d842873a72e695b86de, type: 3}
-  darkYellowDoll2: {fileID: 919132149155446097, guid: d8b94dfeb3c72564ca945be8a666099b, type: 3}
-  purpleDoll2: {fileID: 919132149155446097, guid: a23e44c589bffd14aad5e16420154af6, type: 3}
-  greenDoll2: {fileID: 919132149155446097, guid: 0cfa829dfa6e8dc4aa30399ce107d25e, type: 3}
-  orangeDoll2: {fileID: 919132149155446097, guid: 0b67ba2cbf1f9b94f969bf8bdf864bc7, type: 3}
+  redDoll2: {fileID: 7546273908445143747, guid: 12f1d15d810b0a940b25917bf111a272, type: 3}
+  blueDoll2: {fileID: 8786679211337774563, guid: 0b06e08aba1a6c2489f9b986ca4e68e2, type: 3}
+  yellowDoll2: {fileID: 481538441529661329, guid: a49f1b20e3d38b74289113d75ecce71d, type: 3}
+  darkRedDoll2: {fileID: 1402540683991434309, guid: 4557e26862fd6b2458c4f41ba5303568, type: 3}
+  darkBlueDoll2: {fileID: 4583493608674251100, guid: 3b93d3faa9c766d47a20df0ab3906ccd, type: 3}
+  darkYellowDoll2: {fileID: 1562646911318693098, guid: d63d3506a862e9144a5ae6b9ef7e92f4, type: 3}
+  purpleDoll2: {fileID: 8238079991553292093, guid: 97df48559b689824a840dd908cb9ed11, type: 3}
+  greenDoll2: {fileID: 3188544762527938213, guid: 2e1a5e45346858141b20a99a11d76790, type: 3}
+  orangeDoll2: {fileID: 2885659240569538277, guid: 88feae506f2029844a885a63183b7553, type: 3}
   bossDoll: {fileID: 919132149155446097, guid: a400d14fff813b347b1865b3b879def7, type: 3}
   ghostRedMaterial: {fileID: 2100000, guid: f349eff6905f7864f8121312f0a9b549, type: 2}
   ghostBlueMaterial: {fileID: 2100000, guid: 4d2614ace54530c4384c39d8ea214e47, type: 2}

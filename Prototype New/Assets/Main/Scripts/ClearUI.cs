@@ -14,6 +14,7 @@ public class ClearUI : MonoBehaviour
     private int dollCountOne;
     private int dollCountTen;
     private int dollCountHundred;
+    private GameObject BGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,11 @@ public class ClearUI : MonoBehaviour
         ten.transform.GetChild(0).gameObject.SetActive(false);
         one.transform.GetChild(0).gameObject.SetActive(false);
         DollCount();
+        BGM = GameObject.Find("BGM").transform.gameObject;
+        if (BGM.GetComponent<BGM>().audioSource.clip == null)
+        {
+            BGM.GetComponent<BGM>().ClearResultBGM();
+        }
     }
 
     // Update is called once per frame

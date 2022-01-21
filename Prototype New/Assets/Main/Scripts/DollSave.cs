@@ -34,6 +34,7 @@ public class DollSave : MonoBehaviour
     public GameObject boxSound;
     public bool slow;
     bool startClear;
+    private GameObject BGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +56,7 @@ public class DollSave : MonoBehaviour
         audioSource = boxSound.GetComponent<AudioSource>();
         slow = false;
         startClear = false;
+        BGM = GameObject.Find("BGM").transform.gameObject;
     }
 
     // Update is called once per frame
@@ -69,6 +71,7 @@ public class DollSave : MonoBehaviour
         {
         Å@Å@if(startClear==false)
             {
+                BGM.GetComponent<BGM>().ClearResultBGM();
                 startClear = true;
                 playerController.transform.LookAt(new Vector3 (clearCamera.transform.position.x,playerController.transform.position.y ,clearCamera.transform.position.z));
                 if (playerAnimator.GetBool("Moving")==true) {

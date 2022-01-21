@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class BeforeBegin : MonoBehaviour
 {
     public bool begin = false;
@@ -20,6 +21,7 @@ public class BeforeBegin : MonoBehaviour
     [SerializeField] float fadeSpeed = 1.0f;
     float red, green, blue, alfa;
     bool isFadeOut = false;
+    private GameObject BGM;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,18 @@ public class BeforeBegin : MonoBehaviour
         green = fadeImage.color.g;
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
+        BGM = GameObject.Find("BGM").transform.gameObject;
+        if (BGM.GetComponent<BGM>().audioSource.clip == null)
+        {
+            if (SceneManager.GetActiveScene().name == "MazeScene")
+            {
+                BGM.GetComponent<BGM>().Stage1BGM();
+            }
+            else
+            {
+                BGM.GetComponent<BGM>().Stage2BGM();
+            }
+        }
     }
 
     // Update is called once per frame
