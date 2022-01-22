@@ -14,6 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] Animator enemyAnimator;
     [SerializeField] GameObject enemyCanvas;
     [SerializeField] GameObject enemyAura;
+    [SerializeField] GameObject enemySweat;
     [SerializeField] GhostCatch ghostCatch;
 
     [Header("当たり判定")]
@@ -70,6 +71,7 @@ public class EnemyBehaviour : MonoBehaviour
         enemyAnimator = enemyBody.GetComponent<Animator>();
         enemyCanvas = enemy.transform.Find("EnemyCanvas").gameObject;
         enemyAura = enemy.transform.Find("EnemyAura").gameObject;
+        enemySweat = enemy.transform.Find("EnemySweat").gameObject;
         ghostCatch = player.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
 
         enemyState = EnemyState.Patrol;
@@ -341,15 +343,15 @@ public class EnemyBehaviour : MonoBehaviour
         // 汗マーク
         if (enemiesManager.enemyMode == EnemiesManager.EnemyMode.Mode_Defensive)
         {
-            enemyCanvas.SetActive(true);
+            enemySweat.SetActive(true);
         }
 
         yield return new WaitForSeconds(time);
 
         // 汗マーク
-        if (enemyCanvas.activeInHierarchy)
+        if (enemySweat.activeInHierarchy)
         {
-            enemyCanvas.SetActive(false);
+            enemySweat.SetActive(false);
         }
 
         enemyAnimator.SetBool("Running", false);

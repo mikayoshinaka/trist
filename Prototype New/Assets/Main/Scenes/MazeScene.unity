@@ -33055,7 +33055,7 @@ MonoBehaviour:
   gameStateManager: {fileID: 0}
   playerController: {fileID: 0}
   enemyMode: 0
-  childCount: 4
+  childCount: 5
   speed: 4
   chaseSpeed: 6
   angularSpeed: 720

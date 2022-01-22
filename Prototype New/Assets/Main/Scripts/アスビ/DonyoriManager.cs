@@ -19,7 +19,7 @@ public class DonyoriManager : MonoBehaviour
     public EnemyMode enemyMode;
 
     [Header("Enemy Properties")]
-    public int childCount = 4;
+    public int childCount = 5;
     public float speed = 4f;
     public float chaseSpeed = 6f;
     public float angularSpeed = 240f;
