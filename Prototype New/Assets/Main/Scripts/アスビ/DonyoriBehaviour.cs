@@ -13,6 +13,7 @@ public class DonyoriBehaviour : MonoBehaviour
     public NavMeshAgent agent;
     [SerializeField] Animator enemyAnimator;
     [SerializeField] GameObject enemyAura;
+    [SerializeField] GameObject enemySweat;
     [SerializeField] GhostCatch ghostCatch;
 
     [Header("当たり判定")]
@@ -73,6 +74,7 @@ public class DonyoriBehaviour : MonoBehaviour
 
         enemyAnimator = enemyBody.GetComponent<Animator>();
         enemyAura = enemy.transform.Find("EnemyAura").gameObject;
+        enemySweat = enemy.transform.Find("EnemySweat").gameObject;
         ghostCatch = player.transform.Find("PlayerBody").Find("CatchArea").GetComponent<GhostCatch>();
 
         enemyState = EnemyState.Patrol;
@@ -291,7 +293,21 @@ public class DonyoriBehaviour : MonoBehaviour
         agent.isStopped = true;
         SetAwayDirection();
         moveAway = true;
+
+        // 汗マーク
+        if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Defensive)
+        {
+            enemySweat.SetActive(true);
+        }
+
         yield return new WaitForSeconds(time);
+
+        // 汗マーク
+        if (enemySweat.activeInHierarchy)
+        {
+            enemySweat.SetActive(false);
+        }
+
         enemyAnimator.SetBool("Running", false);
         if (enemyAura.activeInHierarchy)
         {
