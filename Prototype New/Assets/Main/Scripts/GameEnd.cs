@@ -10,12 +10,14 @@ public class GameEnd : MonoBehaviour
     [SerializeField] GameObject[] image = new GameObject[2];
     Scene nowScene;
     private GameObject menuSoundScript;
+    private GameObject BGM;
     // Start is called before the first frame update
     void Start()
     {
         around = 1;
         nowScene = SceneManager.GetActiveScene();
         menuSoundScript = GameObject.Find("MenuSound").transform.gameObject;
+        BGM = GameObject.Find("BGM").transform.gameObject;
     }
 
     // Update is called once per frame
@@ -62,10 +64,12 @@ public class GameEnd : MonoBehaviour
         {
             //Time.timeScale = 1f;
             if (PlayerPrefs.GetInt("SceneNumber")==1) {
+                BGM.GetComponent<BGM>().Stage1BGM();
                 SceneManager.LoadScene("MazeScene");
             }
             else
             {
+                BGM.GetComponent<BGM>().Stage2BGM();
                 SceneManager.LoadScene("Stage 2");
             }
             menuSoundScript.GetComponent<MenuSoundScript>().Decide();
