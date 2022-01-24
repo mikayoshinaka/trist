@@ -28,6 +28,12 @@ TagManager:
   - Wall
   - NormalGhost
   - DonyoriGhost
+  - OrangeDoll
+  - PurpleDoll
+  - BlueDoll
+  - GreenDoll
+  - RedDoll
+  - YellowDoll
   layers:
   - Default
   - TransparentFX

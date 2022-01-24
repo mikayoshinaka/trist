@@ -35,6 +35,8 @@ public class DollSave : MonoBehaviour
     public bool slow;
     bool startClear;
     private GameObject BGM;
+
+    public static List<int> dollColor = new List<int>();
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +59,7 @@ public class DollSave : MonoBehaviour
         slow = false;
         startClear = false;
         BGM = GameObject.Find("BGM").transform.gameObject;
+        dollColor.Clear();
     }
 
     // Update is called once per frame
@@ -121,6 +124,33 @@ public class DollSave : MonoBehaviour
         SetAlpha(clearFadeImage, clearRed, clearGreen, clearBlue, clearAlfa);
         if (clearAlfa >= 1)
         {  
+            for(int i=0;i<dolls.Count;i++)
+            {
+                if(dolls[i].tag=="OrangeDoll")
+                {
+                    dollColor.Add(1);
+                }
+                else if(dolls[i].tag == "PurpleDoll")
+                {
+                    dollColor.Add(2);
+                }
+                else if (dolls[i].tag == "BlueDoll")
+                {
+                    dollColor.Add(3);
+                }
+                else if (dolls[i].tag == "GreenDoll")
+                {
+                    dollColor.Add(4);
+                }
+                else if (dolls[i].tag == "RedDoll")
+                {
+                    dollColor.Add(5);
+                }
+                else if (dolls[i].tag == "YellowDoll")
+                {
+                    dollColor.Add(6);
+                }
+            }
                 PlayerPrefs.SetInt("dollCount", dolls.Count);
                 SceneManager.LoadScene("Result");
         }
@@ -148,6 +178,10 @@ public class DollSave : MonoBehaviour
             audioSource.PlayOneShot(boxSlowSE);
             slow = true;
         }
+    }
+    public static List<int> getDollColor()
+    {
+        return dollColor;
     }
     private void OnTriggerEnter(Collider other)
     {
