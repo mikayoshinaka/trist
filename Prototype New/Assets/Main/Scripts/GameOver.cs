@@ -55,8 +55,9 @@ public class GameOver : MonoBehaviour
         alfa = fadeImage.color.a;
         BGM = GameObject.Find("BGM").transform.gameObject;
         BGM.GetComponent<BGM>().GameOverDramaBGM();
+        BGM.GetComponent<AudioSource>().loop = false;
         mode = Mode.approach;
-        if (PlayerPrefs.GetInt("SceneNumber")==2)
+        if (PlayerPrefs.GetInt("SceneNumber") == 2)
         {
             carpet.SetActive(true);
         }
@@ -87,7 +88,7 @@ public class GameOver : MonoBehaviour
                 EndScene();
                 break;
         }
-        
+
     }
 
     void ApproachScene()
@@ -100,25 +101,25 @@ public class GameOver : MonoBehaviour
             enemy[i].transform.position = Vector3.MoveTowards(enemy[i].transform.position, enemyApproachPos[i].transform.position, moveSpeed * Time.deltaTime);
         }
         PlayerFidget();
-            bool approached = false;
-            for (int i = 0; i < enemy.Length; i++)
+        bool approached = false;
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            float dis = (enemyApproachPos[i].transform.position - enemy[i].transform.position).magnitude;
+            if (dis < 0.1f)
             {
-                float dis = (enemyApproachPos[i].transform.position - enemy[i].transform.position).magnitude;
-                if (dis < 0.1f)
-                {
-                    approached = true;
-                }
-                else
-                {
-                    approached = false;
-                    break;
-                }
+                approached = true;
             }
-            if (approached == true)
+            else
             {
-                mode = Mode.sweat;
-                sweat.SetActive(true);
-            } 
+                approached = false;
+                break;
+            }
+        }
+        if (approached == true)
+        {
+            mode = Mode.sweat;
+            sweat.SetActive(true);
+        }
     }
     void SweatScene()
     {
@@ -131,7 +132,7 @@ public class GameOver : MonoBehaviour
             enemy[i].transform.position = Vector3.MoveTowards(enemy[i].transform.position, firstPlayerPos.transform.position, sidleSpeed * Time.deltaTime);
         }
         PlayerFidget();
-        if (timer>sweatTime)
+        if (timer > sweatTime)
         {
             mode = Mode.attack;
             timer = 0.0f;
@@ -201,7 +202,8 @@ public class GameOver : MonoBehaviour
     }
     void EndScene()
     {
-        if (isFadeOut == false) {
+        if (isFadeOut == false)
+        {
             StartFadeOut();
         }
     }
@@ -212,6 +214,7 @@ public class GameOver : MonoBehaviour
         SetAlpha();
         if (alfa >= 1)
         {
+            BGM.GetComponent<AudioSource>().loop = true;
             BGM.GetComponent<BGM>().GameOverBGM();
             isFadeOut = true;
             endUI.SetActive(true);
@@ -236,16 +239,17 @@ public class GameOver : MonoBehaviour
         Vector3 vector3 = enemy[rnd].transform.position - player.transform.position;
         Quaternion q = Quaternion.LookRotation(vector3);
         player.transform.rotation = Quaternion.Slerp(player.transform.rotation, q, Time.deltaTime * playerFidgetRotateSpeed);
-        if(Mathf.DeltaAngle(Mathf.Round(player.transform.eulerAngles.x),enemy[rnd].transform.eulerAngles.x) <= 5 &&
+        if (Mathf.DeltaAngle(Mathf.Round(player.transform.eulerAngles.x), enemy[rnd].transform.eulerAngles.x) <= 5 &&
            Mathf.DeltaAngle(Mathf.Round(player.transform.eulerAngles.y), enemy[rnd].transform.eulerAngles.y) <= 5 &&
            Mathf.DeltaAngle(Mathf.Round(player.transform.eulerAngles.z), enemy[rnd].transform.eulerAngles.z) <= 5)
         {
-            if (rnd<=2) {
-                rnd +=2;
+            if (rnd <= 2)
+            {
+                rnd += 2;
             }
             else
             {
-                rnd = rnd-1;
+                rnd = rnd - 3;
             }
         }
     }

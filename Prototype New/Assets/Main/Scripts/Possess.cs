@@ -36,10 +36,17 @@ public class Possess : MonoBehaviour
     private List<Color> defColor = new List<Color>();
     private Vector3 beforePossessPos;
     [SerializeField] private Transparent transparentScript;
+    public Player player;
+    public enum Player
+    {
+        cannotLook,
+        canLook,
+        def
+    }
     // Start is called before the first frame update
     void Start()
     {
-
+        player = Player.def;
         changeTime = true;
         possess = false;
         canPossess = false;
@@ -61,13 +68,26 @@ public class Possess : MonoBehaviour
         {
             return;
         }
-        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == false && canPossess == false && searchObject.Count > 0 
-            && (!cooltimeObject.Contains(searchObject[0])) && normal == false && ghostCatch.grab == false && ghostCatch.bossGrab == false && ghostCatch.mode==GhostCatch.Mode.CanGrab)
+        switch (player)
+        {
+            case Player.canLook:
+                FromTransparent();
+                break;
+            case Player.cannotLook:
+                ToTransparent();
+                break;
+            case Player.def:
+                break;
+        }
+        if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == false && canPossess == false && searchObject.Count > 0
+        && (!cooltimeObject.Contains(searchObject[0])) && ghostCatch.grab == false && ghostCatch.bossGrab == false && ghostCatch.mode == GhostCatch.Mode.CanGrab)
         {
             InputAndCanPossess();
+            player = Player.cannotLook;
         }
-        else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == true && canPossess == false && transparent == false && away == false)
+        else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == true && canPossess == false && away == false)
         {
+            player = Player.canLook;
             GhostLeaveFromPossessObject();
         }
         else if (!((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0))) && possess == true && canPossess == false)
@@ -91,14 +111,6 @@ public class Possess : MonoBehaviour
         {
             TimeCount();
         }
-        if (transparent)
-        {
-            ToTransparent();
-        }
-        if (normal)
-        {
-            FromTransparent();
-        }
     }
     //とりつく動き
     private void ToPossess(Vector3 toPos)
@@ -113,7 +125,7 @@ public class Possess : MonoBehaviour
         float a = MagneticAccelerate(dis);
         relayCamera.transform.position = Vector3.MoveTowards(relayCamera.transform.position, toPos, Time.deltaTime * ((cameraSpeed * cameraSpeed) + cameraFirstSpeed));
         PlayerController.transform.position = Vector3.MoveTowards(PlayerController.transform.position, toPos, Time.deltaTime * speed * a);
-        if (dis < 0.03f && cameraDis < 0.03f)
+        if (dis < 0.1f && cameraDis < 0.1f)
         {
             relayCamera.SetActive(false);
             possessCamera.SetActive(true);
@@ -164,7 +176,7 @@ public class Possess : MonoBehaviour
             dis = 0.0f;
         }
 
-        if (dis < 0.03f && cameraDis < 0.03f)
+        if (dis < 0.1f && cameraDis < 0.1f)
         {
             PlayerController.GetComponent<CharacterMovementScript>().enabled = true;
             PlayerController.layer = LayerMask.NameToLayer("Player");
@@ -172,7 +184,7 @@ public class Possess : MonoBehaviour
             // EnemyBehaviour プレイヤー判定用
             PlayerController.transform.Find("PlayerBody").Find("PlayerTrigger").gameObject.layer = LayerMask.NameToLayer("PlayerTrigger");
 
-           
+
             PlayerController.transform.parent = PlayerParent.transform;
             possess = false;
             leave = false;
@@ -268,7 +280,7 @@ public class Possess : MonoBehaviour
         if (becameTransparent)
         {
             setColor = 0.0f;
-            transparent = false;
+            player = Player.def;
         }
     }
     //透明から元に戻る
@@ -310,7 +322,7 @@ public class Possess : MonoBehaviour
         if (def)
         {
             setColor = 1.0f;
-            normal = false;
+            player = Player.def;
         }
     }
     //とりつくとき
@@ -339,13 +351,11 @@ public class Possess : MonoBehaviour
         relayCamera.transform.rotation = mainCamera.transform.rotation;
         possess = true;
         canPossess = true;
-        transparent = true;
     }
     //とりついたものから離れるとき
     private void GhostLeaveFromPossessObject()
     {
         leave = true;
-        normal = true;
         away = true;
         relayCamera.SetActive(true);
         possessCamera.SetActive(false);

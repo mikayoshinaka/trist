@@ -89,6 +89,7 @@ public class GhostCatch : MonoBehaviour
     public AudioClip showoffSE;
     public AudioClip attackedSE;
     public AudioClip dollVibrateSE;
+    Animator animator;
     bool attacked;
     public enum Mode
     {
@@ -126,10 +127,9 @@ public class GhostCatch : MonoBehaviour
         lamp2.SetActive(false);
         lamp1.SetActive(false);
         lamp0.SetActive(false);
-        //image.SetActive(false);
-        //image2.SetActive(false);
-        audioSource= GameObject.Find("PlayerSound").GetComponent<AudioSource>();
+        audioSource = GameObject.Find("PlayerSound").GetComponent<AudioSource>();
         attacked = false;
+        animator = presentBox.GetComponent<Animator>();
         // アスビ用
         gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
         colorAction = GameObject.Find("PlayerController").GetComponent<ColorAction>();
@@ -229,8 +229,8 @@ public class GhostCatch : MonoBehaviour
         }
         else if (bossGrab == true && mode == Mode.CanGrab)
         {
-            if (ear != null && ear.transform.parent.parent.gameObject.GetComponent<BossEar>().CanDetachEar()==false)
-            { 
+            if (ear != null && ear.transform.parent.parent.gameObject.GetComponent<BossEar>().CanDetachEar() == false)
+            {
                 ear.transform.parent.parent.gameObject.GetComponent<BossEar>().UndoEar(ear);
                 ear = null;
                 CaughtObjMoveable(caughtObj[0]);
@@ -308,7 +308,7 @@ public class GhostCatch : MonoBehaviour
                     {
                         enemy[i].GetComponent<DonyoriBehaviour>().enabled = false;
                     }
-                    
+
                     enemy[i].transform.parent = player.transform;
                     caughtObj.Add(enemy[i]);
                     audioSource.PlayOneShot(grabSE);
@@ -337,7 +337,7 @@ public class GhostCatch : MonoBehaviour
                     {
                         enemy[i].GetComponent<DonyoriBehaviour>().enabled = false;
                     }
-                    
+
                     enemy[i].transform.parent = player.transform;
                     caughtObj.Add(enemy[i]);
                     audioSource.PlayOneShot(grabSE);
@@ -362,6 +362,7 @@ public class GhostCatch : MonoBehaviour
             lamp1.SetActive(false);
             lamp0.SetActive(false);
             audioSource.PlayOneShot(slowSE);
+            animator.SetBool("open", true);
             mode = Mode.Fusion;
         }
     }
@@ -397,6 +398,7 @@ public class GhostCatch : MonoBehaviour
         }
         if (fusionComplete == true)
         {
+            animator.SetBool("open", false);
             mode = Mode.Instance;
         }
 
@@ -422,7 +424,7 @@ public class GhostCatch : MonoBehaviour
         else if (dollInstanceTime >= dollZoom2Time && zoom == true)
         {
             DollDisclose(caughtObj);
-            doll.transform.Rotate(new Vector3(0, dollRotateSpeed*Time.deltaTime, 0));
+            doll.transform.Rotate(new Vector3(0, dollRotateSpeed * Time.deltaTime, 0));
         }
         dollInstanceTime += Time.deltaTime;
         if (dollInstanceTime < dollInstanceMaxTime)
@@ -496,7 +498,7 @@ public class GhostCatch : MonoBehaviour
             {
                 mode = Mode.End;
             }
-            
+
         }
 
     }
@@ -518,7 +520,7 @@ public class GhostCatch : MonoBehaviour
     //攻撃された
     private void EnemyAttacked()
     {
-        if(attacked==false)
+        if (attacked == false)
         {
             audioSource.PlayOneShot(attackedSE);
             attacked = true;
@@ -585,47 +587,6 @@ public class GhostCatch : MonoBehaviour
             }
         }
 
-
-        //int i, j, step;
-        //GameObject pv;
-        //if (right - left >= 1)
-        //{
-        //    pv = searchObject[left];
-        //    i = left;
-        //    j = right;
-        //    step = 1;
-        //    while (i < j)
-        //    {
-        //        if (step == 1)
-        //        {
-        //            if ((searchObject[j].transform.position - player.transform.position).magnitude < (pv.transform.position - player.transform.position).magnitude)
-        //            {
-        //                searchObject[i++] = searchObject[j];
-        //                step = 2;
-        //            }
-        //            else
-        //            {
-        //                j--;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if ((searchObject[i].transform.position - player.transform.position).magnitude >= (pv.transform.position - player.transform.position).magnitude)
-        //            {
-        //                searchObject[j--] = searchObject[i];
-        //                step = 1;
-        //            }
-        //            else
-        //            {
-        //                i++;
-        //            }
-        //        }
-        //        searchObject[j] = pv;
-        //        Sort(left, j - 1, ref searchObject);
-        //        Sort(j + 1, right, ref searchObject);
-        //    }
-        //}
-
     }
     //掴んでいる間
     private void GrabbingTime()
@@ -634,7 +595,6 @@ public class GhostCatch : MonoBehaviour
         if (canGrabTime / maxGrabTime > 0)
         {
             CaughtObjStop();
-            //image.GetComponent<Image>().fillAmount = canGrabTime / maxGrabTime;
             if (canGrabTime / maxGrabTime <= 0.03)
             {
                 lamp1.SetActive(false);
@@ -663,9 +623,7 @@ public class GhostCatch : MonoBehaviour
         }
         else
         {
-            //image.GetComponent<Image>().fillAmount = 0;
-            //image.SetActive(false);
-            //image2.SetActive(false);
+
             lampMax.SetActive(false);
             lamp3.SetActive(false);
             lamp2.SetActive(false);
@@ -685,7 +643,6 @@ public class GhostCatch : MonoBehaviour
             if (ear != null)
             {
                 ear.transform.parent.parent.gameObject.GetComponent<BossEar>().UndoEar(ear);
-                //ear.transform.parent.gameObject.GetComponent<BossEar>().DetachEar();
                 ear = null;
             }
             // アスビ用
@@ -693,39 +650,28 @@ public class GhostCatch : MonoBehaviour
         }
     }
 
+    //お化けが入る軌道上の点
     private void BezierCoordinate(Vector3 startPos, ref Vector3 p1, ref Vector3 p2, Vector3 endPos)
     {
-        //p1 = new Vector3((startPos.x + ((startPos.x + endPos.x) / 2.0f)) / 2.0f, 6.0f, (startPos.z + ((startPos.z + endPos.z) / 2.0f)) / 2.0f);
-        //p2 = new Vector3((endPos.x + ((startPos.x + endPos.x) / 2.0f)) / 2.0f, 6.0f, (endPos.z + ((startPos.z + endPos.z) / 2.0f)) / 2.0f);
-        //p1 = new Vector3(((startPos.x + endPos.x) / 2.0f), 6.0f, ((startPos.z + endPos.z) / 2.0f));
-        //p2 = new Vector3(((startPos.x + endPos.x) / 2.0f), 6.0f, ((startPos.z + endPos.z) / 2.0f));
-        //p1 = new Vector3((endPos.x + ((startPos.x + endPos.x) / 2.0f)) / 2.0f, 4.0f, (endPos.z + ((startPos.z + endPos.z) / 2.0f)) / 2.0f);
-        //p1 = new Vector3(player.transform.position.x, 10.0f, player.transform.position.z);
-        //p2 = new Vector3(player.transform.position.x, 10.0f, player.transform.position.z);
         p1 = new Vector3(0.0f, 6.0f, 0.0f);
         p2 = new Vector3(0.0f, 6.0f, 0.0f);
     }
-
+    //お化けを入れる
     public void SuckedIntoBox(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, int i)
     {
-
-        Vector3 b0 = Vector3.zero;
-        Vector3 b1 = Vector3.zero;
-        Vector3 b2 = Vector3.zero;
-        Vector3 b3 = Vector3.zero;
         float ax = 0.0f, ay = 0.0f, az = 0.0f;
         float bx = 0.0f, by = 0.0f, bz = 0.0f;
         float cx = 0.0f, cy = 0.0f, cz = 0.0f;
         Vector3 vec = GetPointAtTime(time[i], ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz,
-                                   ref p0, ref p1, ref p2, ref p3, ref b0, ref b1, ref b2, ref b3);
+                                   ref p0, ref p1, ref p2, ref p3);
         caughtObj[i].transform.position = vec;
         time[i] += Time.deltaTime;
     }
 
     private Vector3 GetPointAtTime(float t, ref float ax, ref float ay, ref float az, ref float bx, ref float by, ref float bz, ref float cx, ref float cy, ref float cz,
-                                   ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 b0, ref Vector3 b1, ref Vector3 b2, ref Vector3 b3)
+                                   ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3)
     {
-        CheckConstant(ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz, ref p0, ref p1, ref p2, ref p3, ref b0, ref b1, ref b2, ref b3);
+        CheckConstant(ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz, ref p0, ref p1, ref p2, ref p3);
         float t2 = t * t;
         float t3 = t * t * t;
         float x = ax * t3 + bx * t2 + cx * t + p0.x;
@@ -749,16 +695,9 @@ public class GhostCatch : MonoBehaviour
     }
 
     private void CheckConstant(ref float ax, ref float ay, ref float az, ref float bx, ref float by, ref float bz, ref float cx, ref float cy, ref float cz,
-                               ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3, ref Vector3 b0, ref Vector3 b1, ref Vector3 b2, ref Vector3 b3)
+                               ref Vector3 p0, ref Vector3 p1, ref Vector3 p2, ref Vector3 p3)
     {
-        if (p0 != b0 || p1 != b1 || p2 != b2 || p3 != b3)
-        {
-            SetConstant(ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz, p0, p1, p2, p3);
-            b0 = p0;
-            b1 = p1;
-            b2 = p2;
-            b3 = p3;
-        }
+        SetConstant(ref ax, ref ay, ref az, ref bx, ref by, ref bz, ref cx, ref cy, ref cz, p0, p1, p2, p3);
     }
     //捕獲したもののの組み合わせによる人形の変更
     private void DollCombination(List<GameObject> ghost)
@@ -928,7 +867,7 @@ public class GhostCatch : MonoBehaviour
             {
                 doll.transform.localScale = new Vector3((0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f), (0.7f + (ghost.Count - 1) * 0.3f));
             }
-            
+
         }
     }
     //人形の振動
@@ -946,6 +885,7 @@ public class GhostCatch : MonoBehaviour
         Vibrate();
 
     }
+    //縦揺れ
     private void Vibrate()
     {
         if (newPosition <= minPosition || maxPosition <= newPosition)
@@ -958,6 +898,7 @@ public class GhostCatch : MonoBehaviour
         //doll.transform.localPosition = new Vector3(doll.transform.position.x, doll.transform.position.y+newPosition, doll.transform.position.z);
         doll.transform.position = new Vector3(dollInstancePos2.position.x, newPosition, dollInstancePos2.position.z);
     }
+    //箱に入れる
     private void DollInhale()
     {
         if (doll != null)
@@ -1023,7 +964,7 @@ public class GhostCatch : MonoBehaviour
             {
                 enemy.GetComponent<DonyoriBehaviour>().enabled = true;
             }
-            
+
             enemy.GetComponent<NavMeshAgent>().isStopped = false;
             enemy.transform.parent = GameObject.Find("Enemies").transform;
         }

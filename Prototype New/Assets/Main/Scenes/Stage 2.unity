@@ -21419,7 +21419,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -25143,34 +25143,34 @@ Transform:
   - {fileID: 474001558}
   - {fileID: 153773276}
   - {fileID: 1418908654}
+  - {fileID: 1123690218}
   - {fileID: 1218664854}
+  - {fileID: 910679815}
   - {fileID: 205835045}
   - {fileID: 571605950}
   - {fileID: 533796066}
   - {fileID: 1290574632}
   - {fileID: 1907038291}
+  - {fileID: 1132090986}
   - {fileID: 1529758906}
   - {fileID: 1771740999}
+  - {fileID: 702580425}
   - {fileID: 1046650207}
-  - {fileID: 1123690218}
-  - {fileID: 516597385}
-  - {fileID: 146821506}
   - {fileID: 1569332339}
+  - {fileID: 146821506}
   - {fileID: 839767008}
-  - {fileID: 910679815}
   - {fileID: 377700755}
-  - {fileID: 1132090986}
   - {fileID: 2119900166}
-  - {fileID: 1966013797}
+  - {fileID: 516597385}
   - {fileID: 1845941832}
   - {fileID: 618232030}
   - {fileID: 560935691}
-  - {fileID: 702580425}
-  - {fileID: 2110358126}
   - {fileID: 1336039911}
+  - {fileID: 2110358126}
   - {fileID: 1557565497}
-  - {fileID: 2110920552}
+  - {fileID: 1966013797}
   - {fileID: 1419335329}
+  - {fileID: 2110920552}
   - {fileID: 926873021}
   - {fileID: 1304961578}
   - {fileID: 1509751333}
@@ -42085,6 +42085,7 @@ MonoBehaviour:
   mainCamera: {fileID: 1687258581}
   relayCamera: {fileID: 371399757}
   transparentScript: {fileID: 0}
+  player: 0
 --- !u!1 &1709890108
 GameObject:
   m_ObjectHideFlags: 0

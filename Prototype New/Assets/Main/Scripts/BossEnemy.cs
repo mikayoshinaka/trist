@@ -52,7 +52,7 @@ public class BossEnemy : MonoBehaviour
     //リセット
     public bool reSet;
     private float grabbedDownTime = 0.0f;
-    private float grabbedDownTimeMax = 3.0f;
+    private float grabbedDownTimeMax = 1.0f;
     //移動
     public List<Vector3> sourcePos = new List<Vector3>();
     private float randomMoveTimer;
@@ -63,10 +63,8 @@ public class BossEnemy : MonoBehaviour
     [SerializeField] float chaseDis = 5.0f;
     private Vector3 beforePlayerPos;
     private Vector3 playerAmountOfMovement = new Vector3(0.0f, 0.0f, 0.0f);
-    private float playerMovementTimer;
     private Vector3 beforeBossPos;
     private Vector3 bossAmountOfMovement = new Vector3(0.0f, 0.0f, 0.0f);
-    private float bossMovementTimer;
     [SerializeField] private Transform[] mig_Point;
     private int point = 0;
 
@@ -108,7 +106,6 @@ public class BossEnemy : MonoBehaviour
 
         beforePlayerPos = player.transform.position;
         beforeBossPos = this.transform.position;
-        playerMovementTimer = 0.0f;
         randomMoveCount = 0;
 
         audioSource = bossSound.GetComponent<AudioSource>();
@@ -148,8 +145,17 @@ public class BossEnemy : MonoBehaviour
                 BossMoveSetPosition();
                 break;
         }
-        CalculateAmountOfMovement(ref playerMovementTimer, ref playerAmountOfMovement, ref beforePlayerPos, player.transform.position);
-        CalculateAmountOfMovement(ref bossMovementTimer, ref bossAmountOfMovement, ref beforeBossPos, this.gameObject.transform.position);
+        CalculateAmountOfMovement(ref playerAmountOfMovement, ref beforePlayerPos, player.transform.position);
+        CalculateAmountOfMovement(ref bossAmountOfMovement, ref beforeBossPos, this.gameObject.transform.position);
+    }
+    //hp減少によるボス強化
+    void BossPowerUp()
+    {
+        fireBallCount = 12;
+        laserSpeed = 50.0f;
+        fireSpeed = 50.0f;
+        changeTimerMax = 2.0f;
+        agent.speed = 5.0f;
     }
     //サイズ変更
     void SizeDown()
@@ -159,7 +165,6 @@ public class BossEnemy : MonoBehaviour
             animator.SetBool("Attacked", true);
             bossSize -= Time.deltaTime /** 0.2f*/;
             this.transform.GetChild(0).localScale = new Vector3(firstBossSize.x / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)), firstBossSize.y / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)), firstBossSize.z / (bossHPMax + 1) * ((float)(bossHP + 1 / bossHPMax + 1) + ((float)(1 / bossHPMax + 1) * bossSize)));
-            //this.transform.GetChild(0).localScale -= new Vector3(0.01f,0.01f,0.01f)*Time.deltaTime;
         }
         else if (bossSize <= 0.0f)
         {
@@ -182,9 +187,13 @@ public class BossEnemy : MonoBehaviour
         if (fireInstance && fireAttackCount < fireBalls.Count / 2)
         {
             fireTimer += Time.deltaTime;
-            FireSet();
+            if (fireAttackCount > 0)
+            {
+                FireSet();
+            }
             if (fireTimer > fireTimerMax)
             {
+                animator.SetBool("Fire", true);
                 fireTimer = 0.0f;
                 fireAttackCount += 1;
                 rotateAngle = 0.0f;
@@ -222,12 +231,7 @@ public class BossEnemy : MonoBehaviour
             {
                 fire = 0;
                 fireInstance = true;
-                fireAttackCount += 1;
                 instantPlayerPos = player.transform.position;
-                Vector3 terminusDirection1 = FireTerminus(fireBalls[fireAttackCount - 1].transform.position, new Vector3(instantPlayerPos.x, instantPlayerPos.y + ballAjust, instantPlayerPos.z));
-                Vector3 terminusDirection2 = FireTerminus(fireBalls[fireBalls.Count - fireAttackCount].transform.position, new Vector3(instantPlayerPos.x, instantPlayerPos.y + ballAjust, instantPlayerPos.z));
-                animator.SetBool("Fire", true);
-                StartCoroutine(AttackingFire(instantPlayerPos, fireBalls[fireAttackCount - 1], fireBalls[fireBalls.Count - fireAttackCount], terminusDirection1, terminusDirection2));
             }
         }
         else
@@ -486,9 +490,9 @@ public class BossEnemy : MonoBehaviour
     //掴まれた
     void BossGrabbed()
     {
-        if (bossHP > 0)
+        if (bossHP > 0 && player.transform.GetChild(0).GetChild(3).GetComponent<GhostCatch>().mode == GhostCatch.Mode.CanGrab)
         {
-            //this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
+
             if (bossEar.earNum == 1)
             {
                 transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y - leftBossEarAngle, 0);
@@ -502,25 +506,25 @@ public class BossEnemy : MonoBehaviour
                 this.gameObject.transform.LookAt(new Vector3(this.gameObject.transform.position.x + (this.transform.position.x - player.transform.position.x), this.gameObject.transform.position.y, this.gameObject.transform.position.z + (this.transform.position.z - player.transform.position.z)));
             }
         }
-        if (reSet == true)
+
+        ResetMode();
+
+        if (bossHP <= 0)
         {
-            ResetMode();
+            mode = Mode.down;
+            return;
         }
-        else
+        grabbedDownTime += Time.deltaTime;
+        if (grabbedDownTime >= grabbedDownTimeMax)
         {
-            if (bossHP <= 0)
+            if (bossHP == 1)
             {
-                mode = Mode.down;
-                return;
+                BossPowerUp();
             }
-            ResetMode();
-            grabbedDownTime += Time.deltaTime;
-            if (grabbedDownTime >= grabbedDownTimeMax)
-            {
-                grabbedDownTime = 0.0f;
-                mode = Mode.change;
-            }
+            grabbedDownTime = 0.0f;
+            mode = Mode.change;
         }
+
 
     }
     //すべて元に戻す
@@ -679,15 +683,11 @@ public class BossEnemy : MonoBehaviour
         return player.transform.position + playerAmountOfMovement.normalized * Tc;
     }
     //移動量計算
-    void CalculateAmountOfMovement(ref float movementTimer, ref Vector3 amountOfMovement, ref Vector3 beforePos, Vector3 moveObj)
+    void CalculateAmountOfMovement(ref Vector3 amountOfMovement, ref Vector3 beforePos, Vector3 moveObj)
     {
-        movementTimer += Time.deltaTime;
-        if (movementTimer >= 0.5f)
-        {
-            amountOfMovement = moveObj - beforePos;
-            beforePos = player.transform.position;
-            movementTimer = 0.0f;
-        }
+
+        amountOfMovement = moveObj - beforePos;
+        beforePos = player.transform.position;
     }
 
 }

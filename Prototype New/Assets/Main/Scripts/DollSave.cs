@@ -73,12 +73,12 @@ public class DollSave : MonoBehaviour
             {
                 BGM.GetComponent<BGM>().ClearResultBGM();
                 startClear = true;
-                playerController.transform.LookAt(new Vector3 (clearCamera.transform.position.x,playerController.transform.position.y ,clearCamera.transform.position.z));
                 if (playerAnimator.GetBool("Moving")==true) {
                     playerAnimator.SetBool("Moving", false);
                 }
                 playerAnimator.SetBool("Clear", true);
             }
+            playerController.transform.LookAt(new Vector3(clearCamera.transform.position.x, playerController.transform.position.y, clearCamera.transform.position.z));
             timer += Time.deltaTime;
             if(timer>=clearAnimationTime)
             {
