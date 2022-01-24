@@ -1317,7 +1317,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 0.25
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1332931119995571199
@@ -1339,6 +1339,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   enemyAnimator: {fileID: 0}
   enemyAura: {fileID: 0}
+  enemySweat: {fileID: 0}
   ghostCatch: {fileID: 0}
   patrolRange: 10
   playerMask:

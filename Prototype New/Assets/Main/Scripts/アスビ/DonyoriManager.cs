@@ -32,7 +32,7 @@ public class DonyoriManager : MonoBehaviour
     public List<GameObject> possession = new List<GameObject>();
 
     [Header("Respawn")]
-    public int respawnAmount = 20;
+    public int respawnAmount = 5;
     public GameObject enemySpawner;
     public bool enableGizmos;
 
@@ -66,6 +66,41 @@ public class DonyoriManager : MonoBehaviour
             }
         }
     }
+
+    // 敵をスポーンする処理
+    public void RespawnEnemy()
+    {
+        int currentEnemy = transform.childCount;
+        int newSpawn = respawnAmount - currentEnemy;
+
+        if (newSpawn > 0)
+        {
+            for (int i = 0; i < newSpawn; i++)
+            {
+                float enemyRange = Random.Range(0, 3);
+                GameObject enemy = null;
+                if (enemyRange == 0)
+                {
+                    enemy = enemyRedPrefab;
+                }
+                else if (enemyRange == 1)
+                {
+                    enemy = enemyBluePrefab;
+                }
+                else if (enemyRange == 2)
+                {
+                    enemy = enemyYellowPrefab;
+                }
+
+                int zoneRange = Random.Range(0, enemySpawner.transform.childCount);
+                Transform zone = enemySpawner.transform.GetChild(zoneRange);
+
+                Instantiate(enemy, zone.position, zone.rotation, this.transform);
+                enemy.SetActive(true);
+            }
+        }
+    }
+
 
     // 仮バグ修正
     public void ClearGimmick()

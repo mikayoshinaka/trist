@@ -1887,12 +1887,12 @@ MonoBehaviour:
   sightRange: 8
   attackRange: 1.5
   possession: []
-  respawnAmount: 20
+  respawnAmount: 5
   enemySpawner: {fileID: 1968261141}
   enableGizmos: 0
-  enemyRedPrefab: {fileID: 0}
-  enemyBluePrefab: {fileID: 0}
-  enemyYellowPrefab: {fileID: 0}
+  enemyRedPrefab: {fileID: 9221184643311702125, guid: 139027bad44092b428f1c4b28c204b92, type: 3}
+  enemyBluePrefab: {fileID: 9221184643311702125, guid: 43e6796db869d0a47a5a3e1162233f48, type: 3}
+  enemyYellowPrefab: {fileID: 9221184643311702125, guid: f54dfc3ce33074e44ae03e4a0e4f6f60, type: 3}
 --- !u!1 &87623309
 GameObject:
   m_ObjectHideFlags: 0

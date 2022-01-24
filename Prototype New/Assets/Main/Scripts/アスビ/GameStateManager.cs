@@ -136,6 +136,7 @@ public class GameStateManager : MonoBehaviour
 
         if (stage == Stage.stage2)
         {
+            donyoriManager.RespawnEnemy();
             donyoriManager.SetMode(DonyoriManager.EnemyMode.Mode_Defensive);
             donyoriManager.ClearGimmick();
         }
