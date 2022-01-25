@@ -36654,6 +36654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782f5dfa48c145f478d68fd61c5a8677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  presentBox: {fileID: 437733028}
   PlayerParent: {fileID: 1161104586871500436}
   PlayerController: {fileID: 1161104586488154374}
   PlayerBody:

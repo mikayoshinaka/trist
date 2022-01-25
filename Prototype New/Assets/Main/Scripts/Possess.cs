@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Possess : MonoBehaviour
 {
+    public GameObject presentBox;
     public GameObject PlayerParent;
     public GameObject PlayerController;
     public GameObject[] PlayerBody;
@@ -138,6 +139,7 @@ public class Possess : MonoBehaviour
             cooltimeObject.Add(possessObject);
             cool.Add(cooltime);
             canPossess = false;
+            presentBox.SetActive(false);
         }
     }
     //加速
@@ -360,6 +362,7 @@ public class Possess : MonoBehaviour
         relayCamera.SetActive(true);
         possessCamera.SetActive(false);
         changeTime = false;
+        presentBox.SetActive(true);
     }
 
 

@@ -18,7 +18,8 @@ public class GameOver : MonoBehaviour
     [SerializeField] GameObject[] enemyApproachPos;
     [SerializeField] GameObject[] enemyAttackPos;
     [SerializeField] GameObject sweat;
-    [SerializeField] GameObject carpet;
+    [SerializeField] GameObject floor1;
+    [SerializeField] GameObject floor2;
     [SerializeField] GameObject endUI;
     //ìG
     [SerializeField] private float rotateSpeed;
@@ -29,12 +30,13 @@ public class GameOver : MonoBehaviour
     [SerializeField] private float sweatTime;
     [SerializeField] private float lookTime;
     [SerializeField] private float chaseTime;
+    [SerializeField] private Animator[] enemyAnimator;
     //ÉvÉåÉCÉÑÅ[
     [SerializeField] private float playerMoveSpeed;
     [SerializeField] private float playerRotateSpeed;
     [SerializeField] private float playerFidgetRotateSpeed;
+    [SerializeField] private Animator playerAnimator;
     private float timer;
-    private float playerTimer;
     private int rnd = 0;
     public enum Mode
     {
@@ -57,9 +59,21 @@ public class GameOver : MonoBehaviour
         BGM.GetComponent<BGM>().GameOverDramaBGM();
         BGM.GetComponent<AudioSource>().loop = false;
         mode = Mode.approach;
-        if (PlayerPrefs.GetInt("SceneNumber") == 2)
+        if (PlayerPrefs.GetInt("SceneNumber") == 1)
         {
-            carpet.SetActive(true);
+            floor1.SetActive(true);
+            floor2.SetActive(false);
+        }
+        else if(PlayerPrefs.GetInt("SceneNumber") == 2)
+        {
+            floor2.SetActive(true);
+            floor1.SetActive(false);
+        }
+        for (int i=0;i<enemyAnimator.Length;i++) {
+            if (!enemyAnimator[i].GetBool("Running"))
+            {
+                enemyAnimator[i].SetBool("Running", true);
+            }
         }
         timer = 0.0f;
     }
@@ -107,6 +121,10 @@ public class GameOver : MonoBehaviour
             float dis = (enemyApproachPos[i].transform.position - enemy[i].transform.position).magnitude;
             if (dis < 0.1f)
             {
+                if (enemyAnimator[i].GetBool("Running"))
+                {
+                    enemyAnimator[i].SetBool("Running", false);
+                }
                 approached = true;
             }
             else
@@ -136,12 +154,20 @@ public class GameOver : MonoBehaviour
         {
             mode = Mode.attack;
             timer = 0.0f;
+            for (int i = 0; i < enemyAnimator.Length; i++)
+            {
+                if (!enemyAnimator[i].GetBool("Running"))
+                {
+                    enemyAnimator[i].SetBool("Running", true);
+                }
+            }
         }
     }
     void AttackScene()
     {
         for (int i = 0; i < enemy.Length; i++)
         {
+
             Vector3 vector3 = firstPlayerPos.transform.position - enemy[i].transform.position;
             Quaternion q = Quaternion.LookRotation(vector3);
             enemy[i].transform.rotation = Quaternion.Slerp(enemy[i].transform.rotation, q, Time.deltaTime * rotateSpeed);
@@ -155,6 +181,10 @@ public class GameOver : MonoBehaviour
             if (dis < 0.1f)
             {
                 attacked = true;
+                if (enemyAnimator[i].GetBool("Running"))
+                {
+                    enemyAnimator[i].SetBool("Running", false);
+                }
             }
             else
             {
@@ -179,6 +209,13 @@ public class GameOver : MonoBehaviour
         PlayerRunAway();
         if (timer > lookTime)
         {
+            for (int i = 0; i < enemyAnimator.Length; i++)
+            {
+                if (!enemyAnimator[i].GetBool("Running"))
+                {
+                    enemyAnimator[i].SetBool("Running", true);
+                }
+            }
             mode = Mode.chase;
             timer = 0.0f;
         }
@@ -228,6 +265,10 @@ public class GameOver : MonoBehaviour
     //ì¶Ç∞ÇÈ
     void PlayerRunAway()
     {
+        if (!playerAnimator.GetBool("Moving"))
+        {
+            playerAnimator.SetBool("Moving", true);
+        }
         Vector3 vector3 = secondPlayerPos.transform.position - player.transform.position;
         Quaternion q = Quaternion.LookRotation(vector3);
         player.transform.rotation = Quaternion.Slerp(player.transform.rotation, q, Time.deltaTime * playerRotateSpeed);
