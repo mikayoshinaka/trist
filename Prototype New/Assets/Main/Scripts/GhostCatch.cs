@@ -522,6 +522,7 @@ public class GhostCatch : MonoBehaviour
     {
         if (attacked == false)
         {
+            animator.SetBool("open", true);
             audioSource.PlayOneShot(attackedSE);
             attacked = true;
         }
@@ -562,6 +563,7 @@ public class GhostCatch : MonoBehaviour
         }
         if (enemyFleeComplete == true)
         {
+            animator.SetBool("open", false);
             ReSetCatch();
             attacked = false;
             mode = Mode.CannotGrab;
