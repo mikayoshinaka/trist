@@ -6,6 +6,7 @@ public class ColorActionObjects : MonoBehaviour
 {
     public GameObject colorHitEffect;
     public GameObject cannonball;
+    public GameObject cannonExplosion;
     public GameObject energyZap;
     public GameObject possessAura;
 }

@@ -52340,6 +52340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorHitEffect: {fileID: 3887473314260852995, guid: 3704656b314df304bba2a77351d1bee4, type: 3}
   cannonball: {fileID: 8829557549659465613, guid: 22e9b57dbb68db04f9d4446f81ce74f0, type: 3}
+  cannonExplosion: {fileID: 1979799909409204565, guid: 9480eee11ae611040986de125cd86bef, type: 3}
   energyZap: {fileID: 3314838938020716595, guid: aaa452e350d410d45bf8091423f3cc80, type: 3}
   possessAura: {fileID: 4859580591596675567, guid: f3afb02486acae642b85d747dfaf07cc, type: 3}
 --- !u!114 &1161104586488154379

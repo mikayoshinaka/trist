@@ -194,6 +194,11 @@ public class ColorAct_Purple : ColorActState
         CannonCollider(colorAct);
         //小野澤　サウンド用
         GameObject.Find("CannonBallSound").GetComponent<CannonBallHitSE>().HitBall();
+        
+        // 爆発エフェクト
+        GameObject explosion = MonoBehaviour.Instantiate(colorActionObjects.cannonExplosion, cannonball.transform.position, cannonball.transform.rotation, instantiatedObjects.transform);
+        MonoBehaviour.Destroy(explosion, 1f);
+
         shooting = false;
         MonoBehaviour.Destroy(cannonball);
     }
