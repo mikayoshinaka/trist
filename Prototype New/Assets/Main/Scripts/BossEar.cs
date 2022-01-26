@@ -14,6 +14,7 @@ public class BossEar : MonoBehaviour
     [SerializeField] private GameObject flyleftEar;
     [SerializeField] private GameObject flyrightEar;
     [SerializeField] private GameObject jointPos;
+    [SerializeField] private GameObject jointPos2;
     [SerializeField] private float canDetachDis = 2;
     Vector3 leftEarjointPos;
     Vector3 rightEarjointPos;
@@ -39,17 +40,11 @@ public class BossEar : MonoBehaviour
     {
         if (earNum == 1)
         {
-            //leftEarjoint.transform.position =new Vector3( playerController.transform.position.x+this.transform.TransformPoint(leftEarjointPos).x
-            //                                            , playerController.transform.position.y+2 + this.transform.TransformPoint(leftEarjointPos).y
-            //                                            , playerController.transform.position.z + this.transform.TransformPoint(leftEarjointPos).z);
             leftEarjoint.transform.position = jointPos.transform.position;
         }
         else if (earNum == 2)
         {
-            //rightEarjoint.transform.position = new Vector3(playerController.transform.position.x+this.transform.TransformPoint(rightEarjointPos).x
-            //                                            , playerController.transform.position.y+2 + this.transform.TransformPoint(rightEarjointPos).y
-            //                                            , playerController.transform.position.z + this.transform.TransformPoint(rightEarjointPos).z);
-            rightEarjoint.transform.position = new Vector3(jointPos.transform.position.x, jointPos.transform.position.y + 1, jointPos.transform.position.z);
+            rightEarjoint.transform.position = jointPos2.transform.position;
         }
     }
     //ˆø‚Á’£‚éŽ¨‚ð‘I‘ð

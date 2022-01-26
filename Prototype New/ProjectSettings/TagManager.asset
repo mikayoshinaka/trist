@@ -34,6 +34,12 @@ TagManager:
   - GreenDoll
   - RedDoll
   - YellowDoll
+  - OrangeDoll2
+  - PurpleDoll2
+  - BlueDoll2
+  - GreenDoll2
+  - RedDoll2
+  - YellowDoll2
   layers:
   - Default
   - TransparentFX

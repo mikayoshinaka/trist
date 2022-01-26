@@ -4342,7 +4342,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1571241478}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &254008252
 AudioSource:
@@ -38428,6 +38428,7 @@ MonoBehaviour:
   flyleftEar: {fileID: 1535818284}
   flyrightEar: {fileID: 1346175608}
   jointPos: {fileID: 1052594457}
+  jointPos2: {fileID: 1955410461}
   canDetachDis: 12
   earNum: 0
 --- !u!1001 &1816348241
@@ -41162,6 +41163,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2782188002199835549, guid: c07e06ee95a601d47bc599c31bcf69b3, type: 3}
   m_PrefabInstance: {fileID: 538391615}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1955410461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1955410462}
+  m_Layer: 3
+  m_Name: JointPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1955410462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955410461}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0.1586}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
+  m_Children: []
+  m_Father: {fileID: 1571241478}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1956165876
 GameObject:
   m_ObjectHideFlags: 0

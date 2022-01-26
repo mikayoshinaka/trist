@@ -150,6 +150,30 @@ public class DollSave : MonoBehaviour
                 {
                     dollColor.Add(6);
                 }
+                else if (dolls[i].tag == "OrangeDoll2")
+                {
+                    dollColor.Add(7);
+                }
+                else if (dolls[i].tag == "PurpleDoll2")
+                {
+                    dollColor.Add(8);
+                }
+                else if (dolls[i].tag == "BlueDoll2")
+                {
+                    dollColor.Add(9);
+                }
+                else if (dolls[i].tag == "GreenDoll2")
+                {
+                    dollColor.Add(10);
+                }
+                else if (dolls[i].tag == "RedDoll2")
+                {
+                    dollColor.Add(11);
+                }
+                else if (dolls[i].tag == "YellowDoll2")
+                {
+                    dollColor.Add(12);
+                }
             }
                 PlayerPrefs.SetInt("dollCount", dolls.Count);
                 SceneManager.LoadScene("Result");

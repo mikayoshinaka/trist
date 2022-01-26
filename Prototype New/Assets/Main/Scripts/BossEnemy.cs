@@ -46,7 +46,7 @@ public class BossEnemy : MonoBehaviour
     public float laserTimer = 0.0f;
     [SerializeField] float laserSpeed = 30.0f;
     [SerializeField] float laserMaxAngle = 30.0f;
-    private float horizontalAngle = 0.0f;
+    private float horizontalAngle;
     private float horizontalAngleLimit = 45.0f;
     bool laserStart;
     //ƒŠƒZƒbƒg
@@ -102,6 +102,7 @@ public class BossEnemy : MonoBehaviour
 
         lr = laser.GetComponent<LineRenderer>();
         laserStart = false;
+        horizontalAngle = laserMaxAngle;
         agent = GetComponent<NavMeshAgent>();
 
         beforePlayerPos = player.transform.position;
@@ -380,7 +381,7 @@ public class BossEnemy : MonoBehaviour
             lr.positionCount = 2;
             laserTimer = 0.0f;
             mode = Mode.change;
-            horizontalAngle = 0.0f;
+            horizontalAngle = laserMaxAngle;
             animator.SetBool("Beam", false);
             audioSource.Stop();
             if (laserSpeed < 0)
@@ -545,6 +546,7 @@ public class BossEnemy : MonoBehaviour
         changeTimer = 0.0f;
         fireTimer = 0.0f;
         laserTimer = 0.0f;
+        horizontalAngle = laserMaxAngle;
         lr.positionCount = 0;
         lr.positionCount = 2;
         if (laserSpeed < 0)

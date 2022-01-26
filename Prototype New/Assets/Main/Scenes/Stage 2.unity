@@ -4212,9 +4212,10 @@ GameObject:
   - component: {fileID: 199990532}
   - component: {fileID: 199990534}
   - component: {fileID: 199990533}
+  - component: {fileID: 199990535}
   m_Layer: 0
   m_Name: Upwall1 (3)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4283,6 +4284,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199990531}
   m_Mesh: {fileID: 5343841824059579792, guid: 526655ee9e96ba04d9eeb76b2d8805da, type: 3}
+--- !u!65 &199990535
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 199990531}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3959558, y: 3.8279572, z: 26.68662}
+  m_Center: {x: -0.000000014901161, y: 0, z: 0}
 --- !u!1001 &205835044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4972,7 +4986,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1571241478}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &254008252
 AudioSource:
@@ -12741,9 +12755,10 @@ GameObject:
   - component: {fileID: 546289742}
   - component: {fileID: 546289744}
   - component: {fileID: 546289743}
+  - component: {fileID: 546289745}
   m_Layer: 0
   m_Name: Upwall1 (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12812,6 +12827,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546289741}
   m_Mesh: {fileID: 5343841824059579792, guid: 526655ee9e96ba04d9eeb76b2d8805da, type: 3}
+--- !u!65 &546289745
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546289741}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3959559, y: 3.8279572, z: 26.686626}
+  m_Center: {x: -0.000000014901165, y: 0, z: 0}
 --- !u!1 &549930994
 GameObject:
   m_ObjectHideFlags: 0
@@ -18569,7 +18597,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
       propertyPath: m_LocalScale.x
@@ -18814,9 +18842,10 @@ GameObject:
   - component: {fileID: 886950778}
   - component: {fileID: 886950780}
   - component: {fileID: 886950779}
+  - component: {fileID: 886950781}
   m_Layer: 0
   m_Name: Upwall1 (4)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18885,6 +18914,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886950777}
   m_Mesh: {fileID: 5343841824059579792, guid: 526655ee9e96ba04d9eeb76b2d8805da, type: 3}
+--- !u!65 &886950781
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886950777}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3959559, y: 3.8279572, z: 26.686625}
+  m_Center: {x: -0.000000014901165, y: 0, z: -2.1175824e-22}
 --- !u!1001 &887311808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28686,7 +28728,7 @@ GameObject:
   - component: {fileID: 1269751252}
   m_Layer: 0
   m_Name: Upwall1
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30474,6 +30516,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333717574}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1335044814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1335044815}
+  m_Layer: 3
+  m_Name: JointPos2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1335044815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335044814}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0.1586}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
+  m_Children: []
+  m_Father: {fileID: 1571241478}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1336039910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42612,9 +42684,10 @@ GameObject:
   - component: {fileID: 1799218811}
   - component: {fileID: 1799218813}
   - component: {fileID: 1799218812}
+  - component: {fileID: 1799218814}
   m_Layer: 0
   m_Name: Upwall1 (5)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42683,6 +42756,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799218810}
   m_Mesh: {fileID: 5343841824059579792, guid: 526655ee9e96ba04d9eeb76b2d8805da, type: 3}
+--- !u!65 &1799218814
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799218810}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3959559, y: 3.8279572, z: 26.686625}
+  m_Center: {x: -0.000000014901165, y: 0, z: 2.1175824e-22}
 --- !u!1 &1806075395
 GameObject:
   m_ObjectHideFlags: 3
@@ -42911,6 +42997,7 @@ MonoBehaviour:
   flyleftEar: {fileID: 1535818284}
   flyrightEar: {fileID: 1346175608}
   jointPos: {fileID: 1052594457}
+  jointPos2: {fileID: 1335044814}
   canDetachDis: 2
   earNum: 0
 --- !u!1001 &1816169214
@@ -46540,9 +46627,10 @@ GameObject:
   - component: {fileID: 1964885533}
   - component: {fileID: 1964885535}
   - component: {fileID: 1964885534}
+  - component: {fileID: 1964885536}
   m_Layer: 0
   m_Name: Upwall1 (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46611,6 +46699,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1964885532}
   m_Mesh: {fileID: 5343841824059579792, guid: 526655ee9e96ba04d9eeb76b2d8805da, type: 3}
+--- !u!65 &1964885536
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964885532}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3959559, y: 3.8279572, z: 26.686626}
+  m_Center: {x: -0.000000014901165, y: 0, z: 0}
 --- !u!1001 &1966013796
 PrefabInstance:
   m_ObjectHideFlags: 0

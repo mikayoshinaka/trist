@@ -206,7 +206,7 @@ public class GhostCatch : MonoBehaviour
             {
                 if (bossEnemy[0].GetComponent<BossEnemy>().bossHP == 0)
                 {
-                    bossEnemy[0].transform.parent = player.transform;
+                    bossEnemy[0].transform.parent = playerController.transform;
                 }
                 audioSource.PlayOneShot(grabSE);
                 caughtObj.Add(bossEnemy[0]);
@@ -268,8 +268,6 @@ public class GhostCatch : MonoBehaviour
             else
             {
                 bossGrab = false;
-
-                caughtObj[0].transform.parent = null;
                 Vector3 startPos = transform.InverseTransformPoint(caughtObj[0].transform.GetChild(0).position);
                 caughtObjPos.Add(startPos);
                 time.Add(0.0f);
@@ -310,7 +308,7 @@ public class GhostCatch : MonoBehaviour
                         enemy[i].GetComponent<DonyoriBehaviour>().enabled = false;
                     }
 
-                    enemy[i].transform.parent = player.transform;
+                    enemy[i].transform.parent = playerController.transform;
                     caughtObj.Add(enemy[i]);
                     audioSource.PlayOneShot(grabSE);
                 }
@@ -339,7 +337,7 @@ public class GhostCatch : MonoBehaviour
                         enemy[i].GetComponent<DonyoriBehaviour>().enabled = false;
                     }
 
-                    enemy[i].transform.parent = player.transform;
+                    enemy[i].transform.parent = playerController.transform;
                     caughtObj.Add(enemy[i]);
                     audioSource.PlayOneShot(grabSE);
                 }
@@ -351,7 +349,7 @@ public class GhostCatch : MonoBehaviour
             grab = false;
             for (int i = 0; i < caughtObj.Count; i++)
             {
-                caughtObj[i].transform.parent = null;
+                //caughtObj[i].transform.parent = null;
                 Vector3 startPos = transform.InverseTransformPoint(caughtObj[i].transform.GetChild(0).position);
                 caughtObjPos.Add(startPos);
                 time.Add(0.0f);
@@ -731,19 +729,19 @@ public class GhostCatch : MonoBehaviour
             {
                 doll = Instantiate(redDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Red);
-                doll.tag = "RedDoll";
+                doll.tag = "RedDoll2";
             }
             else if (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2")
             {
                 doll = Instantiate(blueDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Blue);
-                doll.tag = "BlueDoll";
+                doll.tag = "BlueDoll2";
             }
             else if (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2")
             {
                 doll = Instantiate(yellowDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Yellow);
-                doll.tag = "YellowDoll";
+                doll.tag = "YellowDoll2";
             }
             //ボス
             else if (ghost[0].transform.GetChild(0).tag == "BossEnemyBody")
@@ -811,21 +809,21 @@ public class GhostCatch : MonoBehaviour
             {
                 doll = Instantiate(darkRedDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkRed);
-                doll.tag = "RedDoll";
+                doll.tag = "RedDoll2";
             }
             else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
                   || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody"))
             {
                 doll = Instantiate(darkBlueDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkBlue);
-                doll.tag = "BlueDoll";
+                doll.tag = "BlueDoll2";
             }
             else if ((ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
                   || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody"))
             {
                 doll = Instantiate(darkYellowDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_DarkYellow);
-                doll.tag = "YellowDoll";
+                doll.tag = "YellowDoll2";
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
                   || (ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2")
@@ -834,7 +832,7 @@ public class GhostCatch : MonoBehaviour
             {
                 doll = Instantiate(purpleDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Purple);
-                doll.tag = "PurpleDoll";
+                doll.tag = "PurpleDoll2";
             }
             else if ((ghost[0].transform.GetChild(0).tag == "BlueEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
                   || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "BlueEnemyBody2")
@@ -843,7 +841,7 @@ public class GhostCatch : MonoBehaviour
             {
                 doll = Instantiate(greenDoll2, dollInstancePos.position, Quaternion.identity); ;
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Green);
-                doll.tag = "GreenDoll";
+                doll.tag = "GreenDoll2";
             }
             else if ((ghost[0].transform.GetChild(0).tag == "RedEnemyBody2" && ghost[1].transform.GetChild(0).tag == "YellowEnemyBody2")
                   || (ghost[0].transform.GetChild(0).tag == "YellowEnemyBody2" && ghost[1].transform.GetChild(0).tag == "RedEnemyBody2")
@@ -852,7 +850,7 @@ public class GhostCatch : MonoBehaviour
             {
                 doll = Instantiate(orangeDoll2, dollInstancePos.position, Quaternion.identity);
                 colorAction.ChooseColorAction(ColorAction.ColorGimmick.gimmick_Orange);
-                doll.tag = "OrangeDoll";
+                doll.tag = "OrangeDoll2";
             }
         }
         doll.transform.parent = playerController.transform;
