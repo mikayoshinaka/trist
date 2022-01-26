@@ -280,6 +280,7 @@ public class GhostCatch : MonoBehaviour
                 lamp1.SetActive(false);
                 lamp0.SetActive(false);
                 audioSource.PlayOneShot(slowSE);
+                animator.SetBool("open", true);
                 mode = Mode.Fusion;
             }
 
