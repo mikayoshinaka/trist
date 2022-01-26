@@ -980,14 +980,15 @@ public class GhostCatch : MonoBehaviour
             if (enemy.tag == "NormalGhost")
             {
                 enemy.GetComponent<EnemyBehaviour>().enabled = true;
+                enemy.transform.parent = GameObject.Find("Enemies").transform;
             }
             else if (enemy.tag == "DonyoriGhost")
             {
                 enemy.GetComponent<DonyoriBehaviour>().enabled = true;
+                enemy.transform.parent = GameObject.Find("DonyoriEnemies").transform;
             }
 
             enemy.GetComponent<NavMeshAgent>().isStopped = false;
-            enemy.transform.parent = GameObject.Find("Enemies").transform;
         }
         else if (enemy.tag == "BossEnemy")
         {

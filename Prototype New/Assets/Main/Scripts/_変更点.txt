@@ -153,3 +153,24 @@ ColorAct_Purple
 195行
  //小野澤　サウンド用
         GameObject.Find("CannonBallSound").GetComponent<CannonBallHitSE>().HitBall();
+
+
+
+============	2022.1.26	================
+
+変更内容：
+GhostCatch
+
+public void CaughtObjMoveable(GameObject enemy)
+{
+    //enemy.transform.parent = GameObject.Find("Enemies").transform; を　２種類に分かれます
+    
+            if (enemy.tag == "NormalGhost")
+            {
+                enemy.transform.parent = GameObject.Find("Enemies").transform;
+            }
+            else if (enemy.tag == "DonyoriGhost")
+            {
+                enemy.transform.parent = GameObject.Find("DonyoriEnemies").transform;
+            }
+}
