@@ -50,6 +50,7 @@ public class ColorAct_Green : ColorActState
         gimmickUI.SetActive(true);
         pressUI = gimmickUI.transform.Find("Press").gameObject;
         pressUI.SetActive(true);
+        pressUI.GetComponent<UnityEngine.UI.Image>().sprite = gimmickUI.GetComponent<ColorActionUI>().green;
         waitUI = gimmickUI.transform.Find("Wait").gameObject;
     }
 

@@ -64,6 +64,7 @@ public class ColorAct_Purple : ColorActState
         gimmickUI.SetActive(true);
         pressUI = gimmickUI.transform.Find("Press").gameObject;
         pressUI.SetActive(true);
+        pressUI.GetComponent<UnityEngine.UI.Image>().sprite = gimmickUI.GetComponent<ColorActionUI>().purple;
         waitUI = gimmickUI.transform.Find("Wait").gameObject;
     }
 

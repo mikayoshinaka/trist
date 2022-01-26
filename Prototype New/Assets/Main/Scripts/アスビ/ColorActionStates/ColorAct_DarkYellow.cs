@@ -51,6 +51,7 @@ public class ColorAct_DarkYellow : ColorActState
         gimmickUI.SetActive(true);
         pressUI = gimmickUI.transform.Find("Press").gameObject;
         pressUI.SetActive(true);
+        pressUI.GetComponent<UnityEngine.UI.Image>().sprite = gimmickUI.GetComponent<ColorActionUI>().darkYellow;
         waitUI = gimmickUI.transform.Find("Wait").gameObject;
     }
 

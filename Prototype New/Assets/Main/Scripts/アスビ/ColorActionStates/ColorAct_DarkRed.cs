@@ -57,6 +57,7 @@ public class ColorAct_DarkRed : ColorActState
         gimmickUI.SetActive(true);
         pressUI = gimmickUI.transform.Find("Press").gameObject;
         pressUI.SetActive(true);
+        pressUI.GetComponent<UnityEngine.UI.Image>().sprite = gimmickUI.GetComponent<ColorActionUI>().darkRed;
         waitUI = gimmickUI.transform.Find("Wait").gameObject;
 
         enemyList.Clear();
