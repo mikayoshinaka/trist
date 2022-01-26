@@ -346,7 +346,7 @@ public class DonyoriBehaviour : MonoBehaviour
         searchSet = false;
         standby = false;
         cooldown = false;
-        agent.speed = donyoriManager.speed;
+        GetComponent<NavMeshAgent>().speed = transform.parent.GetComponent<DonyoriManager>().speed;
     }
 
     // ‰Æ‹ï‚ð’T‚·
