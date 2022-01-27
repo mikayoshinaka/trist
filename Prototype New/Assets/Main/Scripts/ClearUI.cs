@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -103,6 +103,7 @@ public class ClearUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //存在するなら動かす
         if(fallDollCount==0)
         {
             if(orange==true)
@@ -299,6 +300,7 @@ public class ClearUI : MonoBehaviour
         }
         
     }
+    //捕まえた色を判別
     void DollColorExist()
     {
         for(int i=0;i<dollColor.Count;i++)
@@ -353,7 +355,7 @@ public class ClearUI : MonoBehaviour
             }
         }
     }
-
+    //人形を動かす
     void DollMove(RectTransform doll,GameObject dollPos)
     {
         doll.transform.position = Vector3.MoveTowards(doll.transform.position, dollPos.transform.position, dollMoveSpeed * Time.deltaTime);
@@ -364,6 +366,7 @@ public class ClearUI : MonoBehaviour
         }
         
     }
+    //人形の数を数える
     void DollCount()
     {
         dollCount = PlayerPrefs.GetInt("dollCount");

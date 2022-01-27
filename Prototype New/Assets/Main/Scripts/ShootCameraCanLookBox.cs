@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ public class ShootCameraCanLookBox : MonoBehaviour
         ghostCatch = GameObject.Find("CatchArea").GetComponent<GhostCatch>();
     }
 
+    //人形を入れる際カメラに邪魔になる壁や物を消し、終わったら元に戻す
     // Update is called once per frame
     void Update()
     {

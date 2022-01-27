@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +21,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] GameObject floor1;
     [SerializeField] GameObject floor2;
     [SerializeField] GameObject endUI;
-    //ìG
+    //Êïµ
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float sidleSpeed;
@@ -31,7 +31,7 @@ public class GameOver : MonoBehaviour
     [SerializeField] private float lookTime;
     [SerializeField] private float chaseTime;
     [SerializeField] private Animator[] enemyAnimator;
-    //ÉvÉåÉCÉÑÅ[
+    //„Éó„É¨„Ç§„É§„Éº
     [SerializeField] private float playerMoveSpeed;
     [SerializeField] private float playerRotateSpeed;
     [SerializeField] private float playerFidgetRotateSpeed;
@@ -262,7 +262,7 @@ public class GameOver : MonoBehaviour
     {
         fadeImage.color = new Color(red, green, blue, alfa);
     }
-    //ì¶Ç∞ÇÈ
+    //ÈÄÉ„Åí„Çã
     void PlayerRunAway()
     {
         if (!playerAnimator.GetBool("Moving"))
@@ -274,6 +274,7 @@ public class GameOver : MonoBehaviour
         player.transform.rotation = Quaternion.Slerp(player.transform.rotation, q, Time.deltaTime * playerRotateSpeed);
         player.transform.position = Vector3.MoveTowards(player.transform.position, secondPlayerPos.transform.position, playerMoveSpeed * Time.deltaTime);
     }
+    //ÁãºÁãΩ
     void PlayerFidget()
     {
 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,9 +16,11 @@ public class Transparent : MonoBehaviour
         ghostCatch= GameObject.Find("CatchArea");
     }
 
+    //敵の姿を消す　表示する
     // Update is called once per frame
     void Update()
     {
+        //本にとりついている時
         if (possessScript.GetComponent<Possess>().possess ==true)
         {
             if (this.gameObject.tag=="BossEnemyBody")
@@ -35,6 +37,7 @@ public class Transparent : MonoBehaviour
             }        
         }
         else {
+            //運んでいる時、人形を入れている時　ボスを入れた後
             if (ghostCatch.GetComponent<GhostCatch>().mode==GhostCatch.Mode.Carry|| ghostCatch.GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot|| ghostCatch.GetComponent<GhostCatch>().mode == GhostCatch.Mode.End)
             {
                 
@@ -87,6 +90,7 @@ public class Transparent : MonoBehaviour
             }
         }
     }
+    //見えない
     private void EnemyInvisible(GameObject enemy)
     {
         float a;
@@ -101,6 +105,7 @@ public class Transparent : MonoBehaviour
             enemy.GetComponent<Renderer>().material.SetFloat("_Transparent", 1.0f);
         }
     }
+    //見える
     private void EnemySeem(GameObject enemy)
     {
         float a;

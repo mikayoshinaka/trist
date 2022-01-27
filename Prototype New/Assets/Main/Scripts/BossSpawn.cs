@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ public class BossSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //�{�X�̏o��
+        //ボスの出現
         if(spawn==false&&
           ((GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode == GhostCatch.Mode.CanGrab)||
            (GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode == GhostCatch.Mode.CannotGrab) ||
@@ -36,7 +36,7 @@ public class BossSpawn : MonoBehaviour
             spawn = true;
             boss.SetActive(true);
         }
-
+        //ボスUIの表示
         if(spawn==true&&timer<spawnTimeMax)
         {
             float angle = GetAngle(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(boss.transform.position.x, boss.transform.position.z));
@@ -142,7 +142,7 @@ public class BossSpawn : MonoBehaviour
             }
         }
     }
-
+    //角度取得
     float GetAngle(Vector2 start,Vector2 target)
     {
         Vector2 dt = target - start;

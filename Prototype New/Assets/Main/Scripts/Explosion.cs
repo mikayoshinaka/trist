@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -17,6 +17,7 @@ public class Explosion : MonoBehaviour
     {
         
     }
+    //爆発表示　火球を消す
     private void OnCollisionEnter(Collision other)
     {
         if (explode==true) {

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class BGM : MonoBehaviour
 {
     public AudioClip[] clips;
     public AudioSource audioSource;
+    //二つ以上にならないように
     private void Awake()
     {
         int numMusicPlayers = FindObjectsOfType<BGM>().Length;

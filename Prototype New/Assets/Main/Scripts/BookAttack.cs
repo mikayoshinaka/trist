@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +21,7 @@ public class BookAttack : MonoBehaviour
         }
     }
 
+    //攻撃できる本に変える
     // Update is called once per frame
     void Update()
     {

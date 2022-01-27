@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 
 public class BossEnemy : MonoBehaviour
 {
-    //ƒ{ƒX©g
+    //ãƒœã‚¹è‡ªèº«
     Animator animator;
     [SerializeField] BossEar bossEar;
     [SerializeField] private float leftBossEarAngle = 25.0f;
@@ -16,11 +16,11 @@ public class BossEnemy : MonoBehaviour
     public int bossHP;
     public bool hpDown;
     private float bossSize = 1.0f;
-    //UŒ‚ŠJn
+    //æ”»æ’ƒé–‹å§‹
     [SerializeField] float changeTimerMax = 2.0f;
     public float changeTimer = 0.0f;
     [SerializeField] float hitPlayerDis = 3.0f;
-    //‰Î‹…
+    //ç«çƒ
     [SerializeField] float radius = 10;
     [SerializeField] GameObject fireBall;
     [SerializeField] VisualEffect effect;
@@ -39,7 +39,7 @@ public class BossEnemy : MonoBehaviour
     bool startFireInstance;
     bool fireInstance;
     Vector3 instantPlayerPos;
-    //ƒŒ[ƒU[
+    //ãƒ¬ãƒ¼ã‚¶ãƒ¼
     [SerializeField] GameObject laser;
     private LineRenderer lr;
     [SerializeField] float laserTimerMax = 4.0f;
@@ -49,11 +49,11 @@ public class BossEnemy : MonoBehaviour
     private float horizontalAngle;
     private float horizontalAngleLimit = 45.0f;
     bool laserStart;
-    //ƒŠƒZƒbƒg
+    //ãƒªã‚»ãƒƒãƒˆ
     public bool reSet;
     private float grabbedDownTime = 0.0f;
     private float grabbedDownTimeMax = 1.0f;
-    //ˆÚ“®
+    //ç§»å‹•
     public List<Vector3> sourcePos = new List<Vector3>();
     private float randomMoveTimer;
     [SerializeField] float randomMoveTimerMax = 1.0f;
@@ -149,7 +149,7 @@ public class BossEnemy : MonoBehaviour
         CalculateAmountOfMovement(ref playerAmountOfMovement, ref beforePlayerPos, player.transform.position);
         CalculateAmountOfMovement(ref bossAmountOfMovement, ref beforeBossPos, this.gameObject.transform.position);
     }
-    //hpŒ¸­‚É‚æ‚éƒ{ƒX‹­‰»
+    //hpæ¸›å°‘ã«ã‚ˆã‚‹ãƒœã‚¹å¼·åŒ–
     void BossPowerUp()
     {
         fireBallCount = 12;
@@ -158,7 +158,7 @@ public class BossEnemy : MonoBehaviour
         changeTimerMax = 2.0f;
         agent.speed = 5.0f;
     }
-    //ƒTƒCƒY•ÏX
+    //ã‚µã‚¤ã‚ºå¤‰æ›´
     void SizeDown()
     {
         if (bossSize > 0.0f)
@@ -176,7 +176,7 @@ public class BossEnemy : MonoBehaviour
         }
     }
 
-    //‰Î‹…UŒ‚
+    //ç«çƒæ”»æ’ƒ
     void FireShoot()
     {
         transform.LookAt(new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z));
@@ -215,7 +215,7 @@ public class BossEnemy : MonoBehaviour
         }
     }
 
-    //‰Î‹…¶¬
+    //ç«çƒç”Ÿæˆ
     IEnumerator GenerateFire()
     {
         yield return new WaitForSeconds(0.5f);
@@ -259,7 +259,7 @@ public class BossEnemy : MonoBehaviour
         }
     }
 
-    //‰Î‹…ˆÚ“®
+    //ç«çƒç§»å‹•
     void FireAttack(Vector3 playerPos, GameObject fireBall1, GameObject fireBall2, Vector3 dir1, Vector3 dir2)
     {
 
@@ -294,7 +294,7 @@ public class BossEnemy : MonoBehaviour
             fireBall2.SetActive(false);
         }
     }
-    //‰Î‹…‚ÌŒü‚©‚¤•ûŒü
+    //ç«çƒã®å‘ã‹ã†æ–¹å‘
     Vector3 FireTerminus(Vector3 startPos, Vector3 endPos)
     {
         Vector3 heading = endPos - startPos;
@@ -302,7 +302,7 @@ public class BossEnemy : MonoBehaviour
         Vector3 direction = heading / distance;
         return direction;
     }
-    //‰Î‹…UŒ‚@ˆÚ“®
+    //ç«çƒæ”»æ’ƒã€€ç§»å‹•
     IEnumerator AttackingFire(Vector3 playerPos, GameObject fireBall1, GameObject fireBall2, Vector3 dir1, Vector3 dir2)
     {
         if (reSet == false)
@@ -331,7 +331,7 @@ public class BossEnemy : MonoBehaviour
         }
 
     }
-    //‰Î‹…‚ÌoŒ»êŠ
+    //ç«çƒã®å‡ºç¾å ´æ‰€
     void FireSet()
     {
         float angleDiff = 360.0f / (float)fireBallCount;
@@ -361,7 +361,7 @@ public class BossEnemy : MonoBehaviour
         }
 
     }
-    //ƒŒ[ƒU[‚ğ‘Å‚Â
+    //ãƒ¬ãƒ¼ã‚¶ãƒ¼ã‚’æ‰“ã¤
     void LaserShoot()
     {
         if (laserStart == false)
@@ -390,7 +390,7 @@ public class BossEnemy : MonoBehaviour
             }
         }
     }
-    //ƒŒ[ƒU[‚ÌˆÚ“®
+    //ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®ç§»å‹•
     void LaserMigration()
     {
         LaserRotation();
@@ -418,7 +418,7 @@ public class BossEnemy : MonoBehaviour
             lr.SetPosition(1, laser.transform.forward * 500);
         }
     }
-    //ƒŒ[ƒU[‚Ì‰ñ“]
+    //ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®å›è»¢
     void LaserRotation()
     {
         horizontalAngle += Time.deltaTime * -laserSpeed;
@@ -434,7 +434,7 @@ public class BossEnemy : MonoBehaviour
             laserSpeed *= -1;
         }
     }
-    //ƒ‚[ƒh•ÏX
+    //ãƒ¢ãƒ¼ãƒ‰å¤‰æ›´
     void ModeChange()
     {
         bool hitPlayer = InArea(hitPlayerDis);
@@ -470,7 +470,7 @@ public class BossEnemy : MonoBehaviour
             }
         }
     }
-    //ƒGƒŠƒA“à‚ÉƒvƒŒƒCƒ„[‚ª‚¢‚é‚©‚Ç‚¤‚©
+    //ã‚¨ãƒªã‚¢å†…ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹ã‹ã©ã†ã‹
     bool InArea(float hitDis)
     {
         float dis = Vector3.Distance(player.transform.position, this.transform.position);
@@ -483,12 +483,12 @@ public class BossEnemy : MonoBehaviour
             return false;
         }
     }
-    //ƒ{ƒX‚ª“|‚ê‚½‚Æ‚«
+    //ãƒœã‚¹ãŒå€’ã‚ŒãŸã¨ã
     void BossDown()
     {
         agent.agentTypeID = 0;
     }
-    //’Í‚Ü‚ê‚½
+    //æ´ã¾ã‚ŒãŸ
     void BossGrabbed()
     {
         if (bossHP > 0 && player.transform.GetChild(0).GetChild(3).GetComponent<GhostCatch>().mode == GhostCatch.Mode.CanGrab)
@@ -528,7 +528,7 @@ public class BossEnemy : MonoBehaviour
 
 
     }
-    //‚·‚×‚ÄŒ³‚É–ß‚·
+    //ã™ã¹ã¦å…ƒã«æˆ»ã™
     void ResetMode()
     {
         animator.SetBool("Fire", false);
@@ -559,7 +559,7 @@ public class BossEnemy : MonoBehaviour
         }
         fireBalls.Clear();
     }
-    //ƒ‰ƒ“ƒ_ƒ€ˆÚ“®
+    //ãƒ©ãƒ³ãƒ€ãƒ ç§»å‹•
     void BossMoveRandom()
     {
         animator.SetBool("Walk", true);
@@ -623,7 +623,7 @@ public class BossEnemy : MonoBehaviour
             mode = Mode.chase;
         }
     }
-    //’Ç‚¢‚©‚¯‚é
+    //è¿½ã„ã‹ã‘ã‚‹
     void BossMoveChase()
     {
         animator.SetBool("Walk", true);
@@ -655,7 +655,7 @@ public class BossEnemy : MonoBehaviour
             }
         }
     }
-    //Œˆ‚Ü‚Á‚½êŠ‚ÉˆÚ“®
+    //æ±ºã¾ã£ãŸå ´æ‰€ã«ç§»å‹•
     void BossMoveSetPosition()
     {
         animator.SetBool("Walk", true);
@@ -674,7 +674,7 @@ public class BossEnemy : MonoBehaviour
             mode = Mode.chase;
         }
     }
-    //æ“Ç‚İ‚ÅŒü‚©‚¤êŠ
+    //å…ˆèª­ã¿ã§å‘ã‹ã†å ´æ‰€
     Vector3 lookAhead()
     {
         Vector3 Vr, Sr;
@@ -684,7 +684,7 @@ public class BossEnemy : MonoBehaviour
         Tc = Mathf.Abs(Mathf.Sqrt(Sr.x * Sr.x + Sr.y * Sr.y + Sr.z * Sr.z)) / Mathf.Abs(Mathf.Sqrt(Vr.x * Vr.x + Vr.y * Vr.y + Vr.z * Vr.z));
         return player.transform.position + playerAmountOfMovement.normalized * Tc;
     }
-    //ˆÚ“®—ÊŒvZ
+    //ç§»å‹•é‡è¨ˆç®—
     void CalculateAmountOfMovement(ref Vector3 amountOfMovement, ref Vector3 beforePos, Vector3 moveObj)
     {
 

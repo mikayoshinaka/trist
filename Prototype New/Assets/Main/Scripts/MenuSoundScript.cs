@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,9 @@ public class MenuSoundScript : MonoBehaviour
     AudioSource audioSource;
     public AudioClip decideSE;
     public AudioClip selectSE;
-    // Start is called before the first frame update
+
+
+    //二つ以上にならないように
     private void Awake()
     {
         int numMusicPlayers = FindObjectsOfType<MenuSoundScript>().Length;

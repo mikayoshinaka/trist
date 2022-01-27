@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +35,7 @@ public class BossEar : MonoBehaviour
             PullEar();
         }
     }
-    //Ž¨‚ðˆø‚Á’£‚é
+    //è€³ã‚’å¼•ã£å¼µã‚‹
     public void PullEar()
     {
         if (earNum == 1)
@@ -47,7 +47,7 @@ public class BossEar : MonoBehaviour
             rightEarjoint.transform.position = jointPos2.transform.position;
         }
     }
-    //ˆø‚Á’£‚éŽ¨‚ð‘I‘ð
+    //å¼•ã£å¼µã‚‹è€³ã‚’é¸æŠž
     public void Selectear(GameObject ear)
     {
         if (ear.tag == "BossEarLeft")
@@ -60,7 +60,7 @@ public class BossEar : MonoBehaviour
         }
         pull = true;
     }
-    //Ž¨‚ð–ß‚·
+    //è€³ã‚’æˆ»ã™
     public void UndoEar(GameObject ear)
     {
         if (ear.tag == "BossEarLeft")
@@ -74,7 +74,7 @@ public class BossEar : MonoBehaviour
         pull = false;
 
     }
-    //Ž¨‚ðØ‚è—£‚·
+    //è€³ã‚’åˆ‡ã‚Šé›¢ã™
     public void DetachEar()
     {
         if (earNum == 1)
@@ -100,13 +100,13 @@ public class BossEar : MonoBehaviour
         }
         earNum = 0;
     }
-    //Ž¨‚ÌÅ‰‚ÌêŠ
+    //è€³ã®æœ€åˆã®å ´æ‰€
     void StartEarPos()
     {
         leftEarjointPos = this.transform.InverseTransformPoint(leftEarjoint.transform.position);
         rightEarjointPos = this.transform.InverseTransformPoint(rightEarjoint.transform.position);
     }
-    //Ž¨‚ð—£‚¹‚é‹——£
+    //è€³ã‚’é›¢ã›ã‚‹è·é›¢
     public bool CanDetachEar()
     {
         if (Vector3.Distance(playerController.transform.position, this.transform.position) >= canDetachDis)

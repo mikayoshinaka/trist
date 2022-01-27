@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -16,7 +16,7 @@ public class DonyoriBehaviour : MonoBehaviour
     [SerializeField] GameObject enemySweat;
     [SerializeField] GhostCatch ghostCatch;
 
-    [Header("“–‚½‚è”»’è")]
+    [Header("å½“ãŸã‚Šåˆ¤å®š")]
     [SerializeField] float patrolRange = 10f;
     public static float sightRange = 7.5f;
     public static float attackRange = 1.5f;
@@ -86,15 +86,17 @@ public class DonyoriBehaviour : MonoBehaviour
         gimmickAction = false;
         mazeGimmick = false;
         //enableGizmos = true;
+
+        audioSource = bookSound.GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        // “–‚½‚è”»’è
-        // õ“G”»’è
+        // å½“ãŸã‚Šåˆ¤å®š
+        // ç´¢æ•µåˆ¤å®š
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange * chaseRange, playerMask);
 
-        // UŒ‚”»’è
+        // æ”»æ’ƒåˆ¤å®š
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
         if (gimmickAction)
@@ -103,41 +105,41 @@ public class DonyoriBehaviour : MonoBehaviour
         }
         else if (moveAway)
         {
-            // ƒvƒŒƒCƒ„[‚©‚ç“¦‚°‚é
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰é€ƒã’ã‚‹
             MoveAway();
         }
         else if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Offensive)
         {
-            // ‰Æ‹ï‚ğ’T‚·
+            // å®¶å…·ã‚’æ¢ã™
             SearchObject();
 
-            // ‰Æ‹ï‚ğ‚Æ‚è‚Â‚­
+            // å®¶å…·ã‚’ã¨ã‚Šã¤ã
             Possessing();
         }
         else
         {
-            // ©—RˆÚ“®
+            // è‡ªç”±ç§»å‹•
             Patrol();
 
-            // õ“G
+            // ç´¢æ•µ
             Locate();
 
-            // UŒ‚
+            // æ”»æ’ƒ
             Action();
         }
     }
 
-    // “G‚Ìƒpƒ‰ƒ[ƒ^[’²®
+    // æ•µã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼èª¿æ•´
     void ActionAdjustment()
     {
-        // ƒm[ƒ}ƒ‹ƒXƒs[ƒh
+        // ãƒãƒ¼ãƒãƒ«ã‚¹ãƒ”ãƒ¼ãƒ‰
         if (enemyState == EnemyState.Patrol)
         {
             agent.speed = donyoriManager.speed;
             chaseRange = 1f;
             enemySight.chaseAngle = 1f;
         }
-        // ƒXƒs[ƒhã‚ª‚é
+        // ã‚¹ãƒ”ãƒ¼ãƒ‰ä¸ŠãŒã‚‹
         else if (enemyState == EnemyState.Locate)
         {
             agent.speed = donyoriManager.chaseSpeed;
@@ -146,9 +148,9 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
-    #region ©—RˆÚ“®
+    #region è‡ªç”±ç§»å‹•
 
-    // İ’è
+    // è¨­å®š
     void Patrol()
     {
         if ((!playerInSightRange && !playerInAttackRange) || !enemySight.detected)
@@ -184,7 +186,7 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
-    // ˆÚ“®İ’è
+    // ç§»å‹•è¨­å®š
     void SetPatrol()
     {
         float pointX = Random.Range(-patrolRange, patrolRange);
@@ -204,7 +206,7 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
-    // ˆÚ“®•ÏXƒ^ƒCƒ}[
+    // ç§»å‹•å¤‰æ›´ã‚¿ã‚¤ãƒãƒ¼
     Coroutine patrolling;
     IEnumerator Patrolling()
     {
@@ -214,9 +216,9 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
-    #region õ“G
+    #region ç´¢æ•µ
 
-    // İ’è
+    // è¨­å®š
     void Locate()
     {
         if (playerInSightRange && !playerInAttackRange)
@@ -243,9 +245,9 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
-    #region UŒ‚
+    #region æ”»æ’ƒ
 
-    // İ’è
+    // è¨­å®š
     void Action()
     {
         if (playerInSightRange && playerInAttackRange)
@@ -262,7 +264,7 @@ public class DonyoriBehaviour : MonoBehaviour
         }   
     }
 
-    // ƒvƒŒƒCƒ„[‚Æ“–‚½‚Á‚½‚É“¦‚°‚é
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨å½“ãŸã£ãŸæ™‚ã«é€ƒã’ã‚‹
     void Defense()
     {
         Runaway(3f);
@@ -270,9 +272,9 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
-    #region —£‚ê‚és“®
+    #region é›¢ã‚Œã‚‹è¡Œå‹•
 
-    // ƒvƒŒƒCƒ„[‚©‚ç“¦‚°‚é
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰é€ƒã’ã‚‹
     void Runaway(float time)
     {
         if (!moveAway)
@@ -285,7 +287,7 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
-    // “¦‚°‚éƒ^ƒCƒ}[
+    // é€ƒã’ã‚‹ã‚¿ã‚¤ãƒãƒ¼
     Coroutine runningAway;
     IEnumerator RunningAway(float time)
     {
@@ -294,7 +296,7 @@ public class DonyoriBehaviour : MonoBehaviour
         SetAwayDirection();
         moveAway = true;
 
-        // Š¾ƒ}[ƒN
+        // æ±—ãƒãƒ¼ã‚¯
         if (donyoriManager.enemyMode == DonyoriManager.EnemyMode.Mode_Defensive)
         {
             enemySweat.SetActive(true);
@@ -302,7 +304,7 @@ public class DonyoriBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(time);
 
-        // Š¾ƒ}[ƒN
+        // æ±—ãƒãƒ¼ã‚¯
         if (enemySweat.activeInHierarchy)
         {
             enemySweat.SetActive(false);
@@ -317,7 +319,7 @@ public class DonyoriBehaviour : MonoBehaviour
         moveAway = false;
     }
 
-    // ƒvƒŒƒCƒ„[‚©‚ç—£‚ê‚é•ûŒü
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰é›¢ã‚Œã‚‹æ–¹å‘
     private Vector3 awayDirection;
     void SetAwayDirection()
     {
@@ -331,9 +333,9 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
-    #region ‚Ç‚ñ‚æ‚è“Á•Ês“®
+    #region ã©ã‚“ã‚ˆã‚Šç‰¹åˆ¥è¡Œå‹•
 
-    // ’Êí‚É–ß‚é
+    // é€šå¸¸ã«æˆ»ã‚‹
     public void DonyoriReset()
     {
         if (targetPossession != null)
@@ -349,7 +351,7 @@ public class DonyoriBehaviour : MonoBehaviour
         GetComponent<NavMeshAgent>().speed = transform.parent.GetComponent<DonyoriManager>().speed;
     }
 
-    // ‰Æ‹ï‚ğ’T‚·
+    // å®¶å…·ã‚’æ¢ã™
     void SearchObject()
     {
         if (!standby)
@@ -409,7 +411,7 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
-    // ‰¼ƒoƒOC³
+    // ä»®ãƒã‚°ä¿®æ­£
     Coroutine FixRotation;
     IEnumerator OnFixRotation()
     {
@@ -435,7 +437,7 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
-    // –{’IUŒ‚
+    // æœ¬æ£šæ”»æ’ƒ
     Coroutine BookSplat;
     IEnumerator OnBookSplat()
     {
@@ -443,13 +445,13 @@ public class DonyoriBehaviour : MonoBehaviour
         cooldown = true;
 
         yield return new WaitForSeconds(0.5f);
-
-        // UŒ‚ŠJn
+        
+        // æ”»æ’ƒé–‹å§‹
         booksplatter.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
 
-        // “–‚½‚è”»’è - “–‚½‚Á‚½
+        // å½“ãŸã‚Šåˆ¤å®š - å½“ãŸã£ãŸæ™‚
         if (enemySight.detected && playerInSightRange)
         {
             player.transform.Find("PlayerBody").GetComponent<ParalysisPlayer>().paralysis = true;
@@ -461,9 +463,9 @@ public class DonyoriBehaviour : MonoBehaviour
 
     #endregion
 
-    #region FƒMƒ~ƒbƒN
+    #region è‰²ã‚®ãƒŸãƒƒã‚¯
 
-    // ‹Á‚©‚·
+    // é©šã‹ã™
     public void Gimmick_Surprised(float duration)
     {
         gimmickAction = true;
@@ -484,7 +486,7 @@ public class DonyoriBehaviour : MonoBehaviour
         agent.isStopped = false;
     }
 
-    // “¦‚°‚é
+    // é€ƒã’ã‚‹
     public void Gimmick_Run(float duration)
     {
         gimmickAction = true;
@@ -511,7 +513,7 @@ public class DonyoriBehaviour : MonoBehaviour
         agent.isStopped = false;
     }
 
-    // —ÎƒMƒ~ƒbƒN
+    // ç·‘ã‚®ãƒŸãƒƒã‚¯
     #region Green
 
     public void Gimmick_Green(bool flag, GameObject target)

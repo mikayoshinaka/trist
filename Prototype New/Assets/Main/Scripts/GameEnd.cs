@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +28,7 @@ public class GameEnd : MonoBehaviour
         StickPosition();
         SceneMove();
     }
+
     private void StickMove()
     {
         if (inputHorizontal >= 0.5f && around == 1)

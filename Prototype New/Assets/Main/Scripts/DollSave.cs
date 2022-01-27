@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -72,7 +72,7 @@ public class DollSave : MonoBehaviour
         }
         if (bossIn && !(GameObject.Find("CatchArea").GetComponent<GhostCatch>().mode == GhostCatch.Mode.Shoot))
         {
-        Å@Å@if(startClear==false)
+        „ÄÄ„ÄÄif(startClear==false)
             {
                 BGM.GetComponent<BGM>().ClearResultBGM();
                 startClear = true;
@@ -104,7 +104,7 @@ public class DollSave : MonoBehaviour
             BlackOut();
         }
     }
-    //à√Ç≠Ç∑ÇÈ
+    //Êöó„Åè„Åô„Çã
     void BlackOut()
     {
         failedFadeImage.enabled = true;
@@ -116,7 +116,7 @@ public class DollSave : MonoBehaviour
         }
 
     }
-    //ñæÇÈÇ≠Ç∑ÇÈ
+    //Êòé„Çã„Åè„Åô„Çã
     void WhiteOut()
     {
         clearFadeImage.enabled = true;
@@ -184,7 +184,7 @@ public class DollSave : MonoBehaviour
     {
         fadeImage.color = new Color(red, green, blue, alfa);
     }
-    //î†Ç…êlå`í«â¡
+    //ÁÆ±„Å´‰∫∫ÂΩ¢ËøΩÂä†
     public void DollAdd(GameObject doll, int count)
     {
         dolls.Add(doll);

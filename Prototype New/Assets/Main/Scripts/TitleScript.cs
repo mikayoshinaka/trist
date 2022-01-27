@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -110,6 +110,7 @@ public class TitleScript : MonoBehaviour
         }
         else if (around == 2 && (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetKey(KeyCode.B)) && isFadeOut == false)
         {
+            //遊び方
             menuSoundScript.GetComponent<MenuSoundScript>().Decide();
             video.SetActive(true);
             videoPlayer.Prepare();
@@ -120,6 +121,7 @@ public class TitleScript : MonoBehaviour
        
 
     }
+    //遊び方
     void VideoStart(UnityEngine.Video.VideoPlayer vp)
     {
         BGM.GetComponent<BGM>().HowTo();

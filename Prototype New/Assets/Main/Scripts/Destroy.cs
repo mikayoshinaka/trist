@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -18,7 +18,7 @@ public class Destroy : MonoBehaviour
         audioSource = this.gameObject.GetComponent<AudioSource>();
         audioSource.PlayOneShot(hitFireSE);
     }
-
+    //火球の爆発を始め、爆発を消す
     // Update is called once per frame
     void Update()
     {

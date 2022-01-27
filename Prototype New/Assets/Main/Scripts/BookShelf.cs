@@ -38,6 +38,7 @@ public class BookShelf : MonoBehaviour
         {
             return;
         }
+
         if (Input.GetAxisRaw("RHorizontal") < 0 || Input.GetKey("left"))
         {
             setHorizontalAngle -= Time.deltaTime * speed;
@@ -62,11 +63,10 @@ public class BookShelf : MonoBehaviour
             audioSource.PlayOneShot(bookAttackSE);
             FlyBook();
         }
-        //    x = ( Mathf.Sin((horizontalAngle) * Mathf.Deg2Rad));
-        //    z = ( Mathf.Cos((horizontalAngle) * Mathf.Deg2Rad));
-        //this.transform.localPosition = new Vector3(x, y, z);
+
         this.transform.localRotation = Quaternion.Euler(verticalAngle, horizontalAngle, 0.0f);
     }
+    //視点移動の角度
     private void LimitAngle()
     {
         if (setHorizontalAngle > HorizontalAngleLimit || setHorizontalAngle < -HorizontalAngleLimit)
@@ -97,7 +97,7 @@ public class BookShelf : MonoBehaviour
             setHorizontalAngle += 360.0f;
         }
     }
-
+    //本を飛ばす
     private void FlyBook()
     {
         Vector3[] velocity = new Vector3[enterObject.Count];

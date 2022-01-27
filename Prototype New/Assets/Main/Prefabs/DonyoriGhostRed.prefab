@@ -1366,6 +1366,8 @@ MonoBehaviour:
   gimmickAction: 0
   mazeGimmick: 0
   enableGizmos: 0
+  bookAttackSE: {fileID: 8300000, guid: 04e93cccc19660640bdf848924483b5f, type: 3}
+  bookSound: {fileID: 0}
 --- !u!114 &9221184643311702131
 MonoBehaviour:
   m_ObjectHideFlags: 0

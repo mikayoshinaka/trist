@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,6 +48,7 @@ public class BeforeBegin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //始まる前のカメラ移動
         timer += Time.deltaTime;
         if (timer<firstCameraTime)
         {
