@@ -250,8 +250,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -79.999985, y: 300}
-  m_SizeDelta: {x: 1000, y: 1000}
+  m_AnchoredPosition: {x: -107.4, y: 496}
+  m_SizeDelta: {x: 1800, y: 1500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &385881004
 MonoBehaviour:
@@ -322,8 +322,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 69.99997, y: 300}
-  m_SizeDelta: {x: 1000, y: 1000}
+  m_AnchoredPosition: {x: 94.1, y: 495}
+  m_SizeDelta: {x: 1800, y: 1500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &493292127
 MonoBehaviour:
@@ -772,7 +772,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1280, y: 720}
+  m_SizeDelta: {x: 1980, y: 1120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1540903731
 MonoBehaviour:
@@ -794,7 +794,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 30a2c548c55ca5c4d8f0f50ff1b63f45, type: 3}
+  m_Texture: {fileID: 2800000, guid: 75426244a3877d742bac928abfcefa58, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -845,7 +845,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -350, y: -70}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 1200, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1640454629
 MonoBehaviour:
@@ -918,7 +918,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -200, y: -70}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 1200, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1684040628
 MonoBehaviour:
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
+  m_ReferenceResolution: {x: 1980, y: 1080}
   m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

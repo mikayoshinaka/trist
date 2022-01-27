@@ -89,7 +89,6 @@ public class GhostCatch : MonoBehaviour
     public AudioClip showoffSE;
     public AudioClip attackedSE;
     public AudioClip dollVibrateSE;
-    Animator animator;
     bool attacked;
     public enum Mode
     {
@@ -129,7 +128,6 @@ public class GhostCatch : MonoBehaviour
         lamp0.SetActive(false);
         audioSource = GameObject.Find("PlayerSound").GetComponent<AudioSource>();
         attacked = false;
-        animator = presentBox.GetComponent<Animator>();
         // アスビ用
         gameStateManager = GameObject.Find("GameState").GetComponent<GameStateManager>();
         colorAction = GameObject.Find("PlayerController").GetComponent<ColorAction>();
@@ -278,7 +276,6 @@ public class GhostCatch : MonoBehaviour
                 lamp1.SetActive(false);
                 lamp0.SetActive(false);
                 audioSource.PlayOneShot(slowSE);
-                animator.SetBool("open", true);
                 mode = Mode.Fusion;
             }
 
@@ -361,7 +358,6 @@ public class GhostCatch : MonoBehaviour
             lamp1.SetActive(false);
             lamp0.SetActive(false);
             audioSource.PlayOneShot(slowSE);
-            animator.SetBool("open", true);
             mode = Mode.Fusion;
         }
     }
@@ -397,7 +393,6 @@ public class GhostCatch : MonoBehaviour
         }
         if (fusionComplete == true)
         {
-            animator.SetBool("open", false);
             mode = Mode.Instance;
         }
 
@@ -521,7 +516,6 @@ public class GhostCatch : MonoBehaviour
     {
         if (attacked == false)
         {
-            animator.SetBool("open", true);
             audioSource.PlayOneShot(attackedSE);
             attacked = true;
         }
@@ -562,7 +556,6 @@ public class GhostCatch : MonoBehaviour
         }
         if (enemyFleeComplete == true)
         {
-            animator.SetBool("open", false);
             ReSetCatch();
             attacked = false;
             mode = Mode.CannotGrab;

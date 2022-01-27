@@ -18608,87 +18608,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9221184643311702126, guid: 8316cb206704ba04a9006264246b60d9, type: 3}
   m_PrefabInstance: {fileID: 133306354}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &884240874
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1571241478}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.79999995
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.79999995
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.79999995
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0428
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
---- !u!1 &884240875 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d5ff4564bab85574aab6405d55c39859, type: 3}
-  m_PrefabInstance: {fileID: 884240874}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &884240876
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 884240875}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d26e9315019e3f64c815cf118b259b95, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &886867787
 GameObject:
   m_ObjectHideFlags: 0
@@ -41053,7 +40972,7 @@ MonoBehaviour:
   bossGrab: 0
   player: {fileID: 1571241477}
   playerController: {fileID: 1161104586488154374}
-  presentBox: {fileID: 884240875}
+  presentBox: {fileID: 1161104586488154374}
   image: {fileID: 2092853683}
   image2: {fileID: 1659660568}
   lampMax: {fileID: 1021378714}
@@ -41097,7 +41016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782f5dfa48c145f478d68fd61c5a8677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  presentBox: {fileID: 884240875}
+  presentBox: {fileID: 0}
   PlayerParent: {fileID: 1161104586871500436}
   PlayerController: {fileID: 1161104586488154374}
   PlayerBody:
