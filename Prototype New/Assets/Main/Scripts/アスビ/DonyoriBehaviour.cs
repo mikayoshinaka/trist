@@ -435,16 +435,21 @@ public class DonyoriBehaviour : MonoBehaviour
         }
     }
 
+    // –{’IUŒ‚
     Coroutine BookSplat;
     IEnumerator OnBookSplat()
     {
         GameObject booksplatter = targetPossession.transform.Find("BookSplatter").gameObject;
         cooldown = true;
+
         yield return new WaitForSeconds(0.5f);
+
+        // UŒ‚ŠJn
         booksplatter.SetActive(true);
 
         yield return new WaitForSeconds(0.5f);
-        // “–‚½‚è”»’è
+
+        // “–‚½‚è”»’è - “–‚½‚Á‚½
         if (enemySight.detected && playerInSightRange)
         {
             player.transform.Find("PlayerBody").GetComponent<ParalysisPlayer>().paralysis = true;
