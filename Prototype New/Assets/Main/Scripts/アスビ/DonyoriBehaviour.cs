@@ -87,7 +87,6 @@ public class DonyoriBehaviour : MonoBehaviour
         mazeGimmick = false;
         //enableGizmos = true;
 
-        audioSource = bookSound.GetComponent<AudioSource>();
     }
 
     void Update()
