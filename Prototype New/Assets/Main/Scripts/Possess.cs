@@ -87,7 +87,6 @@ public class Possess : MonoBehaviour
         }
         else if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0)) && possess == true && canPossess == false && away == false)
         {
-            player = Player.canLook;
             GhostLeaveFromPossessObject();
         }
         else if (!((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton0))) && possess == true && canPossess == false)
@@ -355,6 +354,7 @@ public class Possess : MonoBehaviour
     //とりついたものから離れるとき
     private void GhostLeaveFromPossessObject()
     {
+        player = Player.canLook;
         leave = true;
         away = true;
         relayCamera.SetActive(true);
